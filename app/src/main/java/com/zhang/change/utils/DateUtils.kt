@@ -10,5 +10,6 @@ fun Long.date2String(format: DateFormat): String {
 }
 
 enum class DateFormat(val formatStr: String) {
-    YYYY_MM_DD("yyyy-MM-dd");
+    YYYY_MM_DD("yyyy-MM-dd"),
+    M_D("M-d");
 }

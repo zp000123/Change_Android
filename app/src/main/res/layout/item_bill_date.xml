@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_l_r_b_line"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/dp_1"
+    android:paddingRight="@dimen/dp_1"
+    android:paddingBottom="@dimen/dp_1">
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="60dp"
+        android:layout_height="@dimen/row_height"
+        android:background="@drawable/bg_r_line"
+        android:gravity="center"
+        android:textSize="18sp"
+        tools:text="1" />
+
+    <TextView
+        android:id="@+id/tv_income"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/bg_r_line"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:textSize="18sp"
+        tools:text="1200" />
+
+    <TextView
+        android:id="@+id/tv_salary"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/bg_r_line"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:textSize="18sp"
+        tools:text="400" />
+
+    <TextView
+        android:id="@+id/v_edit"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="修改"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        android:visibility="visible" />
+
+
+</LinearLayout>

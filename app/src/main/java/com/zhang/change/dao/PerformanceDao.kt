@@ -6,11 +6,14 @@ import com.zhang.change.entitiy.Performance
 @Dao
 interface PerformanceDao {
     @Query("SELECT * from performance")
-    suspend fun queryAll():List<Performance>
+    suspend fun queryAll(): List<Performance>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(data: Performance)
 
     @Delete
     suspend fun delete(data: Performance)
+
+    @Query("DELETE  From performance WHERE pid=:pid")
+    suspend fun deleteById(pid: Int)
 }

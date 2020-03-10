@@ -9,6 +9,7 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "bill.db")
+            .allowMainThreadQueries()
             .build()
     }
 }

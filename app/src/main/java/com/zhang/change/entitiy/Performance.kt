@@ -1,13 +1,15 @@
 package com.zhang.change.entitiy
 
 import androidx.room.*
+import androidx.room.ForeignKey.CASCADE
 
 @Entity(
-    indices = [Index(value = ["userId"], unique = true)],
+    indices = [Index(value = ["userId"], unique = false)],
     foreignKeys = [ForeignKey(
         entity = User::class,
         parentColumns = arrayOf("uid"),
         childColumns = arrayOf("userId")
+        , onDelete = CASCADE
     )]
 )
 data class Performance(

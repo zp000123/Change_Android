@@ -1,117 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="8dp"
     tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="日期："
-            android:textSize="24sp" />
 
-        <TextView
-            android:id="@+id/v_date"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="28sp"
-            tools:text="2019-03-08" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="工号："
-            android:textSize="24sp" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/et_no"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="4dp"
-            android:layout_weight="1"
-            android:hint="点击下面的工号，或者输入"
-            android:inputType="numberDecimal" />
+            <Button
+                android:id="@+id/v_prev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="前一天" />
 
-        <Button
-            android:id="@+id/v_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="添加" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/v_date"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                tools:text="2019-03-08" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_no"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/v_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="后一天" />
+        </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="业绩："
-            android:textSize="24sp" />
-
-        <EditText
-            android:id="@+id/et_income"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:hint="请输入业绩（元）"
-            android:inputType="numberDecimal"
-            android:textColor="@color/black"
-            android:textSize="28sp"
-            tools:text="1130" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="工资："
-            android:textSize="24sp" />
 
-        <EditText
-            android:id="@+id/et_salary"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:gravity="center"
-            android:hint="请输入工资（元）"
-            android:inputType="numberDecimal"
-            android:textColor="@color/black"
-            android:textSize="28sp"
-            tools:text="552" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="工号："
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/et_no"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:hint="点击下面的工号，或者输入"
+                android:inputType="numberDecimal"
+                android:textSize="22sp" />
+
+            <Button
+                android:id="@+id/v_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="添加" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/row_height"
+                android:gravity="center"
+                android:text="业绩："
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/et_income"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="请输入业绩（元）"
+                android:inputType="numberDecimal"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                tools:text="1130" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/row_height"
+                android:gravity="center"
+                android:text="工资："
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/et_salary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="请输入工资（元）"
+                android:inputType="numberDecimal"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                tools:text="552" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_l_t_r_b_line"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_1">
+
+            <TextView
+                android:id="@+id/tv_no"
+                android:layout_width="60dp"
+                android:layout_height="@dimen/row_height"
+                android:background="@drawable/bg_r_line"
+                android:gravity="center"
+                android:text="工号"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_income"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_r_line"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="业绩"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_salary"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_r_line"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="工资"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+
+            <TextView
+                android:id="@+id/v_del"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="操作"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_performance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
-
-
-</LinearLayout>
+</androidx.core.widget.NestedScrollView>
