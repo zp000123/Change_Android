@@ -23,15 +23,19 @@ class BillDateAdapter(dataList: MutableList<UserBill>) :
             tv_salary.text = item.salary.getNicePenStr()
 
         }
-        addChildClickViewIds(R.id.v_edit, R.id.v_del)
+        addChildClickViewIds(R.id.v_edit)
     }
 
 }
 
 fun Int.getNicePenStr(): String {
-    return if (this % 100 == 0) {
-        "${this / 100}"
-    } else {
-        "${this / 100.0}"
+    return when {
+        this == 0 -> ""
+        this % 100 == 0 -> {
+            "${this / 100}"
+        }
+        else -> {
+            "${this / 100.0}"
+        }
     }
 }

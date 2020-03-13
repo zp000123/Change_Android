@@ -10,11 +10,27 @@ import java.util.*
             "INNER JOIN performance ON user.uid = performance.userId"
 )
 class UserBill(
-    val uid: Int,
-    val no: String,
-    val name: Int,
-    val pid: Int,
-    val dateStamp: Long, // 毫秒
-    val income: Int, // 分
-    val salary: Int // 分
-)
+    var uid: Int,
+    var no: Int,
+    var name: String?,
+    var pid: Int,
+    var dateStamp: Long, // 毫秒
+    var income: Int, // 分
+    var salary: Int // 分
+) {
+    fun copy(dbBill: UserBill) {
+         this.uid = dbBill.uid
+        this.no = dbBill.no
+        this.name = dbBill.name
+        this.pid = dbBill.pid
+        this.dateStamp = dbBill.dateStamp
+        this.income = dbBill.income
+        this.salary = dbBill.salary
+    }
+
+    companion object {
+        fun of(dateStamp: Long): UserBill {
+            return UserBill(0, 0, "", 0, dateStamp, 0, 0)
+        }
+    }
+}

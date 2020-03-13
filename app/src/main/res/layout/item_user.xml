@@ -3,17 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
 
-    android:gravity="center"
-    android:paddingBottom="8dp"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="8dp">
 
-    <TextView
+    <CheckBox
         android:id="@+id/v_no"
         android:layout_width="54dp"
         android:layout_height="@dimen/row_height"
-        android:background="@drawable/bg_l_t_r_b_line"
+        android:background="@drawable/bg_share_selector"
+        android:button="@null"
+        android:checked="false"
         android:gravity="center"
+        android:textColor="@drawable/radio_txt_color_selector"
         android:textSize="18sp"
         tools:text="#905" />
 

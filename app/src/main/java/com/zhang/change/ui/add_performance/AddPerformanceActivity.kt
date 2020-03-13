@@ -1,4 +1,4 @@
-package com.zhang.change
+package com.zhang.change.ui.add_performance
 
 
 import android.app.DatePickerDialog
@@ -7,17 +7,18 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
+import com.zhang.change.MyApplication
+import com.zhang.change.R
 import com.zhang.change.adapter.BillAdapter
 import com.zhang.change.adapter.UserListAdapter
 import com.zhang.change.dao.PerformanceDao
 import com.zhang.change.dao.UserBillDao
 import com.zhang.change.dao.UserDao
-import com.zhang.change.entitiy.Performance
+import com.zhang.change.dao.insertReplace
+import com.zhang.change.dialog.AddUserDialog
 import com.zhang.change.entitiy.User
 import com.zhang.change.entitiy.UserBill
 import com.zhang.change.utils.DateFormat
@@ -29,7 +30,7 @@ import java.math.BigDecimal
 import java.util.*
 
 
-class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
+class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     private lateinit var userDao: UserDao
     private lateinit var userBillDao: UserBillDao
@@ -37,8 +38,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private val calendar = Calendar.getInstance()
     private val userList = arrayListOf<User>()
     private val billList = arrayListOf<UserBill>()
-    private val userAdapter = UserListAdapter(userList)
-    private val billAdapter = BillAdapter(billList)
+    private val userAdapter = UserListAdapter(userList) {
+        selectUser = it
+    }
+    private val billAdapter = BillAdapter(billList) {
+        showDelDialog(it)
+    }
     private var selectUser: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +59,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         v_date.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
         v_date.setOnClickListener {
             val dialog = DatePickerDialog(
-                this@MainActivity,
+                this@AddPerformanceActivity,
                 OnDateSetListener { _, year, month, dayOfMonth ->
                     Log.d(TAG, "onDateSet: year: $year, month: $month, dayOfMonth: $dayOfMonth")
                     calendar.set(Calendar.YEAR, year)
@@ -85,83 +90,50 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         findUserBillAndRefreshView()
 
         v_add.setOnClickListener {
-            if (et_no.text.isEmpty()) {
-                Toast.makeText(baseContext, "请输入工号", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            val newNo = et_no.text.toString().toInt()
-
-            userList.forEach {
-                if (it.no == newNo) {
-                    Toast.makeText(baseContext, "已有改工号，无需添加", Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-            }
-
-            launch {
-                withContext(Dispatchers.Default) {
-                    userDao.insert(User(no = newNo))
-                    selectUser = userDao.queryUserByNo(newNo)
-                }
+            val dialog = AddUserDialog()
+            dialog.show(supportFragmentManager, userDao) { user ->
+                selectUser = user
                 findUserListAndRefreshView()
-                Snackbar.make(rv_performance, "添加 #${newNo}", Snackbar.LENGTH_LONG)
-                    .setAction("取消") {
-                        // todo 取消无效
-                        launch {
-                            selectUser = null
-                            withContext(Dispatchers.Default) {
-                                userDao.deleteByNo(newNo)
-                            }
-                            findUserListAndRefreshView()
-                        }
-                    }.show()
             }
         }
 
         with(rv_no) {
-            layoutManager = GridLayoutManager(context, 4)
+            layoutManager = GridLayoutManager(context, 5)
             adapter = userAdapter
-        }
-        userAdapter.setOnItemClickListener { _, _, position ->
-            selectUser = userList[position]
-            et_no.setText(selectUser!!.no.toString())
         }
 
         with(rv_performance) {
             layoutManager = LinearLayoutManager(context)
             adapter = billAdapter
         }
-        billAdapter.setOnItemChildClickListener { adapter, view, position ->
-            when (view.id) {
-                R.id.v_del -> {
-                    val item = billList[position]
-                    alert("确认删除 #" + item.no + " 的数据吗？") {
-                        yesButton {
-                            launch {
-                                withContext(Dispatchers.Default) {
-                                    performanceDao.deleteById(item.pid)
-                                }
-                                findUserBillAndRefreshView()
-                            }
-                        }
-                        noButton { }
-                    }.show()
-                }
-                R.id.v_edit -> {
 
+    }
+
+    private fun showDelDialog(item: UserBill) {
+        alert("确认删除 #" + item.no + " 的数据吗？") {
+            yesButton {
+                launch {
+                    withContext(Dispatchers.Default) {
+                        performanceDao.deleteById(item.pid)
+                    }
+                    findUserBillAndRefreshView()
                 }
             }
-        }
+            noButton { }
+        }.show()
     }
 
 
     private fun findUserListAndRefreshView() {
         launch {
             val userList = withContext(Dispatchers.Default) { userDao.queryAllUser() }
-            this@MainActivity.userList.let {
+            this@AddPerformanceActivity.userList.let {
                 it.clear()
                 it.addAll(userList)
             }
+            userList.forEach { it.u_selected = false }
+            if (selectUser == null) selectUser = userList.getOrNull(0)
+            userList.find { it.no == selectUser?.no }?.u_selected = true
             userAdapter.notifyDataSetChanged()
         }
     }
@@ -170,15 +142,15 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private fun findUserBillAndRefreshView() {
         launch {
             val minDate = calendar.timeInMillis / ONE_DAY_MILLIS * ONE_DAY_MILLIS
-            val maxDate = minDate + ONE_DAY_MILLIS
+            val maxDate = minDate + ONE_DAY_MILLIS - 1
             val billList = withContext(Dispatchers.Default) {
-                userBillDao.queryAllUserBillByDate(
+                userBillDao.queryBillByDate(
                     minDate,
                     maxDate
                 )
             }
 
-            this@MainActivity.billList.let {
+            this@AddPerformanceActivity.billList.let {
                 it.clear()
                 it.addAll(billList)
             }
@@ -224,6 +196,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         if (billList.map { it.uid }.contains(selectUser!!.uid)) {
             alert("已有 #" + selectUser!!.no + " 的数据，确认替换？") {
                 yesButton {
+
                     insertOrReplacePerformance(income, salary)
                 }
                 noButton { }
@@ -238,9 +211,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
         launch {
             withContext(Dispatchers.Default) {
-                performanceDao
-                    .insert(Performance(selectUser!!.uid, calendar.timeInMillis, income, salary))
+                val dateStamp = calendar.timeInMillis / ONE_DAY_MILLIS * ONE_DAY_MILLIS
+                performanceDao.insertReplace(selectUser!!.uid,dateStamp,income,salary)
             }
+            toast("添加成功")
+            et_income.setText("")
+            et_salary.setText("")
             findUserBillAndRefreshView()
         }
     }

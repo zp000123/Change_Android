@@ -12,6 +12,9 @@ import androidx.room.ForeignKey.CASCADE
         , onDelete = CASCADE
     )]
 )
+/**
+ * 业绩 / 工资表
+ */
 data class Performance(
     @ColumnInfo(name = "userId")
     val userId: Int = 0,

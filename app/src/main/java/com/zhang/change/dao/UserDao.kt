@@ -9,7 +9,7 @@ interface UserDao {
     suspend fun queryAllUser(): List<User>
 
     @Query("SELECT * from user WHERE `no`=:no limit 1")
-    suspend fun queryUserByNo(no: Int): User
+    suspend fun queryUserByNo(no: Int): User?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(user: User)

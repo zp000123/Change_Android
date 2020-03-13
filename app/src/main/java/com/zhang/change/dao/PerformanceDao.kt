@@ -8,7 +8,7 @@ interface PerformanceDao {
     @Query("SELECT * from performance")
     suspend fun queryAll(): List<Performance>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insert(data: Performance)
 
     @Delete
@@ -16,4 +16,13 @@ interface PerformanceDao {
 
     @Query("DELETE  From performance WHERE pid=:pid")
     suspend fun deleteById(pid: Int)
+
+    @Query("DELETE  From performance WHERE userId=:uId AND dateStamp ==:dateStamp")
+    suspend fun delete(uId: Int, dateStamp: Long)
+}
+
+@Transaction
+suspend fun PerformanceDao.insertReplace(uId: Int, dateStamp: Long, income: Int, salary: Int) {
+    this.delete(uId, dateStamp)
+    this.insert(Performance(uId, dateStamp, income, salary))
 }
