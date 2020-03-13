@@ -25,8 +25,8 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@drawable/bg_r_line"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
+        android:gravity="right|center_vertical"
+        android:paddingRight="10dp"
         android:textSize="18sp"
         tools:text="1200" />
 
@@ -36,8 +36,9 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@drawable/bg_r_line"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
+
+        android:paddingRight="10dp"
+        android:gravity="right|center_vertical"
         android:textSize="18sp"
         tools:text="400" />
 
