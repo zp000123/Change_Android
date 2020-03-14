@@ -163,9 +163,16 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 )
             }
             val emptyBill = initEmptyBill()
+            val eCalendar = Calendar.getInstance()
+            val dbCalendar = Calendar.getInstance()
             emptyBill.forEach { eBill ->
+                eCalendar.timeInMillis = eBill.dateStamp
                 dbBillList.forEach { dbBill ->
-                    if (eBill.dateStamp == dbBill.dateStamp) {
+                    dbCalendar.timeInMillis = dbBill.dateStamp
+                    if (eCalendar.get(Calendar.YEAR) == dbCalendar.get(Calendar.YEAR)
+                        && eCalendar.get(Calendar.MONTH) == dbCalendar.get(Calendar.MONTH)
+                        && eCalendar.get(Calendar.DAY_OF_MONTH) == dbCalendar.get(Calendar.DAY_OF_MONTH)
+                    ) {
                         eBill.copy(dbBill)
                     }
                 }

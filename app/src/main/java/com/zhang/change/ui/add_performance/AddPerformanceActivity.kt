@@ -14,6 +14,7 @@ import com.zhang.change.MyApplication
 import com.zhang.change.R
 import com.zhang.change.adapter.BillAdapter
 import com.zhang.change.adapter.UserListAdapter
+import com.zhang.change.adapter.getNicePenStr
 import com.zhang.change.dao.PerformanceDao
 import com.zhang.change.dao.UserBillDao
 import com.zhang.change.dao.UserDao
@@ -25,7 +26,10 @@ import com.zhang.change.utils.DateFormat
 import com.zhang.change.utils.date2String
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.noButton
+import org.jetbrains.anko.toast
+import org.jetbrains.anko.yesButton
 import java.math.BigDecimal
 import java.util.*
 
@@ -155,6 +159,8 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
                 it.addAll(billList)
             }
             billAdapter.notifyDataSetChanged()
+            tv_total_income.text = billList.sumBy { it.income }.getNicePenStr()
+            tv_total_salary.text = billList.sumBy { it.salary }.getNicePenStr()
         }
     }
 
@@ -211,8 +217,9 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
 
         launch {
             withContext(Dispatchers.Default) {
-                val dateStamp = calendar.timeInMillis / ONE_DAY_MILLIS * ONE_DAY_MILLIS
-                performanceDao.insertReplace(selectUser!!.uid,dateStamp,income,salary)
+                var dateStamp = calendar.timeInMillis / ONE_DAY_MILLIS * ONE_DAY_MILLIS
+                dateStamp += HALF_DAY_MILLIS
+                performanceDao.insertReplace(selectUser!!.uid, dateStamp, income, salary)
             }
             toast("添加成功")
             et_income.setText("")
@@ -231,6 +238,7 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
         const val TAG = "MainActivity"
         val BigDecimal_100 = BigDecimal(100)
         const val ONE_DAY_MILLIS = 86_400_000L
+        const val HALF_DAY_MILLIS = 43_200_000L
     }
 
 }

@@ -1,206 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="8dp"
     tools:context=".ui.add_performance.AddPerformanceActivity">
 
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/sv"
+        android:layout_above="@+id/ll_total"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:padding="8dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_10">
+
+                <TextView
+                    android:id="@+id/v_prev"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="前一天"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/v_date"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    tools:text="2019-03-08" />
+
+                <TextView
+                    android:id="@+id/v_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="后一天"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="工号："
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/v_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="添加"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/row_height"
+                        android:gravity="center"
+                        android:text="业绩："
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/et_income"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:hint="请输入业绩（元）"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textSize="22sp"
+                        tools:text="1130" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/row_height"
+                        android:gravity="center"
+                        android:text="工资："
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/et_salary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:hint="请输入工资（元）"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textSize="22sp"
+                        tools:text="552" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@drawable/bg_l_t_r_b_line"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp_1">
+
+                <TextView
+                    android:id="@+id/tv_no"
+                    android:layout_width="60dp"
+                    android:layout_height="@dimen/row_height"
+                    android:background="@drawable/bg_r_line"
+                    android:gravity="center"
+                    android:text="工号"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_income"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_r_line"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="业绩"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_salary"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_r_line"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="工资"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="操作"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_performance"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
     <LinearLayout
+        android:id="@+id/ll_total"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_l_t_r_b_line"
+        android:orientation="horizontal"
+        android:padding="1dp">
 
+        <TextView
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingTop="@dimen/dp_10"
-            android:paddingBottom="@dimen/dp_10">
-
-            <TextView
-                android:id="@+id/v_prev"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:text="前一天"
-                android:textColor="@color/colorAccent"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/v_date"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="22sp"
-                tools:text="2019-03-08" />
-
-            <TextView
-                android:id="@+id/v_next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:text="后一天"
-                android:textColor="@color/colorAccent"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
+            android:layout_width="60dp"
+            android:layout_height="@dimen/row_height"
+            android:background="@drawable/bg_r_line"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:text="总计"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="工号："
-                android:textSize="18sp" />
+        <TextView
+            android:id="@+id/tv_total_income"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_r_line"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/v_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="添加"
-                android:textColor="@color/colorAccent"
-                android:textSize="18sp" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_total_salary"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_r_line"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_no"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/row_height"
-                    android:gravity="center"
-                    android:text="业绩："
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/et_income"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:hint="请输入业绩（元）"
-                    android:imeOptions="actionNext"
-                    android:inputType="numberDecimal"
-                    android:textColor="@color/black"
-                    android:textSize="22sp"
-                    tools:text="1130" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/row_height"
-                    android:gravity="center"
-                    android:text="工资："
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/et_salary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:hint="请输入工资（元）"
-                    android:imeOptions="actionNext"
-                    android:inputType="numberDecimal"
-                    android:textColor="@color/black"
-                    android:textSize="22sp"
-                    tools:text="552" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
-            android:background="@drawable/bg_l_t_r_b_line"
-            android:orientation="horizontal"
-            android:padding="@dimen/dp_1">
-
-            <TextView
-                android:id="@+id/tv_no"
-                android:layout_width="60dp"
-                android:layout_height="@dimen/row_height"
-                android:background="@drawable/bg_r_line"
-                android:gravity="center"
-                android:text="工号"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/tv_income"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/bg_r_line"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:text="业绩"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/tv_salary"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/bg_r_line"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:text="工资"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-
-
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="操作"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_performance"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
     </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+</RelativeLayout>
