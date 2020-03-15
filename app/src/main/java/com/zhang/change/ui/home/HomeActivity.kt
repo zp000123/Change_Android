@@ -121,11 +121,14 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         } else {
             calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
         }
-
-        var dateStamp = minDateStamp
+        val _calendar = Calendar.getInstance().apply {
+            timeInMillis = minDateStamp
+        }
+        var dateStamp = _calendar.timeInMillis
         for (i in minDay..endDay) {
             arrayList.add(UserBill.of(dateStamp))
-            dateStamp += AddPerformanceActivity.ONE_DAY_MILLIS
+            _calendar.add(Calendar.DAY_OF_MONTH, 1)
+            dateStamp = _calendar.timeInMillis
         }
         return arrayList
     }

@@ -147,9 +147,9 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
         launch {
             val _calendar = calendar.clone() as Calendar
             _calendar.set(Calendar.HOUR_OF_DAY, _calendar.getActualMinimum(Calendar.HOUR_OF_DAY))
-            _calendar.set(Calendar.MINUTE,  _calendar.getActualMinimum(Calendar.MINUTE))
+            _calendar.set(Calendar.MINUTE, _calendar.getActualMinimum(Calendar.MINUTE))
             _calendar.set(Calendar.SECOND, _calendar.getActualMinimum(Calendar.SECOND))
-            _calendar.set(Calendar.MILLISECOND,  _calendar.getActualMinimum(Calendar.MILLISECOND))
+            _calendar.set(Calendar.MILLISECOND, _calendar.getActualMinimum(Calendar.MILLISECOND))
 
 
             val minMills = _calendar.timeInMillis
@@ -244,7 +244,6 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
     companion object {
         const val TAG = "MainActivity"
         val BigDecimal_100 = BigDecimal(100)
-        const val ONE_DAY_MILLIS = 86_400_000L
     }
 
 }
