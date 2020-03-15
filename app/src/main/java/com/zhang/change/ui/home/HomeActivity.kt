@@ -24,17 +24,18 @@ import com.zhang.change.entitiy.User
 import com.zhang.change.entitiy.UserBill
 import com.zhang.change.ui.add_performance.AddPerformanceActivity
 import com.zhang.change.utils.*
+import com.zhang.change.utils.DateFormat
 import jxl.Workbook
 import jxl.format.Alignment
+import jxl.format.UnderlineStyle
 import jxl.format.VerticalAlignment
-import jxl.write.Label
+import jxl.write.*
 import jxl.write.Number
-import jxl.write.WritableCellFormat
-import jxl.write.WritableFont
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.*
 import org.jetbrains.anko.toast
 import java.io.File
+import java.io.IOException
 import java.util.*
 
 
@@ -198,12 +199,26 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
 
 
-    private fun copyDate2EmptyListGroupByUserId(dbBillList: List<UserBill>): HashMap<Int, List<UserBill>> {
+    private fun copy2EmptyListGroupByUserId(dbBillList: List<UserBill>): HashMap<Int, List<UserBill>> {
         val userBillMap = dbBillList.groupBy { it.uid }
         val uIdBillMap = hashMapOf<Int, List<UserBill>>()
         userBillMap.forEach {
             val list = it.value
             uIdBillMap[it.key] = copyDate2EmptyList(initEmptyBill(true), list)
+        }
+        return uIdBillMap
+    }
+
+    /**
+     * Key: YYYY_MM_DD
+     * Pair:income,salary(分)
+     */
+    private fun sumByDate(dbBillList: List<UserBill>): Map<String, Pair<Int, Int>> {
+        val userBillMap = dbBillList.groupBy { it.dateStamp.date2String(DateFormat.YYYY_MM_DD) }
+        val uIdBillMap = TreeMap<String, Pair<Int, Int>>()
+        userBillMap.forEach {
+            val list = it.value
+            uIdBillMap[it.key] = Pair(it.value.sumBy { it.income }, it.value.sumBy { it.salary })
         }
         return uIdBillMap
     }
@@ -241,7 +256,8 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                     dateStamp.getMaxDateStampMonth()
                 )
 
-                val uIdBillMap = copyDate2EmptyListGroupByUserId(billList)
+                val uIdBillMap = copy2EmptyListGroupByUserId(billList)
+                val performanceSumList = sumByDate(uIdBillMap.flatMap { it.value })
                 val userList =
                     billList.map { User(it.no, it.name).apply { uid = it.uid } }.distinct()
 
@@ -251,102 +267,150 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                     file.delete()
                     file.createNewFile()
                 }
-                val wb = Workbook.createWorkbook(file) //创建xls表格文件
-                // 表头显示
-                val wcf = WritableCellFormat()
-                wcf.alignment = Alignment.CENTRE // 水平居中
-                wcf.verticalAlignment = VerticalAlignment.CENTRE // 垂直居中
-                wcf.setFont(WritableFont(WritableFont.TIMES, 13, WritableFont.BOLD)) // 表头字体 加粗 13号
+                var wb: WritableWorkbook? = null
+                try {
+                    wb = Workbook.createWorkbook(file) //创建xls表格文件
+                    // 表头显示
+                    val wcfTitle = WritableCellFormat()
+                    wcfTitle.alignment = Alignment.CENTRE // 水平居中
+                    wcfTitle.verticalAlignment = VerticalAlignment.CENTRE // 垂直居中
+                    wcfTitle.setFont(WritableFont(WritableFont.TIMES, 13, WritableFont.BOLD)) // 表头字体 加粗 13号
 
 
-                // 内容显示
-                val wcf2 = WritableCellFormat()
-                wcf2.alignment = Alignment.CENTRE //水平居中
-                wcf2.verticalAlignment = VerticalAlignment.CENTRE // 垂直居中
-                wcf2.setFont(WritableFont(WritableFont.TIMES, 11)) // 内容字体 11号
+                    // 内容显示
+                    val wcfContent = WritableCellFormat()
+                    wcfContent.alignment = Alignment.CENTRE //水平居中
+                    wcfContent.verticalAlignment = VerticalAlignment.CENTRE // 垂直居中
+                    wcfContent.setFont(WritableFont(WritableFont.TIMES, 11)) // 内容字体 11号
+                    // 总计显示
+                    val wcfTotal = WritableCellFormat()
+                    wcfTotal.alignment = Alignment.CENTRE //水平居中
+                    wcfTotal.verticalAlignment = VerticalAlignment.CENTRE // 垂直居中
+                    wcfTotal.setFont(WritableFont(WritableFont.TIMES, 11, WritableFont.NO_BOLD,false,  UnderlineStyle.NO_UNDERLINE, jxl.format.Colour.BLUE))
 
-                val ws = wb!!.createSheet("sheet1", 0)
 
-                ws.addCell(Label(0, 0, "茭白园路店 $MonthDes", wcf))
+                    val ws = wb!!.createSheet("sheet1", 0)
 
-                ws.addCell(Label(0, 1, getString(R.string.no), wcf))
-                var totalCol = 0
-                // 导出时生成表头
-                for (i in userList.indices) { // 工号
-                    ws.addCell(Label(2 * i + 1, 1, "#${userList[i].no}", wcf))
-                    ws.addCell(Label(2 * i + 2, 1, " ", wcf))
-                    totalCol = 2 * i + 2
-                    ws.mergeCells(2 * i + 1, 1, 2 * i + 2, 1)
-                }
-                ws.mergeCells(0, 0, totalCol, 0)
-                ws.addCell(Label(0, 2, getString(R.string.date), wcf))
-                val perStr = getString(R.string.performance)
-                val salaryStr = getString(R.string.salary)
-                for (i in userList.indices) {
-                    ws.addCell(Label(2 * i + 1, 2, perStr, wcf))
-                    ws.addCell(Label(2 * i + 2, 2, salaryStr, wcf))
-                }
+                    ws.addCell(Label(0, 0, "茭白园路店 $MonthDes", wcfTitle))
 
-                for (i in userList.indices) { // 填充内容
-                    val user = userList[i]
-                    val currBillList = uIdBillMap[user.uid]
-                    currBillList?.forEachIndexed { index, userBill ->
-                        if (userBill.income != 0) {
+                    ws.addCell(Label(0, 1, getString(R.string.no), wcfTitle))
+                    var totalCol = 0
+                    for (i in userList.indices) { // 工号
+                        ws.addCell(Label(2 * i + 1, 1, "#${userList[i].no}", wcfTitle))
+                        ws.addCell(Label(2 * i + 2, 1, " ", wcfTitle))
+                        totalCol = 2 * i + 2
+                        ws.mergeCells(2 * i + 1, 1, 2 * i + 2, 1)
+                    }
+
+                    ws.addCell(Label(totalCol + 1, 1, getString(R.string.total), wcfTitle))
+                    ws.mergeCells(totalCol + 1, 1, totalCol + 2, 1)
+                    ws.addCell(Label(totalCol + 1, 2, "总业绩", wcfTotal))
+                    ws.addCell(Label(totalCol + 2, 2, "总工资", wcfTotal))
+                    performanceSumList.map { it.value }.forEachIndexed { index, pair ->
+                        val totalIncome = pair.first
+                        val totalSalary = pair.second
+                        if (totalIncome != 0) {
                             ws.addCell(
                                 Number(
-                                    2 * i + 1,
+                                    totalCol + 1,
                                     3 + index,
-                                    userBill.income.div(100.0),
-                                    wcf2
+                                    totalIncome.div(100.0),
+                                    wcfTotal
                                 )
                             )
                         }
-                        if (userBill.salary != 0) {
+                        if (totalSalary != 0) {
                             ws.addCell(
                                 Number(
-                                    2 * i + 2,
+                                    totalCol + 2,
                                     3 + index,
-                                    userBill.salary.div(100.0),
-                                    wcf2
+                                    totalSalary.div(100.0),
+                                    wcfTotal
                                 )
                             )
                         }
                     }
-                }
 
-                val dateList = initEmptyBill(true)
+                    ws.mergeCells(0, 0, totalCol + 2, 0)
+                    ws.addCell(Label(0, 2, getString(R.string.date), wcfTitle))
 
-                dateList.forEachIndexed { index, userBill ->
-                    val dateStamp = userBill.dateStamp
-                    ws.addCell(Label(0, 3 + index, dateStamp.date2String(DateFormat.D), wcf2))
-                }
-                val totalRow = 3 + dateList.size
+                    val perStr = getString(R.string.performance)
+                    val salaryStr = getString(R.string.salary)
+                    for (i in userList.indices) {
+                        ws.addCell(Label(2 * i + 1, 2, perStr, wcfTitle))
+                        ws.addCell(Label(2 * i + 2, 2, salaryStr, wcfTitle))
+                    }
 
-                ws.addCell(Label(0, totalRow, getString(R.string.total), wcf2))
+                    for (i in userList.indices) { // 填充内容
+                        val user = userList[i]
+                        val currBillList = uIdBillMap[user.uid]
+                        currBillList?.forEachIndexed { index, userBill ->
+                            if (userBill.income != 0) {
+                                ws.addCell(
+                                    Number(
+                                        2 * i + 1,
+                                        3 + index,
+                                        userBill.income.div(100.0),
+                                        wcfContent
+                                    )
+                                )
+                            }
+                            if (userBill.salary != 0) {
+                                ws.addCell(
+                                    Number(
+                                        2 * i + 2,
+                                        3 + index,
+                                        userBill.salary.div(100.0),
+                                        wcfContent
+                                    )
+                                )
+                            }
+                        }
+                    }
 
-                for (i in userList.indices) { // 填充内容
-                    val user = userList[i]
-                    val currBillList = uIdBillMap[user.uid].orEmpty()
-                    ws.addCell(
-                        Number(
-                            2 * i + 1,
-                            totalRow,
-                            currBillList.sumBy { it.income }.div(100.0),
-                            wcf2
+                    val dateList = initEmptyBill(true)
+
+                    dateList.forEachIndexed { index, userBill ->
+                        ws.addCell(
+                            Label(
+                                0,
+                                3 + index,
+                                userBill.dateStamp.date2String(DateFormat.D),
+                                wcfContent
+                            )
                         )
-                    )
-                    ws.addCell(
-                        Number(
-                            2 * i + 2,
-                            totalRow,
-                            currBillList.sumBy { it.salary }.div(100.0),
-                            wcf2
+                    }
+                    val totalRow = 3 + dateList.size
+
+                    ws.addCell(Label(0, totalRow, getString(R.string.total), wcfTotal))
+
+                    for (i in userList.indices) {
+                        val user = userList[i]
+                        val currBillList = uIdBillMap[user.uid].orEmpty()
+                        ws.addCell(
+                            Number(
+                                2 * i + 1,
+                                totalRow,
+                                currBillList.sumBy { it.income }.div(100.0),
+                                wcfTotal
+                            )
                         )
-                    )
+                        ws.addCell(
+                            Number(
+                                2 * i + 2,
+                                totalRow,
+                                currBillList.sumBy { it.salary }.div(100.0),
+                                wcfTotal
+                            )
+                        )
+                    }
+                    wb.write()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                } finally {
+                    wb?.close()
                 }
 
-                wb.write()
-                wb.close()
             }
             toast("导出成功")
             val uri = FileProvider.getUriForFile(
