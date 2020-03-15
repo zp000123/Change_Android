@@ -19,8 +19,15 @@ interface PerformanceDao {
     @Query("DELETE  From performance WHERE pid=:pid")
     suspend fun deleteById(pid: Int)
 
-    @Query("DELETE  From performance WHERE userId=:uId AND dateStamp   BETWEEN :minDate AND :maxDate")
+    @Query("DELETE  From performance WHERE userId=:uId AND dateStamp  BETWEEN :minDate AND :maxDate")
     suspend fun delete(uId: Int, minDate: Long, maxDate: Long)
+
+
+    @Query("SELECT  SUM(performance.income)  From performance WHERE  dateStamp   BETWEEN :minDate AND :maxDate")
+    suspend fun sumIncomeByDate(minDate: Long, maxDate: Long): Long?
+
+    @Query("SELECT  SUM(performance.salary)  From performance WHERE  dateStamp   BETWEEN :minDate AND :maxDate")
+    suspend fun sumSalaryByDate(minDate: Long, maxDate: Long): Long
 }
 
 @Transaction

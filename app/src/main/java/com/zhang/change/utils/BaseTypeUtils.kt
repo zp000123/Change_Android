@@ -1,5 +1,6 @@
 package com.zhang.change.utils
 
+import java.math.BigDecimal
 import java.util.*
 
 fun Long.getMinDateStampDay(): Long {
@@ -44,3 +45,30 @@ fun Long.getMaxDateStampMonth(): Long {
 
     return calendar.timeInMillis
 }
+
+
+fun Int.getNicePenStr(): String {
+    return when {
+        this == 0 -> ""
+        this % 100 == 0 -> {
+            "${this / 100}"
+        }
+        else -> {
+            "${this / 100.0}"
+        }
+    }
+}
+
+fun Long.getNicePenStr(): String {
+    return when {
+        this == 0L -> ""
+        this % 100 == 0L -> {
+            "${this / 100}"
+        }
+        else -> {
+            "${this / 100.0}"
+        }
+    }
+}
+
+val BigDecimal_100 = BigDecimal(100)

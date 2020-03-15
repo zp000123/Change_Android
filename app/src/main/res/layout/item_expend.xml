@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_l_r_b_line"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/dp_1"
+    android:paddingRight="@dimen/dp_1"
+    android:paddingBottom="@dimen/dp_1">
+
+    <TextView
+        android:id="@+id/tv_type"
+        android:layout_width="90dp"
+        android:layout_height="@dimen/row_height"
+        android:background="@drawable/bg_r_line"
+        android:gravity="center"
+        android:textSize="18sp"
+        tools:text="生活支出" />
+
+    <TextView
+        android:id="@+id/v_expend"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/bg_r_line"
+        android:gravity="center"
+        android:paddingRight="10dp"
+        android:textSize="18sp"
+        tools:text="1200" />
+
+
+    <TextView
+        android:id="@+id/v_del"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="删除"
+        android:textColor="@color/red"
+        android:textSize="18sp" />
+</LinearLayout>

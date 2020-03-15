@@ -15,7 +15,6 @@ import com.zhang.change.MyApplication
 import com.zhang.change.R
 import com.zhang.change.adapter.BillDateAdapter
 import com.zhang.change.adapter.UserListAdapter
-import com.zhang.change.adapter.getNicePenStr
 import com.zhang.change.dao.PerformanceDao
 import com.zhang.change.dao.UserBillDao
 import com.zhang.change.dao.UserDao

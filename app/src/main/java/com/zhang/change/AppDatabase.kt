@@ -50,7 +50,7 @@ abstract class AppDatabase : RoomDatabase() {
 
         private val M_1_2: Migration = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("CREATE TABLE IF NOT EXISTS `Expend` (`eId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `type` TEXT NOT NULL, `money` INTEGER NOT NULL, `dateStamp` INTEGER NOT NULL)")
+                database.execSQL("CREATE TABLE IF NOT EXISTS `Expend` (`eId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `type` INTEGER NOT NULL, `money` INTEGER NOT NULL, `dateStamp` INTEGER NOT NULL)")
             }
         }
     }

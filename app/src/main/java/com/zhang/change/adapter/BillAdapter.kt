@@ -5,6 +5,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.zhang.change.R
 import com.zhang.change.entitiy.UserBill
+import com.zhang.change.utils.getNicePenStr
 import kotlinx.android.synthetic.main.item_bill_no.view.*
 
 

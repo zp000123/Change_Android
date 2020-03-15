@@ -10,19 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.zhang.change.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths">
-            </meta-data>
-        </provider>
-        <activity
-            android:name=".ui.performance_statistic.PerformanceStatisticActivity"
-            android:label="@string/title_activity_home">
+        <activity android:name=".ui.add_expend.AddExpendActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,10 +18,26 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.performance_statistic.PerformanceStatisticActivity"
+            android:label="@string/title_activity_home">
+
+        </activity>
+        <activity
             android:name=".ui.add_performance.AddPerformanceActivity"
             android:parentActivityName=".ui.performance_statistic.PerformanceStatisticActivity">
 
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.zhang.change.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
 </manifest>

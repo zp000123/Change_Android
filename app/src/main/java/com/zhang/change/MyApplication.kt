@@ -8,6 +8,6 @@ class MyApplication : Application() {
     lateinit var db: AppDatabase
     override fun onCreate() {
         super.onCreate()
-        AppDatabase.getDatabase(baseContext)
+        db = AppDatabase.getDatabase(baseContext)
     }
 }

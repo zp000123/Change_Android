@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="6dp">
+
+    <CheckBox
+        android:id="@+id/v_expend"
+        android:layout_width="70dp"
+        android:layout_height="@dimen/row_height"
+        android:background="@drawable/bg_share_selector"
+        android:button="@null"
+        android:checked="false"
+        android:gravity="center"
+        android:textColor="@drawable/radio_txt_color_selector"
+        android:textSize="16sp"
+        tools:text="生活开支" />
+
+</LinearLayout>

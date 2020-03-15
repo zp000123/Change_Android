@@ -14,7 +14,6 @@ import com.zhang.change.MyApplication
 import com.zhang.change.R
 import com.zhang.change.adapter.BillAdapter
 import com.zhang.change.adapter.UserListAdapter
-import com.zhang.change.adapter.getNicePenStr
 import com.zhang.change.dao.PerformanceDao
 import com.zhang.change.dao.UserBillDao
 import com.zhang.change.dao.UserDao
@@ -22,8 +21,10 @@ import com.zhang.change.dao.insertReplace
 import com.zhang.change.dialog.AddUserDialog
 import com.zhang.change.entitiy.User
 import com.zhang.change.entitiy.UserBill
+import com.zhang.change.utils.BigDecimal_100
 import com.zhang.change.utils.DateFormat
 import com.zhang.change.utils.date2String
+import com.zhang.change.utils.getNicePenStr
 import kotlinx.android.synthetic.main.activity_add_performance.*
 import kotlinx.coroutines.*
 import org.jetbrains.anko.alert
@@ -187,7 +188,6 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.toolbar_save -> save()
-
         }
         return super.onOptionsItemSelected(item)
     }
@@ -243,7 +243,7 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
 
     companion object {
         const val TAG = "MainActivity"
-        val BigDecimal_100 = BigDecimal(100)
+
     }
 
 }

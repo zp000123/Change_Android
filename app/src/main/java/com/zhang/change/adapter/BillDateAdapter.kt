@@ -7,6 +7,7 @@ import com.zhang.change.R
 import com.zhang.change.entitiy.UserBill
 import com.zhang.change.utils.DateFormat
 import com.zhang.change.utils.date2String
+import com.zhang.change.utils.getNicePenStr
 import kotlinx.android.synthetic.main.item_bill_date.view.*
 
 
@@ -26,16 +27,4 @@ class BillDateAdapter(dataList: MutableList<UserBill>) :
         addChildClickViewIds(R.id.v_edit)
     }
 
-}
-
-fun Int.getNicePenStr(): String {
-    return when {
-        this == 0 -> ""
-        this % 100 == 0 -> {
-            "${this / 100}"
-        }
-        else -> {
-            "${this / 100.0}"
-        }
-    }
 }

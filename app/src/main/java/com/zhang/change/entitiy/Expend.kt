@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class Expend(
     val type: ExpendType,
-    val money: Long,//分
+    val money: Int,//分
     val dateStamp: Long// 毫秒
 
 ) {
@@ -19,16 +19,16 @@ data class Expend(
     var eId: Int = 0
 }
 
-enum class ExpendType(val type: Int) {
-    LIVING_COST(1),
-    WATER_COST(2),
-    OTHER(3),
-    SALARY(4),
-    DRAW(5),
-    GROUP_PURCHASE(6),
-    RECEIVE_MONEY(7),
-    KOU_BEI(8),
-    POS(9);
+enum class ExpendType(val type: Int, val des: String) {
+    LIVING_COST(1, "生活开支"),
+    WATER_COST(2, "水电燃气"),
+    OTHER(3, "其他"),
+    SALARY(4, "工资"),
+    DRAW(5, "支取"),
+    GROUP_PURCHASE(6, "团购"),
+    RECEIVE_MONEY(7, "收钱吧"),
+    KOU_BEI(8, "口碑"),
+    POS(9, "pos机");
 
 
     companion object {
@@ -46,7 +46,37 @@ enum class ExpendType(val type: Int) {
                 else -> null
             }
         }
+
+        fun getExpendTypeList(): List<ExpendType> {
+            return arrayListOf<ExpendType>().apply {
+                add(LIVING_COST)
+                add(WATER_COST)
+                add(OTHER)
+                add(SALARY)
+                add(DRAW)
+                add(GROUP_PURCHASE)
+                add(RECEIVE_MONEY)
+                add(KOU_BEI)
+                add(POS)
+            }
+        }
     }
+}
 
-
+class ExpendTypeW(val expendType: ExpendType, var u_selected: Boolean = false) {
+    companion object {
+        fun getExpendTypeWList(): List<ExpendTypeW> {
+            return arrayListOf<ExpendTypeW>().apply {
+                add(ExpendTypeW(ExpendType.LIVING_COST, true))
+                add(ExpendTypeW(ExpendType.WATER_COST))
+                add(ExpendTypeW(ExpendType.OTHER))
+                add(ExpendTypeW(ExpendType.SALARY))
+                add(ExpendTypeW(ExpendType.DRAW))
+                add(ExpendTypeW(ExpendType.GROUP_PURCHASE))
+                add(ExpendTypeW(ExpendType.RECEIVE_MONEY))
+                add(ExpendTypeW(ExpendType.KOU_BEI))
+                add(ExpendTypeW(ExpendType.POS))
+            }
+        }
+    }
 }
