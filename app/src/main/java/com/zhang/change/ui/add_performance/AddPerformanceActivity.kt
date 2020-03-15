@@ -154,7 +154,7 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
 
             val minMills = _calendar.timeInMillis
             _calendar.add(Calendar.DAY_OF_MONTH, 1)
-            val maxMills = _calendar.timeInMillis - 1
+            val maxMills = _calendar.timeInMillis
             val billList = withContext(Dispatchers.Default) {
                 userBillDao.queryBillByDate(
                     minMills,
