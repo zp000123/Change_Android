@@ -318,7 +318,7 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
                 dateList.forEachIndexed { index, userBill ->
                     val dateStamp = userBill.dateStamp
-                    ws.addCell(Label(0, 3 + index, dateStamp.date2String(DateFormat.M_D), wcf2))
+                    ws.addCell(Label(0, 3 + index, dateStamp.date2String(DateFormat.D), wcf2))
                 }
                 val totalRow = 3 + dateList.size
 
