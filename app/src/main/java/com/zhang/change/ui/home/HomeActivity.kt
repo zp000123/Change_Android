@@ -23,9 +23,7 @@ import com.zhang.change.dialog.AddUserDialog
 import com.zhang.change.entitiy.User
 import com.zhang.change.entitiy.UserBill
 import com.zhang.change.ui.add_performance.AddPerformanceActivity
-import com.zhang.change.utils.DateFormat
-import com.zhang.change.utils.date2String
-import com.zhang.change.utils.shareFile
+import com.zhang.change.utils.*
 import jxl.Workbook
 import jxl.format.Alignment
 import jxl.format.VerticalAlignment
@@ -130,7 +128,7 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private fun initEmptyBill(isMax: Boolean = false): ArrayList<UserBill> {
         val arrayList = arrayListOf<UserBill>()
         val minDay = calendar.getActualMinimum(Calendar.DAY_OF_MONTH)
-        val minDateStamp = getMinDateStamp(calendar)
+        val minDateStamp = calendar.timeInMillis.getMinDateStampMonth()
         val endDay = if (isCurrMonth() && !isMax) {
             calendar.get(Calendar.DAY_OF_MONTH)
         } else {
@@ -151,37 +149,16 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private fun isCurrMonth() =
         calendar.get(Calendar.MONTH) == Calendar.getInstance().get(Calendar.MONTH)
 
-    private fun getMinDateStamp(_calendar: Calendar): Long {
-        val calendar = _calendar.clone() as Calendar
-
-        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH))
-        calendar.set(Calendar.HOUR_OF_DAY, calendar.getActualMinimum(Calendar.HOUR_OF_DAY))
-        calendar.set(Calendar.MINUTE, calendar.getActualMinimum(Calendar.MINUTE))
-        calendar.set(Calendar.SECOND, calendar.getActualMinimum(Calendar.SECOND))
-        calendar.set(Calendar.MILLISECOND, calendar.getActualMinimum(Calendar.MILLISECOND))
-        return calendar.timeInMillis
-    }
-
-    private fun getMaxDateStamp(_calendar: Calendar): Long {
-        val calendar = _calendar.clone() as Calendar
-
-        calendar.set(Calendar.DAY_OF_MONTH, calendar.getMaximum(Calendar.DAY_OF_MONTH))
-        calendar.set(Calendar.HOUR_OF_DAY, calendar.getMaximum(Calendar.HOUR_OF_DAY))
-        calendar.set(Calendar.MINUTE, calendar.getMaximum(Calendar.MINUTE))
-        calendar.set(Calendar.SECOND, calendar.getMaximum(Calendar.SECOND))
-        calendar.set(Calendar.MILLISECOND, calendar.getMaximum(Calendar.MILLISECOND))
-
-        return calendar.timeInMillis
-    }
 
     private fun findUserBillAndRefreshView() {
         if (curUser == null) return
         launch {
             val dbBillList = withContext(Dispatchers.Default) {
+                val dateStamp = calendar.timeInMillis
                 userBillDao.queryBillByNoAndDate(
                     curUser!!.no,
-                    getMinDateStamp(calendar),
-                    getMaxDateStamp(calendar)
+                    dateStamp.getMinDateStampMonth(),
+                    dateStamp.getMaxDateStampMonth()
                 )
             }
             val emptyBill = initEmptyBill()
@@ -258,9 +235,10 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
 
             withContext(Dispatchers.Default) {
+                val dateStamp = calendar.timeInMillis
                 val billList = userBillDao.queryBillByDate(
-                    getMinDateStamp(calendar),
-                    getMaxDateStamp(calendar)
+                    dateStamp.getMinDateStampMonth(),
+                    dateStamp.getMaxDateStampMonth()
                 )
 
                 val uIdBillMap = copyDate2EmptyListGroupByUserId(billList)
