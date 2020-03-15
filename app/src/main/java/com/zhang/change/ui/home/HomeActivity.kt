@@ -306,6 +306,7 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                     ws.mergeCells(totalCol + 1, 1, totalCol + 2, 1)
                     ws.addCell(Label(totalCol + 1, 2, "总业绩", wcfTotal))
                     ws.addCell(Label(totalCol + 2, 2, "总工资", wcfTotal))
+
                     performanceSumList.map { it.value }.forEachIndexed { index, pair ->
                         val totalIncome = pair.first
                         val totalSalary = pair.second
@@ -383,6 +384,11 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                     val totalRow = 3 + dateList.size
 
                     ws.addCell(Label(0, totalRow, getString(R.string.total), wcfTotal))
+
+                    val incomeSum = performanceSumList.map { it.value }.sumBy { it.first }
+                    val salarySum = performanceSumList.map { it.value }.sumBy { it.second }
+                    ws.addCell(Number(totalCol + 1, totalRow, incomeSum.div(100.0) , wcfTotal))
+                    ws.addCell(Number(totalCol + 2, totalRow, salarySum.div(100.0) , wcfTotal))
 
                     for (i in userList.indices) {
                         val user = userList[i]
