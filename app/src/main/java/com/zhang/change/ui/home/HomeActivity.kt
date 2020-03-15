@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Environment.DIRECTORY_DCIM
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zhang.change.MyApplication
@@ -21,9 +23,22 @@ import com.zhang.change.dialog.AddUserDialog
 import com.zhang.change.entitiy.User
 import com.zhang.change.entitiy.UserBill
 import com.zhang.change.ui.add_performance.AddPerformanceActivity
+import com.zhang.change.utils.DateFormat
+import com.zhang.change.utils.date2String
+import com.zhang.change.utils.shareFile
+import jxl.Workbook
+import jxl.format.Alignment
+import jxl.format.VerticalAlignment
+import jxl.write.Label
+import jxl.write.Number
+import jxl.write.WritableCellFormat
+import jxl.write.WritableFont
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.*
+import org.jetbrains.anko.toast
+import java.io.File
 import java.util.*
+
 
 class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private val calendar = Calendar.getInstance()
@@ -112,11 +127,11 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
 
 
-    private fun initEmptyBill(): ArrayList<UserBill> {
+    private fun initEmptyBill(isMax: Boolean = false): ArrayList<UserBill> {
         val arrayList = arrayListOf<UserBill>()
         val minDay = calendar.getActualMinimum(Calendar.DAY_OF_MONTH)
         val minDateStamp = getMinDateStamp(calendar)
-        val endDay = if (isCurrMonth()) {
+        val endDay = if (isCurrMonth() && !isMax) {
             calendar.get(Calendar.DAY_OF_MONTH)
         } else {
             calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
@@ -170,20 +185,8 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 )
             }
             val emptyBill = initEmptyBill()
-            val eCalendar = Calendar.getInstance()
-            val dbCalendar = Calendar.getInstance()
-            emptyBill.forEach { eBill ->
-                eCalendar.timeInMillis = eBill.dateStamp
-                dbBillList.forEach { dbBill ->
-                    dbCalendar.timeInMillis = dbBill.dateStamp
-                    if (eCalendar.get(Calendar.YEAR) == dbCalendar.get(Calendar.YEAR)
-                        && eCalendar.get(Calendar.MONTH) == dbCalendar.get(Calendar.MONTH)
-                        && eCalendar.get(Calendar.DAY_OF_MONTH) == dbCalendar.get(Calendar.DAY_OF_MONTH)
-                    ) {
-                        eBill.copy(dbBill)
-                    }
-                }
-            }
+
+            copyDate2EmptyList(emptyBill, dbBillList)
 
             this@HomeActivity.billList.let {
                 it.clear()
@@ -196,6 +199,37 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
     }
 
+    private fun copyDate2EmptyList(
+        emptyBill: ArrayList<UserBill>,
+        dbBillList: List<UserBill>
+    ): ArrayList<UserBill> {
+        val eCalendar = Calendar.getInstance()
+        val dbCalendar = Calendar.getInstance()
+        emptyBill.forEach { eBill ->
+            eCalendar.timeInMillis = eBill.dateStamp
+            dbBillList.forEach { dbBill ->
+                dbCalendar.timeInMillis = dbBill.dateStamp
+                if (eCalendar.get(Calendar.YEAR) == dbCalendar.get(Calendar.YEAR)
+                    && eCalendar.get(Calendar.MONTH) == dbCalendar.get(Calendar.MONTH)
+                    && eCalendar.get(Calendar.DAY_OF_MONTH) == dbCalendar.get(Calendar.DAY_OF_MONTH)
+                ) {
+                    eBill.copy(dbBill)
+                }
+            }
+        }
+        return emptyBill
+    }
+
+
+    private fun copyDate2EmptyListGroupByUserId(dbBillList: List<UserBill>): HashMap<Int, List<UserBill>> {
+        val userBillMap = dbBillList.groupBy { it.uid }
+        val uIdBillMap = hashMapOf<Int, List<UserBill>>()
+        userBillMap.forEach {
+            val list = it.value
+            uIdBillMap[it.key] = copyDate2EmptyList(initEmptyBill(true), list)
+        }
+        return uIdBillMap
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.home, menu)
@@ -207,8 +241,143 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             R.id.action_add -> {
                 startActivity(Intent(baseContext, AddPerformanceActivity::class.java))
             }
+            R.id.action_extract -> {
+                toExcel()
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun toExcel() {
+        launch {
+            val MonthDes = calendar.timeInMillis.date2String(DateFormat.YYYY_MM)
+            val file = File(
+                getExternalFilesDir(DIRECTORY_DCIM),
+                "茭白园路店$MonthDes.xls"
+            )
+
+
+            withContext(Dispatchers.Default) {
+                val billList = userBillDao.queryBillByDate(
+                    getMinDateStamp(calendar),
+                    getMaxDateStamp(calendar)
+                )
+
+                val uIdBillMap = copyDate2EmptyListGroupByUserId(billList)
+                val userList =
+                    billList.map { User(it.no, it.name).apply { uid = it.uid } }.distinct()
+
+                if ((!file.exists())) {
+                    file.createNewFile()
+                } else {
+                    file.delete()
+                    file.createNewFile()
+                }
+                val wb = Workbook.createWorkbook(file) //创建xls表格文件
+                // 表头显示
+                val wcf = WritableCellFormat()
+                wcf.alignment = Alignment.CENTRE // 水平居中
+                wcf.verticalAlignment = VerticalAlignment.CENTRE // 垂直居中
+                wcf.setFont(WritableFont(WritableFont.TIMES, 13, WritableFont.BOLD)) // 表头字体 加粗 13号
+
+
+                // 内容显示
+                val wcf2 = WritableCellFormat()
+                wcf2.alignment = Alignment.CENTRE //水平居中
+                wcf2.verticalAlignment = VerticalAlignment.CENTRE // 垂直居中
+                wcf2.setFont(WritableFont(WritableFont.TIMES, 11)) // 内容字体 11号
+
+                val ws = wb!!.createSheet("sheet1", 0)
+
+                ws.addCell(Label(0, 0, "茭白园路店 $MonthDes", wcf))
+
+                ws.addCell(Label(0, 1, getString(R.string.no), wcf))
+                var totalCol = 0
+                // 导出时生成表头
+                for (i in userList.indices) { // 工号
+                    ws.addCell(Label(2 * i + 1, 1, "#${userList[i].no}", wcf))
+                    ws.addCell(Label(2 * i + 2, 1, " ", wcf))
+                    totalCol = 2 * i + 2
+                    ws.mergeCells(2 * i + 1, 1, 2 * i + 2, 1)
+                }
+                ws.mergeCells(0, 0, totalCol, 0)
+                ws.addCell(Label(0, 2, getString(R.string.date), wcf))
+                val perStr = getString(R.string.performance)
+                val salaryStr = getString(R.string.salary)
+                for (i in userList.indices) {
+                    ws.addCell(Label(2 * i + 1, 2, perStr, wcf))
+                    ws.addCell(Label(2 * i + 2, 2, salaryStr, wcf))
+                }
+
+                for (i in userList.indices) { // 填充内容
+                    val user = userList[i]
+                    val currBillList = uIdBillMap[user.uid]
+                    currBillList?.forEachIndexed { index, userBill ->
+                        if (userBill.income != 0) {
+                            ws.addCell(
+                                Number(
+                                    2 * i + 1,
+                                    3 + index,
+                                    userBill.income.div(100.0),
+                                    wcf2
+                                )
+                            )
+                        }
+                        if (userBill.salary != 0) {
+                            ws.addCell(
+                                Number(
+                                    2 * i + 2,
+                                    3 + index,
+                                    userBill.salary.div(100.0),
+                                    wcf2
+                                )
+                            )
+                        }
+                    }
+                }
+
+                val dateList = initEmptyBill(true)
+
+                dateList.forEachIndexed { index, userBill ->
+                    val dateStamp = userBill.dateStamp
+                    ws.addCell(Label(0, 3 + index, dateStamp.date2String(DateFormat.M_D), wcf2))
+                }
+                val totalRow = 3 + dateList.size
+
+                ws.addCell(Label(0, totalRow, getString(R.string.total), wcf2))
+
+                for (i in userList.indices) { // 填充内容
+                    val user = userList[i]
+                    val currBillList = uIdBillMap[user.uid].orEmpty()
+                    ws.addCell(
+                        Number(
+                            2 * i + 1,
+                            totalRow,
+                            currBillList.sumBy { it.income }.div(100.0),
+                            wcf2
+                        )
+                    )
+                    ws.addCell(
+                        Number(
+                            2 * i + 2,
+                            totalRow,
+                            currBillList.sumBy { it.salary }.div(100.0),
+                            wcf2
+                        )
+                    )
+                }
+
+                wb.write()
+                wb.close()
+            }
+            toast("导出成功")
+            val uri = FileProvider.getUriForFile(
+                baseContext,
+                "com.zhang.change.provider", //(use your app signature + ".provider" )
+                file
+            )
+            baseContext.shareFile(uri)
+        }
     }
 
 

@@ -7,4 +7,9 @@
         android:title="@string/add"
         android:icon="@drawable/ic_add_24dp"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_extract"
+        android:orderInCategory="101"
+        android:title="@string/extract"
+        app:showAsAction="always" />
 </menu>
