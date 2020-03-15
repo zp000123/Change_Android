@@ -24,7 +24,7 @@ import com.zhang.change.entitiy.User
 import com.zhang.change.entitiy.UserBill
 import com.zhang.change.utils.DateFormat
 import com.zhang.change.utils.date2String
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_add_performance.*
 import kotlinx.coroutines.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
@@ -52,7 +52,7 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_add_performance)
         initDao()
         initView()
     }
@@ -180,7 +180,7 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.menu_add_performance, menu)
         return true
     }
 

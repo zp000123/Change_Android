@@ -1,4 +1,4 @@
-package com.zhang.change.ui.home
+package com.zhang.change.ui.performance_statistic
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -31,7 +31,7 @@ import jxl.format.UnderlineStyle
 import jxl.format.VerticalAlignment
 import jxl.write.*
 import jxl.write.Number
-import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_performance_statistic.*
 import kotlinx.coroutines.*
 import org.jetbrains.anko.toast
 import java.io.File
@@ -39,7 +39,7 @@ import java.io.IOException
 import java.util.*
 
 
-class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
+class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private val calendar = Calendar.getInstance()
     private val userList = arrayListOf<User>()
     private lateinit var mContext: Context
@@ -56,7 +56,7 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mContext = baseContext
-        setContentView(R.layout.activity_home)
+        setContentView(R.layout.activity_performance_statistic)
         initDao()
         initView()
     }
@@ -113,7 +113,7 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private fun findUserListAndRefreshView() {
         launch {
             val userList = withContext(Dispatchers.Default) { userDao.queryAllUser() }
-            this@HomeActivity.userList.let {
+            this@PerformanceStatisticActivity.userList.let {
                 it.clear()
                 it.addAll(userList)
             }
@@ -166,7 +166,7 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
             copyDate2EmptyList(emptyBill, dbBillList)
 
-            this@HomeActivity.billList.let {
+            this@PerformanceStatisticActivity.billList.let {
                 it.clear()
                 it.addAll(emptyBill)
             }
@@ -224,7 +224,7 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.home, menu)
+        menuInflater.inflate(R.menu.menu_performance_statistic, menu)
         return true
     }
 

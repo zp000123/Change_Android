@@ -8,8 +8,6 @@ class MyApplication : Application() {
     lateinit var db: AppDatabase
     override fun onCreate() {
         super.onCreate()
-        db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "bill.db")
-            .allowMainThreadQueries()
-            .build()
+        AppDatabase.getDatabase(baseContext)
     }
 }

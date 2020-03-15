@@ -21,7 +21,7 @@
             </meta-data>
         </provider>
         <activity
-            android:name=".ui.home.HomeActivity"
+            android:name=".ui.performance_statistic.PerformanceStatisticActivity"
             android:label="@string/title_activity_home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +31,7 @@
         </activity>
         <activity
             android:name=".ui.add_performance.AddPerformanceActivity"
-            android:parentActivityName=".ui.home.HomeActivity">
+            android:parentActivityName=".ui.performance_statistic.PerformanceStatisticActivity">
 
         </activity>
     </application>

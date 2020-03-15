@@ -1,16 +1,17 @@
 package com.zhang.change.converter
 
 import androidx.room.TypeConverter
+import com.zhang.change.entitiy.ExpendType
 import java.util.*
 
 class Converters {
     @TypeConverter
-    fun fromTimestamp(value: Long?): Date? {
-        return value?.let { Date(it) }
+    fun fromExpendType(value: ExpendType?): Int {
+        return value?.type ?: 0
     }
 
     @TypeConverter
-    fun dateToTimestamp(date: Date?): Long? {
-        return date?.time?.toLong()
+    fun toExpendType(value: Int): ExpendType? {
+        return ExpendType.ofType(value)
     }
 }
