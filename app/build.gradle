@@ -3,6 +3,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 android {
+    signingConfigs {
+        release {
+            storeFile file('sign/change.keystore')
+            storePassword '000123'
+            keyAlias = 'changealias'
+            keyPassword '000123'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.1"
 
@@ -26,7 +34,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "Change_${defaultConfig.versionName}_" + "${variant.buildType.name}.apk"
+        }
+    }
 // To inline the bytecode built with JVM target 1.8 into
 // bytecode that is being built with JVM target 1.6. (e.g. navArgs)
 
