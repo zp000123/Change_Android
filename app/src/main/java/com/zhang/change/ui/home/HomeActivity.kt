@@ -137,17 +137,17 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         val calendar = _calendar.clone() as Calendar
         val minDay = calendar.getActualMinimum(Calendar.DAY_OF_MONTH)
         calendar.set(Calendar.DAY_OF_MONTH, minDay)
-        calendar.timeInMillis =
-            calendar.timeInMillis / AddPerformanceActivity.ONE_DAY_MILLIS * AddPerformanceActivity.ONE_DAY_MILLIS
         return calendar.timeInMillis
     }
 
     private fun getMaxDateStamp(_calendar: Calendar): Long {
         val calendar = _calendar.clone() as Calendar
-        val maxDay = calendar.getMaximum(Calendar.DAY_OF_MONTH)
-        calendar.set(Calendar.DAY_OF_MONTH, maxDay)
-        calendar.timeInMillis =
-            calendar.timeInMillis / AddPerformanceActivity.ONE_DAY_MILLIS * AddPerformanceActivity.ONE_DAY_MILLIS
+
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getMaximum(Calendar.DAY_OF_MONTH))
+        calendar.set(Calendar.HOUR_OF_DAY, calendar.getMaximum(Calendar.HOUR_OF_DAY))
+        calendar.set(Calendar.MINUTE, calendar.getMaximum(Calendar.MINUTE))
+        calendar.set(Calendar.SECOND, calendar.getMaximum(Calendar.SECOND))
+        calendar.set(Calendar.MILLISECOND, calendar.getMaximum(Calendar.MILLISECOND))
 
         return calendar.timeInMillis
     }

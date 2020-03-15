@@ -145,12 +145,20 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
 
     private fun findUserBillAndRefreshView() {
         launch {
-            val minDate = calendar.timeInMillis / ONE_DAY_MILLIS * ONE_DAY_MILLIS
-            val maxDate = minDate + ONE_DAY_MILLIS - 1
+            val _calendar = calendar.clone() as Calendar
+            _calendar.set(Calendar.HOUR_OF_DAY, _calendar.getActualMinimum(Calendar.HOUR_OF_DAY))
+            _calendar.set(Calendar.MINUTE,  _calendar.getActualMinimum(Calendar.MINUTE))
+            _calendar.set(Calendar.SECOND, _calendar.getActualMinimum(Calendar.SECOND))
+            _calendar.set(Calendar.MILLISECOND,  _calendar.getActualMinimum(Calendar.MILLISECOND))
+
+
+            val minMills = _calendar.timeInMillis
+            _calendar.add(Calendar.DAY_OF_MONTH, 1)
+            val maxMills = _calendar.timeInMillis - 1
             val billList = withContext(Dispatchers.Default) {
                 userBillDao.queryBillByDate(
-                    minDate,
-                    maxDate
+                    minMills,
+                    maxMills
                 )
             }
 
@@ -217,9 +225,8 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
 
         launch {
             withContext(Dispatchers.Default) {
-                var dateStamp = calendar.timeInMillis / ONE_DAY_MILLIS * ONE_DAY_MILLIS
-                dateStamp += HALF_DAY_MILLIS
-                performanceDao.insertReplace(selectUser!!.uid, dateStamp, income, salary)
+                performanceDao
+                    .insertReplace(selectUser!!.uid, calendar.timeInMillis, income, salary)
             }
             toast("添加成功")
             et_income.setText("")
@@ -238,7 +245,6 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
         const val TAG = "MainActivity"
         val BigDecimal_100 = BigDecimal(100)
         const val ONE_DAY_MILLIS = 86_400_000L
-        const val HALF_DAY_MILLIS = 43_200_000L
     }
 
 }
