@@ -138,8 +138,12 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     private fun getMinDateStamp(_calendar: Calendar): Long {
         val calendar = _calendar.clone() as Calendar
-        val minDay = calendar.getActualMinimum(Calendar.DAY_OF_MONTH)
-        calendar.set(Calendar.DAY_OF_MONTH, minDay)
+
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH))
+        calendar.set(Calendar.HOUR_OF_DAY, calendar.getActualMinimum(Calendar.HOUR_OF_DAY))
+        calendar.set(Calendar.MINUTE, calendar.getActualMinimum(Calendar.MINUTE))
+        calendar.set(Calendar.SECOND, calendar.getActualMinimum(Calendar.SECOND))
+        calendar.set(Calendar.MILLISECOND, calendar.getActualMinimum(Calendar.MILLISECOND))
         return calendar.timeInMillis
     }
 
@@ -162,7 +166,7 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 userBillDao.queryBillByNoAndDate(
                     curUser!!.no,
                     getMinDateStamp(calendar),
-                    getMaxDateStamp(calendar) - 1
+                    getMaxDateStamp(calendar)
                 )
             }
             val emptyBill = initEmptyBill()
