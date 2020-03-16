@@ -108,7 +108,7 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
         launch {
             val performanceSum =
-                async { performanceDao.sumIncomeByDate(minMills, maxMills) }.await() ?: 0L
+                async { performanceDao.sumIncomeByDate(minMills, maxMills) }.await() ?: 0
             val dbExpendList = async { expendDao.queryExpendList(minMills, maxMills) }.await()
             this@AddExpendActivity.expendList.let {
                 it.clear()
@@ -116,12 +116,14 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             }
             expendAdapter.notifyDataSetChanged()
 
-            v_add_performance.visibility = if (performanceSum != 0L) View.GONE else View.VISIBLE
+            v_add_performance.visibility = if (performanceSum != 0) View.GONE else View.VISIBLE
 
-            v_income.text = performanceSum.getNicePenStr()
+            v_income.text = performanceSum.getNiceStr()
             val recentMoney = (performanceSum - dbExpendList.sumBy { it.money })
             tv_recent_money.text = recentMoney.div(100).toString()
-            tv_recent_money.textColor = if (recentMoney >= 0) R.color.black else R.color.green
+            tv_recent_money.textColor =
+                if (recentMoney >= 0) resources.getColor(R.color.black)
+                else resources.getColor(R.color.red)
         }
 
 

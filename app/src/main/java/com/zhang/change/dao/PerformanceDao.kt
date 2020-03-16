@@ -24,7 +24,7 @@ interface PerformanceDao {
 
 
     @Query("SELECT  SUM(performance.income)  From performance WHERE  dateStamp   BETWEEN :minDate AND :maxDate")
-    suspend fun sumIncomeByDate(minDate: Long, maxDate: Long): Long?
+    suspend fun sumIncomeByDate(minDate: Long, maxDate: Long): Int?
 
     @Query("SELECT  SUM(performance.salary)  From performance WHERE  dateStamp   BETWEEN :minDate AND :maxDate")
     suspend fun sumSalaryByDate(minDate: Long, maxDate: Long): Long

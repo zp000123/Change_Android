@@ -10,23 +10,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.add_expend.AddExpendActivity">
+        <activity android:name=".ui.expend_statistic.ExpendStatisticActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.add_expend.AddExpendActivity">
+
+        </activity>
         <activity
             android:name=".ui.performance_statistic.PerformanceStatisticActivity"
-            android:label="@string/title_activity_home">
-
-        </activity>
+            android:label="@string/title_activity_home"></activity>
         <activity
             android:name=".ui.add_performance.AddPerformanceActivity"
-            android:parentActivityName=".ui.performance_statistic.PerformanceStatisticActivity">
-
-        </activity>
+            android:parentActivityName=".ui.performance_statistic.PerformanceStatisticActivity"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -37,7 +36,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

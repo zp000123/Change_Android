@@ -170,8 +170,8 @@ class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by Main
                 it.addAll(emptyBill)
             }
             billDateAdapter.notifyDataSetChanged()
-            tv_total_income.text = billList.sumBy { it.income }.getNicePenStr()
-            tv_total_salary.text = billList.sumBy { it.salary }.getNicePenStr()
+            tv_total_income.text = billList.sumBy { it.income }.getNiceStr()
+            tv_total_salary.text = billList.sumBy { it.salary }.getNiceStr()
 
         }
     }

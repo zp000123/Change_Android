@@ -5,10 +5,12 @@
     <color name="colorAccent">#0097A7</color>
     <color name="black">#000000</color>
     <color name="green">#14AF1C</color>
-    <color name="c_line">#0097A7</color>
+    <color name="c_line">@color/c_a</color>
     <color name="blue">#330097A7</color>
     <color name="c_fa">#fafafa</color>
     <color name="red">#F51909</color>
     <color name="white">#ffffff</color>
     <color name="tran">#1AFFFFFF</color>
+    <color name="c_6">#666666</color>
+    <color name="c_a">#aaaaaa</color>
 </resources>

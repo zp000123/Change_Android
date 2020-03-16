@@ -5,7 +5,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.zhang.change.R
 import com.zhang.change.entitiy.UserBill
-import com.zhang.change.utils.getNicePenStr
+import com.zhang.change.utils.getNiceStr
 import kotlinx.android.synthetic.main.item_bill_no.view.*
 
 
@@ -18,8 +18,8 @@ class BillAdapter(dataList: MutableList<UserBill>, val onDel: (UserBill) -> Unit
     override fun convert(helper: BaseViewHolder, item: UserBill) {
         with(helper.itemView) {
             tv_no.text = "#${item.no}"
-            tv_income.text = item.income.getNicePenStr()
-            tv_salary.text = item.salary.getNicePenStr()
+            tv_income.text = item.income.getNiceStr()
+            tv_salary.text = item.salary.getNiceStr()
             v_del.setOnClickListener { onDel(item) }
 
         }

@@ -24,14 +24,13 @@ import com.zhang.change.entitiy.UserBill
 import com.zhang.change.utils.BigDecimal_100
 import com.zhang.change.utils.DateFormat
 import com.zhang.change.utils.date2String
-import com.zhang.change.utils.getNicePenStr
+import com.zhang.change.utils.getNiceStr
 import kotlinx.android.synthetic.main.activity_add_performance.*
 import kotlinx.coroutines.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
-import java.math.BigDecimal
 import java.util.*
 
 
@@ -168,8 +167,8 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
                 it.addAll(billList)
             }
             billAdapter.notifyDataSetChanged()
-            tv_total_income.text = billList.sumBy { it.income }.getNicePenStr()
-            tv_total_salary.text = billList.sumBy { it.salary }.getNicePenStr()
+            tv_total_income.text = billList.sumBy { it.income }.getNiceStr()
+            tv_total_salary.text = billList.sumBy { it.salary }.getNiceStr()
         }
     }
 

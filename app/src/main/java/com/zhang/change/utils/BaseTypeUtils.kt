@@ -46,8 +46,29 @@ fun Long.getMaxDateStampMonth(): Long {
     return calendar.timeInMillis
 }
 
+fun Long.getMinDayInMonth(): Int {
+    val calendar = Calendar.getInstance().apply { timeInMillis = this@getMinDayInMonth }
+    return calendar.getActualMinimum(Calendar.DAY_OF_MONTH)
+}
 
-fun Int.getNicePenStr(): String {
+fun Long.getMaxDayInMonth(): Int {
+    val calendar = Calendar.getInstance().apply { timeInMillis = this@getMaxDayInMonth }
+    return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+}
+
+fun Long.isCurrMonth(): Boolean {
+    val calendar = Calendar.getInstance().apply { timeInMillis = this@isCurrMonth }
+    val newCalendar = Calendar.getInstance()
+    return calendar.get(Calendar.MONTH) == newCalendar.get(Calendar.MONTH) &&
+            calendar.get(Calendar.YEAR) == newCalendar.get(Calendar.YEAR)
+}
+
+fun Long.getDayInMonth(): Int {
+    val calendar = Calendar.getInstance().apply { timeInMillis = this@getDayInMonth }
+    return calendar.get(Calendar.DAY_OF_MONTH)
+}
+
+fun Int.getNiceStr(): String {
     return when {
         this == 0 -> ""
         this % 100 == 0 -> {
@@ -59,7 +80,8 @@ fun Int.getNicePenStr(): String {
     }
 }
 
-fun Long.getNicePenStr(): String {
+
+fun Long.getNiceStr(): String {
     return when {
         this == 0L -> ""
         this % 100 == 0L -> {
