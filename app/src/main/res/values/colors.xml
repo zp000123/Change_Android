@@ -3,6 +3,12 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#0097A7</color>
+    <color name="bColorPrimary">#00BCD4</color>
+    <color name="bColorPrimaryDark">#0097A7</color>
+    <color name="bColorAccent">#4DD0E1</color>
+    <color name="yColorPrimary">#FF9800</color>
+    <color name="yColorPrimaryDark">#F57C00</color>
+    <color name="yColorAccent">#FFB74D</color>
     <color name="black">#000000</color>
     <color name="green">#14AF1C</color>
     <color name="c_line">@color/c_a</color>

@@ -6,7 +6,9 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.zhang.change.R
 import com.zhang.change.entitiy.UserBill
 import com.zhang.change.utils.getNiceStr
+import com.zhang.change.utils.refreshTextColor
 import kotlinx.android.synthetic.main.item_bill_no.view.*
+
 
 
 /**
@@ -22,6 +24,8 @@ class BillAdapter(dataList: MutableList<UserBill>, val onDel: (UserBill) -> Unit
             tv_salary.text = item.salary.getNiceStr()
             v_del.setOnClickListener { onDel(item) }
 
+            tv_income.refreshTextColor(helper.adapterPosition,R.color.yColorPrimary)
+            tv_salary.refreshTextColor(helper.adapterPosition,R.color.yColorPrimary)
         }
 
     }

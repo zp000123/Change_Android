@@ -39,7 +39,7 @@
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:text="前一月"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/yColorPrimary"
                     android:textSize="18sp" />
 
                 <TextView
@@ -59,7 +59,7 @@
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:text="后一月"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/yColorPrimary"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -116,27 +116,27 @@
                     android:background="@drawable/bg_r_line"
                     android:gravity="center"
                     android:text="@string/date"
-                    android:textSize="18sp" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/bg_r_line"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:paddingLeft="10dp"
                     android:text="@string/performance"
-                    android:textSize="18sp" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/bg_r_line"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:paddingLeft="10dp"
                     android:text="@string/salary"
-                    android:textSize="18sp" />
+                    android:textColor="@color/black" />
 
 
                 <TextView
@@ -148,7 +148,7 @@
                     android:paddingRight="8dp"
                     android:text="@string/add"
                     android:textColor="@color/colorAccent"
-                    android:textSize="18sp"
+
                     android:visibility="gone" />
 
             </LinearLayout>
@@ -181,7 +181,7 @@
             android:background="@drawable/bg_r_line"
             android:gravity="center"
             android:text="总计"
-            android:textSize="18sp"
+            android:textColor="@color/black"
             android:textStyle="bold" />
 
         <TextView
@@ -192,8 +192,7 @@
             android:background="@drawable/bg_r_line"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tv_total_salary"
@@ -203,24 +202,7 @@
             android:background="@drawable/bg_r_line"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textColor="@color/black" />
 
-        <TextView
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_r_line"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:visibility="gone" />
-
-        <TextView
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textColor="@color/red"
-            android:textSize="18sp"
-            android:visibility="gone"
-            tools:text=" " />
     </LinearLayout>
 </RelativeLayout>

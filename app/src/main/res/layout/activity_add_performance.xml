@@ -7,9 +7,9 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/sv"
-        android:layout_above="@+id/ll_total"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/ll_total"
         android:fillViewport="true"
         android:padding="8dp">
 
@@ -35,7 +35,7 @@
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:text="前一天"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/yColorPrimary"
                     android:textSize="18sp" />
 
                 <TextView
@@ -55,7 +55,7 @@
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:text="后一天"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/yColorPrimary"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="工号："
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/v_add"
@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:padding="8dp"
                     android:text="添加"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/yColorPrimary"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -119,7 +119,7 @@
                         android:imeOptions="actionNext"
                         android:inputType="numberDecimal"
                         android:textColor="@color/black"
-                        android:textSize="22sp"
+                        android:textSize="16sp"
                         tools:text="1130" />
                 </LinearLayout>
 
@@ -147,7 +147,7 @@
                         android:imeOptions="actionNext"
                         android:inputType="numberDecimal"
                         android:textColor="@color/black"
-                        android:textSize="22sp"
+                        android:textSize="16sp"
                         tools:text="552" />
                 </LinearLayout>
             </LinearLayout>
@@ -207,7 +207,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_performance"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_bill_no" />
 
         </LinearLayout>
 
@@ -230,8 +231,7 @@
             android:background="@drawable/bg_r_line"
             android:gravity="center"
             android:text="总计"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tv_total_income"
@@ -241,8 +241,7 @@
             android:background="@drawable/bg_r_line"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tv_total_salary"
@@ -252,8 +251,7 @@
             android:background="@drawable/bg_r_line"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textColor="@color/black" />
 
 
     </LinearLayout>

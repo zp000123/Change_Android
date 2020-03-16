@@ -16,7 +16,8 @@
         android:layout_height="@dimen/row_height"
         android:background="@drawable/bg_r_line"
         android:gravity="center"
-        android:textSize="18sp"
+        android:textColor="@color/black"
+
         tools:text="1" />
 
     <TextView
@@ -25,9 +26,9 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@drawable/bg_r_line"
-        android:gravity="center_vertical|right"
+        android:gravity="center"
         android:paddingRight="10dp"
-        android:textSize="18sp"
+
         tools:text="1200" />
 
     <TextView
@@ -36,9 +37,8 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@drawable/bg_r_line"
-        android:gravity="center_vertical|right"
+        android:gravity="center"
         android:paddingRight="10dp"
-        android:textSize="18sp"
         tools:text="400" />
 
     <TextView
@@ -47,8 +47,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="修改"
-        android:textColor="@color/colorAccent"
-        android:textSize="18sp"
+        android:textColor="@color/yColorPrimary"
         android:visibility="gone" />
 
 

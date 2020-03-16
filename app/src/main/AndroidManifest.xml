@@ -10,22 +10,41 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.expend_statistic.ExpendStatisticActivity">
+        <activity android:name=".ui.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.add_expend.AddExpendActivity">
+        <activity
+            android:name=".ui.expend_statistic.ExpendStatisticActivity"
+            android:label="@string/activity_expend_statistic_name"
+            android:parentActivityName=".ui.home.HomeActivity"
+            android:theme="@style/BlueAppTheme">
+
+        </activity>
+        <activity
+            android:name=".ui.add_expend.AddExpendActivity"
+            android:label="@string/activity_add_expend_name"
+            android:parentActivityName=".ui.expend_statistic.ExpendStatisticActivity"
+            android:theme="@style/BlueAppTheme">
 
         </activity>
         <activity
             android:name=".ui.performance_statistic.PerformanceStatisticActivity"
-            android:label="@string/title_activity_home"></activity>
+            android:label="@string/title_activity_home"
+            android:parentActivityName=".ui.home.HomeActivity"
+            android:theme="@style/YellowAppTheme">
+
+        </activity>
         <activity
             android:name=".ui.add_performance.AddPerformanceActivity"
-            android:parentActivityName=".ui.performance_statistic.PerformanceStatisticActivity"></activity>
+            android:label="@string/activity_add_performance"
+            android:parentActivityName=".ui.performance_statistic.PerformanceStatisticActivity"
+            android:theme="@style/YellowAppTheme">
+
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"

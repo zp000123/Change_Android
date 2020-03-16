@@ -8,10 +8,20 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="BlueAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/bColorPrimary</item>
+        <item name="colorPrimaryDark">@color/bColorPrimaryDark</item>
+        <item name="colorAccent">@color/bColorAccent</item>
     </style>
+
+    <style name="YellowAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/yColorPrimary</item>
+        <item name="colorPrimaryDark">@color/yColorPrimaryDark</item>
+        <item name="colorAccent">@color/yColorAccent</item>
+    </style>
+
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

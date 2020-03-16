@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.home.HomeActivity">
+
+
+    <TextView
+        android:id="@+id/v_performance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_l_t_r_b_line"
+        android:gravity="center"
+        android:padding="@dimen/dp_20"
+        android:text="营业额记录 >"
+        android:textColor="@color/yColorPrimary"
+        android:textSize="24sp" />
+
+
+    <TextView
+        android:id="@+id/v_income_expend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_l_r_b_line"
+        android:gravity="center"
+        android:padding="@dimen/dp_20"
+        android:text="收支记录 >"
+        android:textColor="@color/bColorPrimary"
+        android:textSize="24sp" />
+</LinearLayout>

@@ -135,13 +135,18 @@ class ExpendStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope
         performanceDao = db.performanceDao()
     }
 
+    override fun onResume() {
+        super.onResume()
+        findExpendDateList()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         cancel()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_performance_statistic, menu)
+        menuInflater.inflate(R.menu.menu_expend_statistic, menu)
         return true
     }
 
@@ -153,4 +158,6 @@ class ExpendStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope
         }
         return super.onOptionsItemSelected(item)
     }
+
+
 }

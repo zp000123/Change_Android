@@ -39,7 +39,7 @@
                     android:paddingLeft="8dp"
                     android:paddingEnd="8dp"
                     android:text="前一月"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/bColorPrimary"
                     android:textSize="18sp" />
 
                 <TextView
@@ -59,7 +59,7 @@
                     android:paddingLeft="8dp"
                     android:paddingEnd="8dp"
                     android:text="后一月"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/bColorPrimary"
                     android:textSize="18sp" />
             </LinearLayout>
 

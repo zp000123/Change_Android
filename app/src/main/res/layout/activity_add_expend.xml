@@ -9,9 +9,9 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/sv"
-        android:layout_above="@+id/ll_total"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/ll_total"
         android:fillViewport="true"
         android:overScrollMode="never">
 
@@ -37,7 +37,7 @@
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:text="前一天"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/bColorPrimary"
                     android:textSize="18sp" />
 
                 <TextView
@@ -57,7 +57,7 @@
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:text="后一天"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/bColorPrimary"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -66,8 +66,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/dp_10"
                 android:text="类型"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textColor="@color/black" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_type"
@@ -92,7 +91,7 @@
                     android:layout_height="@dimen/row_height"
                     android:gravity="center"
                     android:text="金额："
-                    android:textSize="18sp" />
+                    android:textColor="@color/black" />
 
                 <EditText
                     android:id="@+id/et_money"
@@ -103,7 +102,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="numberDecimal"
                     android:textColor="@color/black"
-                    android:textSize="22sp"
+                    android:textSize="18sp"
                     tools:text="552" />
 
             </LinearLayout>
@@ -123,9 +122,8 @@
                     android:layout_height="@dimen/row_height"
                     android:background="@drawable/bg_r_line"
                     android:gravity="center"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:text="营业额" />
+                    android:text="营业额"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/v_income"
@@ -147,8 +145,7 @@
                     android:focusable="true"
                     android:gravity="center"
                     android:text="@string/add"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="18sp" />
+                    android:textColor="@color/bColorPrimary" />
             </LinearLayout>
 
             <LinearLayout
@@ -166,9 +163,8 @@
                     android:layout_height="@dimen/row_height"
                     android:background="@drawable/bg_r_line"
                     android:gravity="center"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:text="类型" />
+                    android:text="类型"
+                    android:textColor="@color/black" />
 
                 <TextView
 
@@ -179,8 +175,7 @@
                     android:gravity="center"
                     android:paddingRight="10dp"
                     android:text="金额"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/black" />
 
 
                 <TextView
@@ -218,8 +213,7 @@
             android:background="@drawable/bg_r_line"
             android:gravity="center"
             android:text="剩余金额"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tv_recent_money"
@@ -228,9 +222,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_r_line"
             android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:paddingLeft="10dp" />
 
 
     </LinearLayout>

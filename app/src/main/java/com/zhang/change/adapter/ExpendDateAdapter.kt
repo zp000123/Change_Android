@@ -1,15 +1,14 @@
 package com.zhang.change.adapter
 
-import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.zhang.change.R
 import com.zhang.change.entitiy.Expend
 import com.zhang.change.entitiy.ExpendType
 import com.zhang.change.utils.getNiceStr
+import com.zhang.change.utils.refreshTextColor
 import kotlinx.android.synthetic.main.item_expend_date.view.*
 import org.jetbrains.anko.textColor
-import java.text.FieldPosition
 
 /**
  *  选择员工的适配器
@@ -77,16 +76,12 @@ class ExpendDateAdapter(dataList: MutableList<ExpendDate>) :
     }
 
 
-    private fun TextView.refreshTextColor(position: Int) {
-        this.textColor = if (position % 2 == 0) context.resources.getColor(R.color.colorAccent)
-        else context.resources.getColor(R.color.c_6)
 
-    }
 }
 
 
 data class ExpendDate(val dateStr: String) {
     var income: Int = 0
-    var expandList: List<Expend> = emptyList()
+    var expandList: List<Expend> = arrayListOf()
     val recentMoney get() = income - expandList.sumBy { it.money }
 }

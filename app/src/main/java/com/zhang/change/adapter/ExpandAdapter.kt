@@ -20,6 +20,7 @@ class ExpandAdapter(dataList: MutableList<Expend>, val onDel: (Expend) -> Unit) 
             tv_type.text = item.type.des
             v_expend.text = item.money.getNiceStr()
             v_del.setOnClickListener { onDel(item) }
+
         }
     }
 }
