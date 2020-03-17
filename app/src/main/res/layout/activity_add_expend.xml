@@ -209,6 +209,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/bg_l_t_r_b_line"
         android:orientation="horizontal"
+        android:elevation="@dimen/dp_4"
         android:padding="1dp">
 
         <TextView
