@@ -1,10 +1,9 @@
 package com.zhang.change.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.zhang.change.entitiy.Expend
+import com.zhang.change.utils.getMaxDateStampDay
+import com.zhang.change.utils.getMinDateStampDay
 
 @Dao
 interface ExpendDao {
@@ -17,4 +16,13 @@ interface ExpendDao {
     @Query("DELETE  From expend WHERE eId=:eId")
     suspend fun deleteById(eId: Int)
 
+    @Query("DELETE  From expend WHERE type=:type AND dateStamp  BETWEEN :minDate AND :maxDate")
+    suspend fun delete(type: Int, minDate: Long, maxDate: Long)
+}
+
+@Transaction
+suspend fun ExpendDao.insertReplace(expend: Expend) {
+    val dateStamp = expend.dateStamp
+    this.delete(expend.type.type, dateStamp.getMinDateStampDay(), dateStamp.getMaxDateStampDay())
+    this.insert(expend)
 }

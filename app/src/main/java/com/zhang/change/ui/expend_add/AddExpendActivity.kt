@@ -16,6 +16,7 @@ import com.zhang.change.adapter.ExpendTypeAdapter
 import com.zhang.change.dao.ExpendDao
 import com.zhang.change.dao.PerformanceDao
 import com.zhang.change.dao.UserDao
+import com.zhang.change.dao.insertReplace
 import com.zhang.change.entitiy.Expend
 import com.zhang.change.entitiy.ExpendType
 import com.zhang.change.entitiy.ExpendTypeW
@@ -179,7 +180,7 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         launch {
             withContext(Dispatchers.Default) {
                 expendDao
-                    .insert(Expend(selectType, money, calendar.timeInMillis))
+                    .insertReplace(Expend(selectType, money, calendar.timeInMillis))
             }
             toast("添加成功")
             et_money.setText("")
@@ -192,6 +193,7 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         super.onResume()
         findExpendAndRefreshView()
     }
+
     override fun onDestroy() {
         super.onDestroy()
         cancel()
