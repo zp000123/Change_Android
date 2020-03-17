@@ -6,7 +6,7 @@ import com.zhang.change.R
 import com.zhang.change.entitiy.Expend
 import com.zhang.change.entitiy.ExpendType
 import com.zhang.change.utils.getNiceStr
-import com.zhang.change.utils.refreshTextColor
+import com.zhang.change.utils.refreshTextStyle
 import kotlinx.android.synthetic.main.item_expend_date.view.*
 import org.jetbrains.anko.textColor
 
@@ -59,16 +59,16 @@ class ExpendDateAdapter(dataList: MutableList<ExpendDate>) :
                 if (item.recentMoney >= 0) context.resources.getColor(R.color.black)
                 else context.resources.getColor(R.color.red)
 
-            tv_income.refreshTextColor(helper.adapterPosition)
-            tv_living_cost.refreshTextColor(helper.adapterPosition)
-            tv_water_cost.refreshTextColor(helper.adapterPosition)
-            tv_other.refreshTextColor(helper.adapterPosition)
-            tv_salary.refreshTextColor(helper.adapterPosition)
-            tv_draw.refreshTextColor(helper.adapterPosition)
-            tv_group_purchase.refreshTextColor(helper.adapterPosition)
-            tv_receive_money.refreshTextColor(helper.adapterPosition)
-            tv_kou_bei.refreshTextColor(helper.adapterPosition)
-            tv_pos.refreshTextColor(helper.adapterPosition)
+            tv_income.refreshTextStyle(helper.adapterPosition)
+            tv_living_cost.refreshTextStyle(helper.adapterPosition)
+            tv_water_cost.refreshTextStyle(helper.adapterPosition)
+            tv_other.refreshTextStyle(helper.adapterPosition)
+            tv_salary.refreshTextStyle(helper.adapterPosition)
+            tv_draw.refreshTextStyle(helper.adapterPosition)
+            tv_group_purchase.refreshTextStyle(helper.adapterPosition)
+            tv_receive_money.refreshTextStyle(helper.adapterPosition)
+            tv_kou_bei.refreshTextStyle(helper.adapterPosition)
+            tv_pos.refreshTextStyle(helper.adapterPosition)
         }
 
 

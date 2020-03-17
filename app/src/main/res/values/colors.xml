@@ -11,7 +11,7 @@
     <color name="yColorAccent">#FFB74D</color>
     <color name="black">#000000</color>
     <color name="green">#14AF1C</color>
-    <color name="c_line">@color/c_a</color>
+    <color name="c_line">@color/c_6</color>
     <color name="blue">#330097A7</color>
     <color name="c_fa">#fafafa</color>
     <color name="red">#F51909</color>

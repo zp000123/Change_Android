@@ -21,6 +21,7 @@ import com.zhang.change.dao.insertReplace
 import com.zhang.change.dialog.AddUserDialog
 import com.zhang.change.entitiy.User
 import com.zhang.change.entitiy.UserBill
+import com.zhang.change.rounter.KEY_DATE
 import com.zhang.change.utils.BigDecimal_100
 import com.zhang.change.utils.DateFormat
 import com.zhang.change.utils.date2String
@@ -53,13 +54,16 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_performance)
+        val dateStamp = intent.getLongExtra(KEY_DATE, calendar.apply {
+            add(Calendar.DAY_OF_MONTH, -1) // 默认进来是昨天
+        }.timeInMillis)
+        calendar.timeInMillis = dateStamp
         initDao()
         initView()
     }
 
 
     private fun initView() {
-        calendar.add(Calendar.DATE, -1)
         v_date.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
         v_date.setOnClickListener {
             val dialog = DatePickerDialog(

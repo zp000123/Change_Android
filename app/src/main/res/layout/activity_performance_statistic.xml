@@ -78,7 +78,7 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="@string/no_"
-                    android:textSize="18sp" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/v_add_user"
@@ -111,7 +111,7 @@
                 android:padding="1dp">
 
                 <TextView
-                    android:layout_width="60dp"
+                    android:layout_width="@dimen/column_date_width"
                     android:layout_height="@dimen/row_height"
                     android:background="@drawable/bg_r_line"
                     android:gravity="center"

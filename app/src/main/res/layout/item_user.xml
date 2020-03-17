@@ -11,13 +11,14 @@
     <CheckBox
         android:id="@+id/v_no"
         android:layout_width="54dp"
-        android:layout_height="@dimen/row_height"
-        android:background="@drawable/bg_share_selector"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_performance_selector"
         android:button="@null"
         android:checked="false"
+        android:paddingTop="@dimen/dp_6"
+        android:paddingBottom="@dimen/dp_6"
         android:gravity="center"
-        android:textColor="@drawable/radio_txt_color_selector"
-        android:textSize="18sp"
+        android:textColor="@drawable/radio_txt_color_yellow_selector"
         tools:text="#905" />
 
 </LinearLayout>

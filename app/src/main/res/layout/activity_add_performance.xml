@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -63,31 +64,41 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="工号："
-                    android:textSize="16sp" />
+                    android:textColor="@color/black" />
+
 
                 <TextView
                     android:id="@+id/v_add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_10"
                     android:padding="8dp"
                     android:text="添加"
                     android:textColor="@color/yColorPrimary"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_no"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="5"
+                tools:itemCount="10"
+                tools:listitem="@layout/item_user" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -98,7 +109,6 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -108,7 +118,7 @@
                         android:layout_height="@dimen/row_height"
                         android:gravity="center"
                         android:text="业绩："
-                        android:textSize="18sp" />
+                        android:textColor="@color/black" />
 
                     <EditText
                         android:id="@+id/et_income"
@@ -126,7 +136,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -136,7 +146,7 @@
                         android:layout_height="@dimen/row_height"
                         android:gravity="center"
                         android:text="工资："
-                        android:textSize="18sp" />
+                        android:textColor="@color/black" />
 
                     <EditText
                         android:id="@+id/et_salary"
@@ -198,6 +208,7 @@
                 <TextView
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
+                    android:background="@color/white"
                     android:gravity="center"
                     android:text="操作"
                     android:textColor="@color/black"

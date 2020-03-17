@@ -5,10 +5,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.zhang.change.R
 import com.zhang.change.entitiy.UserBill
-import com.zhang.change.utils.DateFormat
-import com.zhang.change.utils.date2String
-import com.zhang.change.utils.getNiceStr
-import com.zhang.change.utils.refreshTextColor
+import com.zhang.change.utils.*
 import kotlinx.android.synthetic.main.item_bill_date.view.*
 
 
@@ -24,8 +21,8 @@ class BillDateAdapter(dataList: MutableList<UserBill>) :
             tv_income.text = item.income.getNiceStr()
             tv_salary.text = item.salary.getNiceStr()
 
-            tv_income.refreshTextColor(helper.adapterPosition,R.color.yColorPrimary)
-            tv_salary.refreshTextColor(helper.adapterPosition,R.color.yColorPrimary)
+            tv_income.refreshTextStyle(helper.adapterPosition)
+            tv_salary.refreshTextStyle(helper.adapterPosition)
         }
         addChildClickViewIds(R.id.v_edit)
     }

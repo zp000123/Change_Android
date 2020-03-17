@@ -13,7 +13,7 @@
     <TextView
         android:id="@+id/tv_no"
         android:layout_width="60dp"
-        android:layout_height="@dimen/row_height"
+        android:layout_height="@dimen/row_opt_height"
         android:background="@drawable/bg_r_line"
         android:gravity="center"
         android:textColor="@color/black"
@@ -47,6 +47,7 @@
         android:id="@+id/v_del"
         android:layout_width="60dp"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"

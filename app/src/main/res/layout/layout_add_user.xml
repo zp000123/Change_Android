@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="20dp"
     android:paddingLeft="@dimen/dp_20"
+    android:paddingTop="20dp"
     android:paddingRight="@dimen/dp_20"
     android:paddingBottom="16dp">
 
@@ -13,18 +13,19 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:text="添加工号"
-        android:textSize="22sp" />
+        android:textColor="@color/black"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/et_no"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-
         android:autofillHints=""
         android:hint="@string/add_user_hint"
         android:inputType="numberDecimal"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:theme="@style/YellowAppTheme" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,7 +42,7 @@
             android:paddingEnd="10dp"
             android:paddingBottom="6dp"
             android:text="@string/cancel"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/yColorPrimary"
             android:textSize="18sp" />
 
         <TextView
@@ -54,7 +55,7 @@
             android:paddingEnd="10dp"
             android:paddingBottom="6dp"
             android:text="@string/ensure"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/yColorPrimary"
             android:textSize="18sp" />
 
     </LinearLayout>

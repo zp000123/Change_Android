@@ -119,7 +119,7 @@
                 <TextView
                     android:id="@+id/tv_type"
                     android:layout_width="90dp"
-                    android:layout_height="@dimen/row_height"
+                    android:layout_height="@dimen/row_opt_height"
                     android:background="@drawable/bg_r_line"
                     android:gravity="center"
                     android:text="营业额"
@@ -144,6 +144,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center"
+                    android:background="@color/white"
                     android:text="@string/add"
                     android:textColor="@color/bColorPrimary" />
             </LinearLayout>
@@ -158,9 +159,8 @@
                 android:padding="@dimen/dp_1">
 
                 <TextView
-
-                    android:layout_width="90dp"
-                    android:layout_height="@dimen/row_height"
+                    android:layout_width="@dimen/row_expend_width"
+                    android:layout_height="@dimen/row_opt_height"
                     android:background="@drawable/bg_r_line"
                     android:gravity="center"
                     android:text="类型"
@@ -184,6 +184,7 @@
                     android:layout_height="match_parent"
                     android:clickable="true"
                     android:focusable="true"
+                    android:background="@color/white"
                     android:gravity="center" />
             </LinearLayout>
 

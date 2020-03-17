@@ -19,6 +19,8 @@ import com.zhang.change.dao.UserDao
 import com.zhang.change.entitiy.Expend
 import com.zhang.change.entitiy.ExpendType
 import com.zhang.change.entitiy.ExpendTypeW
+import com.zhang.change.rounter.start2Activity
+import com.zhang.change.rounter.start2AddPerformanceActivity
 import com.zhang.change.utils.*
 import kotlinx.android.synthetic.main.activity_add_expend.*
 import kotlinx.coroutines.*
@@ -85,7 +87,7 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
 
         v_add_performance.setOnClickListener {
-
+            start2AddPerformanceActivity(calendar.timeInMillis)
         }
 
         with(rv_type) {
@@ -186,6 +188,11 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        findExpendAndRefreshView()
+    }
     override fun onDestroy() {
         super.onDestroy()
         cancel()
