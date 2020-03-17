@@ -1,6 +1,5 @@
 package com.zhang.change.adapter
 
-import android.annotation.SuppressLint
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.zhang.change.R
@@ -13,7 +12,6 @@ import kotlinx.android.synthetic.main.item_expend_type.view.*
  */
 class ExpendTypeAdapter(dataList: MutableList<ExpendTypeW>,val onSelect: (user: ExpendTypeW) -> Unit) :
     BaseQuickAdapter<ExpendTypeW, BaseViewHolder>(R.layout.item_expend_type, dataList) {
-    @SuppressLint("SetTextI18n")
     override fun convert(helper: BaseViewHolder, item: ExpendTypeW) {
         with(helper.itemView) {
             v_expend.text = item.expendType.des

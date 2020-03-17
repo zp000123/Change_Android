@@ -13,6 +13,7 @@ import org.jetbrains.anko.textColor
 /**
  *  选择员工的适配器
  */
+@Suppress("DEPRECATION")
 class ExpendDateAdapter(dataList: MutableList<ExpendDate>) :
     BaseQuickAdapter<ExpendDate, BaseViewHolder>(R.layout.item_expend_date, dataList) {
 

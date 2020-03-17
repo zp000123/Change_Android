@@ -1,11 +1,13 @@
 package com.zhang.change.adapter
 
-import android.annotation.SuppressLint
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.zhang.change.R
 import com.zhang.change.entitiy.UserBill
-import com.zhang.change.utils.*
+import com.zhang.change.utils.DateFormat
+import com.zhang.change.utils.date2String
+import com.zhang.change.utils.getNiceStr
+import com.zhang.change.utils.refreshTextStyle
 import kotlinx.android.synthetic.main.item_bill_date.view.*
 
 
@@ -14,7 +16,7 @@ import kotlinx.android.synthetic.main.item_bill_date.view.*
  */
 class BillDateAdapter(dataList: MutableList<UserBill>) :
     BaseQuickAdapter<UserBill, BaseViewHolder>(R.layout.item_bill_date, dataList) {
-    @SuppressLint("SetTextI18n")
+
     override fun convert(helper: BaseViewHolder, item: UserBill) {
         with(helper.itemView) {
             tv_date.text = item.dateStamp.date2String(DateFormat.M_D)
