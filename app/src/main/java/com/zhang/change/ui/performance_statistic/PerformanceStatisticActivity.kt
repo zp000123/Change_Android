@@ -8,7 +8,6 @@ import android.os.Environment.DIRECTORY_DCIM
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zhang.change.MyApplication
@@ -25,9 +24,6 @@ import com.zhang.change.ui.performance_add.AddPerformanceActivity
 import com.zhang.change.utils.*
 import com.zhang.change.utils.DateFormat
 import jxl.Workbook
-import jxl.format.Alignment
-import jxl.format.UnderlineStyle
-import jxl.format.VerticalAlignment
 import jxl.write.*
 import jxl.write.Number
 import kotlinx.android.synthetic.main.activity_performance_statistic.*
@@ -241,10 +237,11 @@ class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by Main
 
     private fun toExcel() {
         launch {
-            val MonthDes = calendar.timeInMillis.date2String(DateFormat.YYYY_MM)
+            val shopName = (application as MyApplication).shopName
+            val monthDes = calendar.timeInMillis.date2String(DateFormat.YYYY_MM)
             val file = File(
                 getExternalFilesDir(DIRECTORY_DCIM),
-                "茭白园路店${MonthDes}营业额报表.xls"
+                "${shopName}${monthDes}营业额报表.xls"
             )
 
 
@@ -279,7 +276,7 @@ class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by Main
 
                     val ws = wb!!.createSheet("sheet1", 0)
 
-                    ws.addCell(Label(0, 0, "茭白园路店 ${MonthDes} 营业记录", wcfTitle))
+                    ws.addCell(Label(0, 0, "${shopName} ${monthDes} 营业记录", wcfTitle))
 
                     ws.addCell(Label(0, 1, getString(R.string.no), wcfTitle))
                     var totalCol = 0

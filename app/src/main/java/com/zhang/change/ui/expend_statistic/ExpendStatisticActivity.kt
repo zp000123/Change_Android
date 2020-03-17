@@ -184,12 +184,12 @@ class ExpendStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope
     }
 
     private fun doExtract() {
-
+        val shopName = (application as MyApplication).shopName
         launch {
-            val MonthDes = calendar.timeInMillis.date2String(DateFormat.YYYY_MM)
+            val monthDes = calendar.timeInMillis.date2String(DateFormat.YYYY_MM)
             val file = File(
                 getExternalFilesDir(Environment.DIRECTORY_DCIM),
-                "茭白园路店${MonthDes}收支报表.xls"
+                "${shopName}${monthDes}收支报表.xls"
             )
             withContext(Dispatchers.Default) {
                 val dateStamp = calendar.timeInMillis
@@ -216,7 +216,7 @@ class ExpendStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope
                     val ws = wb!!.createSheet("sheet1", 0)
 
                     var nRow = 0
-                    ws.addLabel(0, nRow++, "茭白园路店 ${MonthDes} 收支报表", wcfTitle)
+                    ws.addLabel(0, nRow++, "$shopName $monthDes 收支报表", wcfTitle)
                     ws.mergeCells(0, 0, 11, 0)
                     var nCol = 0
                     ws.addLabel(nCol++, nRow, getString(R.string.date), wcfContent)

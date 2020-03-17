@@ -55,4 +55,6 @@
     <string name="add_no_title">添加工号</string>
     <string name="performance_recorder_"><![CDATA[营业额记录 >]]></string>
     <string name="income_expend_recorder_"><![CDATA[收支记录 >]]></string>
+    <string name="add_shop_title">添加店铺名称</string>
+    <string name="add_shop_hint">请输入店铺名称</string>
 </resources>
