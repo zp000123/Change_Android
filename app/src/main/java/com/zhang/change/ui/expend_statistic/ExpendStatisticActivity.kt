@@ -216,7 +216,7 @@ class ExpendStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope
                     val ws = wb!!.createSheet("sheet1", 0)
 
                     var nRow = 0
-                    ws.addLabel(0, nRow++, "茭白园路店 ${MonthDes}收支报表", wcfTitle)
+                    ws.addLabel(0, nRow++, "茭白园路店 ${MonthDes} 收支报表", wcfTitle)
                     ws.mergeCells(0, 0, 11, 0)
                     var nCol = 0
                     ws.addLabel(nCol++, nRow, getString(R.string.date), wcfContent)
@@ -295,9 +295,7 @@ class ExpendStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope
                         val recentMoney = income - sumExpend
 
                         val wcf = if (recentMoney >= 0) wcfTotal else wcfMinus
-                        if (recentMoney != 0) {
-                            ws.addNumber(11, nRow, recentMoney.div(100.0), wcf)
-                        }
+                        ws.addNumber(11, nRow, recentMoney.div(100.0), wcf)
                         nRow++
                     }
 

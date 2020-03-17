@@ -45,7 +45,6 @@ object ExcelUtils {
     }
 
 
-
     fun getTitleCellFormat(): WritableCellFormat = WritableCellFormat().apply {
         alignment = Alignment.CENTRE // 水平居中
         verticalAlignment = VerticalAlignment.CENTRE // 垂直居中
@@ -60,7 +59,5 @@ fun WritableSheet.addLabel(c: Int, r: Int, cont: String, st: CellFormat) {
 }
 
 fun WritableSheet.addNumber(c: Int, r: Int, value: Double, st: CellFormat) {
-    if (value.toInt() != 0) {
-        this.addCell(Number(c, r, value, st))
-    }
+    this.addCell(Number(c, r, value, st))
 }

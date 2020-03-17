@@ -279,7 +279,7 @@ class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by Main
 
                     val ws = wb!!.createSheet("sheet1", 0)
 
-                    ws.addCell(Label(0, 0, "茭白园路店 ${MonthDes}", wcfTitle))
+                    ws.addCell(Label(0, 0, "茭白园路店 ${MonthDes} 营业记录", wcfTitle))
 
                     ws.addCell(Label(0, 1, getString(R.string.no), wcfTitle))
                     var totalCol = 0
