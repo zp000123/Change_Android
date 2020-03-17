@@ -68,6 +68,12 @@ class AddShopNameDialog : DialogFragment(), CoroutineScope by MainScope() {
         }, 200)
     }
 
+    override fun onStart() {
+        super.onStart()
+        dialog?.setCanceledOnTouchOutside(false)
+        dialog?.setCancelable(false)
+    }
+
 
     fun show(manager: FragmentManager, onEnsure: (String) -> Unit, onCancel: () -> Unit) {
         this.onEnsure = onEnsure
