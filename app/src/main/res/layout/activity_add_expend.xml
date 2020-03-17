@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.add_expend.AddExpendActivity">
+    tools:context=".ui.add_expend.AddExpendActivity"
+    tools:ignore="RtlSymmetry">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/sv"
@@ -36,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:text="前一天"
+                    android:text="@string/prev_day"
                     android:textColor="@color/bColorPrimary"
                     android:textSize="18sp" />
 
@@ -56,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:text="后一天"
+                    android:text="@string/next_day"
                     android:textColor="@color/bColorPrimary"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -65,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/dp_10"
-                android:text="类型"
+                android:text="@string/type"
                 android:textColor="@color/black" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -90,15 +91,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/row_height"
                     android:gravity="center"
-                    android:text="金额："
+                    android:text="@string/money_"
                     android:textColor="@color/black" />
 
                 <EditText
                     android:id="@+id/et_money"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:autofillHints="@string/money"
                     android:gravity="center"
-                    android:hint="请输入金额"
+                    android:hint="@string/add_money_hint"
                     android:imeOptions="actionNext"
                     android:inputType="numberDecimal"
                     android:textColor="@color/black"
@@ -122,7 +124,7 @@
                     android:layout_height="@dimen/row_opt_height"
                     android:background="@drawable/bg_r_line"
                     android:gravity="center"
-                    android:text="营业额"
+                    android:text="@string/income"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -132,8 +134,9 @@
                     android:layout_weight="1"
                     android:background="@drawable/bg_r_line"
                     android:gravity="center"
-                    android:paddingRight="10dp"
+                    android:paddingEnd="10dp"
                     android:textSize="18sp"
+                    tools:ignore="RtlSymmetry"
                     tools:text="1200" />
 
 
@@ -141,10 +144,10 @@
                     android:id="@+id/v_add_performance"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
+                    android:background="@color/white"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center"
-                    android:background="@color/white"
                     android:text="@string/add"
                     android:textColor="@color/bColorPrimary" />
             </LinearLayout>
@@ -163,28 +166,28 @@
                     android:layout_height="@dimen/row_opt_height"
                     android:background="@drawable/bg_r_line"
                     android:gravity="center"
-                    android:text="类型"
+                    android:text="@string/type"
                     android:textColor="@color/black" />
 
                 <TextView
-
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/bg_r_line"
                     android:gravity="center"
-                    android:paddingRight="10dp"
-                    android:text="金额"
-                    android:textColor="@color/black" />
+                    android:paddingEnd="@dimen/dp_10"
+                    android:text="@string/money"
+                    android:textColor="@color/black"
+                    tools:ignore="RtlSymmetry" />
 
 
                 <TextView
                     android:id="@+id/v_del"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
+                    android:background="@color/white"
                     android:clickable="true"
                     android:focusable="true"
-                    android:background="@color/white"
                     android:gravity="center" />
             </LinearLayout>
 
@@ -213,7 +216,7 @@
             android:layout_height="@dimen/row_height"
             android:background="@drawable/bg_r_line"
             android:gravity="center"
-            android:text="剩余金额"
+            android:text="@string/recent_money"
             android:textColor="@color/black" />
 
         <TextView
@@ -223,7 +226,8 @@
             android:layout_weight="1"
             android:background="@drawable/bg_r_line"
             android:gravity="center_vertical"
-            android:paddingLeft="10dp" />
+            android:paddingStart="@dimen/dp_10"
+            tools:ignore="RtlSymmetry" />
 
 
     </LinearLayout>

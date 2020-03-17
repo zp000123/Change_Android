@@ -8,6 +8,7 @@
     android:orientation="horizontal"
     android:paddingLeft="@dimen/dp_1"
     android:paddingRight="@dimen/dp_1"
+    tools:ignore="RtlSymmetry"
     android:paddingBottom="@dimen/dp_1">
 
     <TextView
@@ -26,8 +27,7 @@
         android:layout_weight="1"
         android:background="@drawable/bg_r_line"
         android:gravity="center"
-        android:paddingRight="10dp"
-
+        android:paddingEnd="10dp"
         tools:text="1200" />
 
 
@@ -39,6 +39,6 @@
         android:background="@color/white"
         android:focusable="true"
         android:gravity="center"
-        android:text="删除"
+        android:text="@string/del"
         android:textColor="@color/red" />
 </LinearLayout>

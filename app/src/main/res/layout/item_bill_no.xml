@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/ll_item"
     android:background="@drawable/bg_l_r_b_line"
     android:orientation="horizontal"
     android:paddingLeft="@dimen/dp_1"
     android:paddingRight="@dimen/dp_1"
-    android:paddingBottom="@dimen/dp_1">
+    android:paddingBottom="@dimen/dp_1"
+    tools:ignore="RtlSymmetry">
 
     <TextView
         android:id="@+id/tv_no"
@@ -26,8 +27,8 @@
         android:layout_weight="1"
         android:background="@drawable/bg_r_line"
         android:gravity="right|center_vertical"
-        android:paddingRight="10dp"
-        
+        android:paddingEnd="10dp"
+        tools:ignore="RtlHardcoded"
         tools:text="1200" />
 
     <TextView
@@ -36,10 +37,9 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@drawable/bg_r_line"
-
-        android:paddingRight="10dp"
         android:gravity="right|center_vertical"
-        
+        android:paddingEnd="10dp"
+        tools:ignore="RtlHardcoded"
         tools:text="400" />
 
 
@@ -51,7 +51,6 @@
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
-        android:text="删除"
-        android:textColor="@color/red"
-         />
+        android:text="@string/del"
+        android:textColor="@color/red" />
 </LinearLayout>

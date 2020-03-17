@@ -7,6 +7,7 @@
     android:background="@drawable/bg_l_r_b_line"
     android:orientation="horizontal"
     android:paddingLeft="@dimen/dp_1"
+    tools:ignore="RtlSymmetry"
     android:paddingRight="@dimen/dp_1"
     android:paddingBottom="@dimen/dp_1">
 
@@ -27,7 +28,7 @@
         android:layout_weight="1"
         android:background="@drawable/bg_r_line"
         android:gravity="center"
-        android:paddingRight="10dp"
+        android:paddingEnd="10dp"
 
         tools:text="1200" />
 
@@ -38,7 +39,7 @@
         android:layout_weight="1"
         android:background="@drawable/bg_r_line"
         android:gravity="center"
-        android:paddingRight="10dp"
+        android:paddingEnd="10dp"
         tools:text="400" />
 
     <TextView
@@ -46,7 +47,7 @@
         android:layout_width="60dp"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="修改"
+        android:text="@string/edit"
         android:textColor="@color/yColorPrimary"
         android:visibility="gone" />
 

@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:overScrollMode="never"
-    android:paddingStart="8dp"
-    android:paddingEnd="8dp"
+    android:paddingStart="@dimen/dp_8"
+    android:paddingEnd="@dimen/dp_8"
     tools:context=".ui.performance_statistic.PerformanceStatisticActivity"
     tools:ignore="RtlSymmetry">
 
@@ -35,9 +35,9 @@
                     android:id="@+id/v_prev"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="8dp"
+                    android:paddingStart="8dp"
                     android:paddingEnd="8dp"
-                    android:text="前一月"
+                    android:text="@string/prev_month"
                     android:textColor="@color/bColorPrimary"
                     android:textSize="18sp" />
 
@@ -55,9 +55,9 @@
                     android:id="@+id/v_next"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="8dp"
+                    android:paddingStart="8dp"
                     android:paddingEnd="8dp"
-                    android:text="后一月"
+                    android:text="@string/next_month"
                     android:textColor="@color/bColorPrimary"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -87,7 +87,7 @@
                             android:layout_height="@dimen/row_height"
                             android:background="@drawable/bg_r_line"
                             android:gravity="center"
-                            android:text="日期"
+                            android:text="@string/date"
                             android:textColor="@color/black" />
 
                         <TextView
@@ -96,7 +96,7 @@
                             android:background="@drawable/bg_r_line"
                             android:gravity="center"
                             android:paddingEnd="@dimen/dp_10"
-                            android:text="营业额"
+                            android:text="@string/income"
                             android:textColor="@color/black" />
 
                         <TextView
@@ -105,7 +105,7 @@
                             android:background="@drawable/bg_r_line"
                             android:gravity="center"
                             android:paddingEnd="@dimen/dp_10"
-                            android:text="生活开支"
+                            android:text="@string/living_cost"
                             android:textColor="@color/black" />
 
                         <TextView
@@ -114,7 +114,7 @@
                             android:background="@drawable/bg_r_line"
                             android:gravity="center"
                             android:paddingEnd="@dimen/dp_10"
-                            android:text="水电燃气"
+                            android:text="@string/water_cost"
                             android:textColor="@color/black" />
 
                         <TextView
@@ -123,7 +123,7 @@
                             android:background="@drawable/bg_r_line"
                             android:gravity="center"
                             android:paddingEnd="@dimen/dp_10"
-                            android:text="其他"
+                            android:text="@string/other"
                             android:textColor="@color/black" />
 
                         <TextView
@@ -132,7 +132,7 @@
                             android:background="@drawable/bg_r_line"
                             android:gravity="center"
                             android:paddingEnd="@dimen/dp_10"
-                            android:text="工资"
+                            android:text="@string/salary"
                             android:textColor="@color/black" />
 
                         <TextView
@@ -141,7 +141,7 @@
                             android:background="@drawable/bg_r_line"
                             android:gravity="center"
                             android:paddingEnd="@dimen/dp_10"
-                            android:text="支取"
+                            android:text="@string/draw"
                             android:textColor="@color/black" />
 
                         <TextView
@@ -150,7 +150,7 @@
                             android:background="@drawable/bg_r_line"
                             android:gravity="center"
                             android:paddingEnd="@dimen/dp_10"
-                            android:text="团购"
+                            android:text="@string/group_purchase"
                             android:textColor="@color/black" />
 
                         <TextView
@@ -159,7 +159,7 @@
                             android:background="@drawable/bg_r_line"
                             android:gravity="center"
                             android:paddingEnd="@dimen/dp_10"
-                            android:text="收钱吧"
+                            android:text="@string/receiver_money"
                             android:textColor="@color/black" />
 
                         <TextView
@@ -168,7 +168,7 @@
                             android:background="@drawable/bg_r_line"
                             android:gravity="center"
                             android:paddingEnd="@dimen/dp_10"
-                            android:text="口碑"
+                            android:text="@string/kou_bei"
                             android:textColor="@color/black" />
 
                         <TextView
@@ -177,7 +177,7 @@
                             android:background="@drawable/bg_r_line"
                             android:gravity="center"
                             android:paddingEnd="@dimen/dp_10"
-                            android:text="POS 机"
+                            android:text="@string/pos"
                             android:textColor="@color/black" />
 
 
@@ -187,7 +187,7 @@
                             android:background="@drawable/bg_r_line"
                             android:gravity="center"
                             android:paddingEnd="@dimen/dp_10"
-                            android:text="剩余金额"
+                            android:text="@string/recent_money"
                             android:textColor="@color/black" />
                     </LinearLayout>
 
@@ -204,7 +204,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_l_r_b_line"
                         android:orientation="horizontal"
-                        android:paddingLeft="@dimen/dp_1"
+                        android:paddingStart="@dimen/dp_1"
                         android:paddingEnd="@dimen/dp_1"
                         android:paddingBottom="@dimen/dp_1">
 
@@ -213,7 +213,7 @@
                             android:layout_height="@dimen/row_height"
                             android:background="@drawable/bg_r_line"
                             android:gravity="center"
-                            android:text="总计"
+                            android:text="@string/total"
                             android:textColor="@color/black" />
 
                         <TextView

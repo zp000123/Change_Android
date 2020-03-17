@@ -8,7 +8,8 @@
     android:overScrollMode="never"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
-    tools:context=".ui.performance_statistic.PerformanceStatisticActivity">
+    tools:context=".ui.performance_statistic.PerformanceStatisticActivity"
+    tools:ignore="RtlSymmetry">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -38,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:text="前一月"
+                    android:text="@string/prev_month"
                     android:textColor="@color/yColorPrimary"
                     android:textSize="18sp" />
 
@@ -58,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:text="后一月"
+                    android:text="@string/next_month"
                     android:textColor="@color/yColorPrimary"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -124,7 +125,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/bg_r_line"
                     android:gravity="center"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:text="@string/performance"
                     android:textColor="@color/black" />
 
@@ -134,7 +135,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/bg_r_line"
                     android:gravity="center"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:text="@string/salary"
                     android:textColor="@color/black" />
 
@@ -180,7 +181,7 @@
             android:layout_height="@dimen/row_height"
             android:background="@drawable/bg_r_line"
             android:gravity="center"
-            android:text="总计"
+            android:text="@string/total"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -191,7 +192,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_r_line"
             android:gravity="center_vertical"
-            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
             android:textColor="@color/black" />
 
         <TextView
@@ -201,7 +202,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_r_line"
             android:gravity="center_vertical"
-            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
             android:textColor="@color/black" />
 
     </LinearLayout>
