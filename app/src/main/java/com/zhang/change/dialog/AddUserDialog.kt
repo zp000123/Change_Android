@@ -1,6 +1,7 @@
 package com.zhang.change.dialog
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +11,14 @@ import androidx.fragment.app.FragmentManager
 import com.zhang.change.R
 import com.zhang.change.dao.UserDao
 import com.zhang.change.entitiy.User
+import com.zhang.change.utils.showKeyboard
 import kotlinx.android.synthetic.main.layout_add_user.*
 import kotlinx.coroutines.*
 
 class AddUserDialog : DialogFragment(), CoroutineScope by MainScope() {
     private var onEnsure: ((User) -> Unit)? = null
     private lateinit var userDao: UserDao
+    private val handler = Handler()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,6 +55,10 @@ class AddUserDialog : DialogFragment(), CoroutineScope by MainScope() {
         v_cancel.setOnClickListener {
             dismiss()
         }
+
+        handler.postDelayed({
+            et_no.showKeyboard()
+        },200)
     }
 
 

@@ -24,6 +24,7 @@
         android:layout_margin="4dp"
         android:autofillHints=""
         android:hint="@string/add_user_hint"
+        android:focusable="true"
         android:inputType="numberDecimal"
         android:textSize="18sp"
         android:theme="@style/YellowAppTheme" />
