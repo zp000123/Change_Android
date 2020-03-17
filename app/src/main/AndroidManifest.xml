@@ -25,7 +25,7 @@
 
         </activity>
         <activity
-            android:name=".ui.add_expend.AddExpendActivity"
+            android:name=".ui.expend_add.AddExpendActivity"
             android:label="@string/activity_add_expend_name"
             android:parentActivityName=".ui.expend_statistic.ExpendStatisticActivity"
             android:theme="@style/BlueAppTheme">
@@ -39,7 +39,7 @@
 
         </activity>
         <activity
-            android:name=".ui.add_performance.AddPerformanceActivity"
+            android:name=".ui.performance_add.AddPerformanceActivity"
             android:label="@string/activity_add_performance"
             android:parentActivityName=".ui.performance_statistic.PerformanceStatisticActivity"
             android:theme="@style/YellowAppTheme">

@@ -1,4 +1,4 @@
-package com.zhang.change.ui.add_expend
+package com.zhang.change.ui.expend_add
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -19,7 +19,6 @@ import com.zhang.change.dao.UserDao
 import com.zhang.change.entitiy.Expend
 import com.zhang.change.entitiy.ExpendType
 import com.zhang.change.entitiy.ExpendTypeW
-import com.zhang.change.rounter.start2Activity
 import com.zhang.change.rounter.start2AddPerformanceActivity
 import com.zhang.change.utils.*
 import kotlinx.android.synthetic.main.activity_add_expend.*

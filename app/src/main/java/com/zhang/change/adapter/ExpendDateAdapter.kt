@@ -24,6 +24,15 @@ class ExpendDateAdapter(dataList: MutableList<ExpendDate>) :
 
             tv_recent_money.text = item.recentMoney.getNiceStr()
 
+            tv_living_cost.text = ""
+            tv_water_cost.text = ""
+            tv_other.text = ""
+            tv_salary.text = ""
+            tv_draw.text = ""
+            tv_group_purchase.text = ""
+            tv_receive_money.text = ""
+            tv_kou_bei.text = ""
+            tv_pos.text = ""
             for (expend in item.expandList) {
                 when (expend.type) {
                     ExpendType.LIVING_COST -> {
@@ -75,7 +84,6 @@ class ExpendDateAdapter(dataList: MutableList<ExpendDate>) :
 
         addChildClickViewIds(R.id.v_edit)
     }
-
 
 
 }

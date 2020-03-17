@@ -1,4 +1,4 @@
-package com.zhang.change.ui.add_performance
+package com.zhang.change.ui.performance_add
 
 
 import android.app.DatePickerDialog

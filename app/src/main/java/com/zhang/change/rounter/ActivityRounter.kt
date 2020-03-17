@@ -2,7 +2,7 @@ package com.zhang.change.rounter
 
 import android.content.Context
 import android.content.Intent
-import com.zhang.change.ui.add_performance.AddPerformanceActivity
+import com.zhang.change.ui.performance_add.AddPerformanceActivity
 
 fun Context.start2Activity(cls: Class<*>) {
     this.startActivity(Intent(this, cls))

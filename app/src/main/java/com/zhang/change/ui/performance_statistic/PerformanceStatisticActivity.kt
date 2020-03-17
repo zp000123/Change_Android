@@ -21,7 +21,7 @@ import com.zhang.change.dao.UserDao
 import com.zhang.change.dialog.AddUserDialog
 import com.zhang.change.entitiy.User
 import com.zhang.change.entitiy.UserBill
-import com.zhang.change.ui.add_performance.AddPerformanceActivity
+import com.zhang.change.ui.performance_add.AddPerformanceActivity
 import com.zhang.change.utils.*
 import com.zhang.change.utils.DateFormat
 import jxl.Workbook
@@ -244,7 +244,7 @@ class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by Main
             val MonthDes = calendar.timeInMillis.date2String(DateFormat.YYYY_MM)
             val file = File(
                 getExternalFilesDir(DIRECTORY_DCIM),
-                "茭白园路店$MonthDes.xls"
+                "茭白园路店${MonthDes}营业额报表.xls"
             )
 
 
@@ -270,27 +270,16 @@ class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by Main
                 try {
                     wb = Workbook.createWorkbook(file) //创建xls表格文件
                     // 表头显示
-                    val wcfTitle = WritableCellFormat()
-                    wcfTitle.alignment = Alignment.CENTRE // 水平居中
-                    wcfTitle.verticalAlignment = VerticalAlignment.CENTRE // 垂直居中
-                    wcfTitle.setFont(WritableFont(WritableFont.TIMES, 13, WritableFont.BOLD)) // 表头字体 加粗 13号
-
-
+                    val wcfTitle = ExcelUtils.getTitleCellFormat()
                     // 内容显示
-                    val wcfContent = WritableCellFormat()
-                    wcfContent.alignment = Alignment.CENTRE //水平居中
-                    wcfContent.verticalAlignment = VerticalAlignment.CENTRE // 垂直居中
-                    wcfContent.setFont(WritableFont(WritableFont.TIMES, 11)) // 内容字体 11号
+                    val wcfContent = ExcelUtils.getContentCellFormat()
                     // 总计显示
-                    val wcfTotal = WritableCellFormat()
-                    wcfTotal.alignment = Alignment.CENTRE //水平居中
-                    wcfTotal.verticalAlignment = VerticalAlignment.CENTRE // 垂直居中
-                    wcfTotal.setFont(WritableFont(WritableFont.TIMES, 11, WritableFont.NO_BOLD,false,  UnderlineStyle.NO_UNDERLINE, jxl.format.Colour.BLUE))
+                    val wcfTotal = ExcelUtils.getTotalCellFormat()
 
 
                     val ws = wb!!.createSheet("sheet1", 0)
 
-                    ws.addCell(Label(0, 0, "茭白园路店 $MonthDes", wcfTitle))
+                    ws.addCell(Label(0, 0, "茭白园路店 ${MonthDes}", wcfTitle))
 
                     ws.addCell(Label(0, 1, getString(R.string.no), wcfTitle))
                     var totalCol = 0
@@ -418,12 +407,7 @@ class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by Main
 
             }
             toast("导出成功")
-            val uri = FileProvider.getUriForFile(
-                baseContext,
-                "com.zhang.change.provider", //(use your app signature + ".provider" )
-                file
-            )
-            baseContext.shareFile(uri)
+            baseContext.shareFile(file)
         }
     }
 

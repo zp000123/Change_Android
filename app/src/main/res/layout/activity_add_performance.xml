@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.add_performance.AddPerformanceActivity"
+    tools:context=".ui.performance_add.AddPerformanceActivity"
     tools:ignore="RtlSymmetry">
 
     <androidx.core.widget.NestedScrollView
