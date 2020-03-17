@@ -71,6 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="工号："
+                    android:textSize="@dimen/dp_16"
                     android:textColor="@color/black" />
 
 
@@ -178,7 +179,7 @@
                     android:gravity="center"
                     android:text="工号"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    />
 
                 <TextView
                     android:id="@+id/tv_income"
@@ -190,7 +191,7 @@
                     android:paddingLeft="10dp"
                     android:text="业绩"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    />
 
                 <TextView
                     android:id="@+id/tv_salary"
@@ -202,7 +203,7 @@
                     android:paddingLeft="10dp"
                     android:text="工资"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    />
 
 
                 <TextView
@@ -212,7 +213,7 @@
                     android:gravity="center"
                     android:text="操作"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
