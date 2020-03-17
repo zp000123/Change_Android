@@ -304,7 +304,8 @@ class ExpendStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope
                     val totalRow = nRow
 
                     ws.addLabel(0, totalRow, getString(R.string.total), wcfContent)
-
+                    val totalIncome = expendDateList.sumBy { it.income }
+                    ws.addNumber(1, totalRow, totalIncome.div(100.0), wcfContent)
                     val expendList = expendDateList.flatMap { it.expandList }
                     ws.addNumber(
                         2,
@@ -361,6 +362,9 @@ class ExpendStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope
                         wcfContent
                     )
 
+                    val totalRecent = totalIncome - expendList.sumBy { it.money }
+                    val wcf = if (totalRecent >= 0) wcfTotal else wcfMinus
+                    ws.addNumber(11, totalRow, totalRecent.div(100.0), wcf)
                     wb.write()
                 } catch (e: IOException) {
                     e.printStackTrace()
