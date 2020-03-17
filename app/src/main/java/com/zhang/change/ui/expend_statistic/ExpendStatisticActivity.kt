@@ -72,8 +72,7 @@ class ExpendStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope
             dateStamp.getMaxDayInMonth()
         }
         launch {
-            expendDateList.clear()
-            expendAdapter.notifyDataSetChanged()
+            val newExpendDateList = arrayListOf<ExpendDate>()
             withContext(Dispatchers.Default) {
                 val _calendar =
                     Calendar.getInstance().apply { timeInMillis = dateStamp.getMinDateStampMonth() }
@@ -92,10 +91,12 @@ class ExpendStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope
                         income = dbTotalIncome
                         expandList = dbExpendDateList
                     }
-                    expendDateList.add(expendDate)
+                    newExpendDateList.add(expendDate)
                     _calendar.add(Calendar.DAY_OF_MONTH, 1)
                 }
             }
+            expendDateList.clear()
+            expendDateList.addAll(newExpendDateList)
             expendAdapter.notifyDataSetChanged()
 
             val totalIncome = expendDateList.sumBy { it.income }
