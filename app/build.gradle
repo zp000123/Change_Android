@@ -18,8 +18,8 @@ android {
         applicationId "com.zhang.change"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 10
-        versionName "2.1.1"
+        versionCode 11
+        versionName "2.1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
