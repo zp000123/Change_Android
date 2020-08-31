@@ -12,7 +12,7 @@
     <dimen name="dp_20">20dp</dimen>
     <dimen name="dp_16">16dp</dimen>
     <dimen name="sp_16">16sp</dimen>
-    <dimen name="row_expend_width">68dp</dimen>
+    <dimen name="row_expend_width">88dp</dimen>
     <dimen name="column_date_width">38dp</dimen>
     <dimen name="dp_6">6dp</dimen>
     <dimen name="dp_8">8dp</dimen>
