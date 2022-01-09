@@ -13,12 +13,12 @@
 
     <TextView
         android:id="@+id/tv_date"
-        android:layout_width="@dimen/column_date_width"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/row_height"
+        android:minWidth="@dimen/column_date_width"
         android:background="@drawable/bg_r_line"
         android:gravity="center"
         android:textColor="@color/black"
-
         tools:text="1" />
 
     <TextView

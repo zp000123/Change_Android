@@ -13,8 +13,9 @@
 
     <TextView
         android:id="@+id/tv_no"
-        android:layout_width="60dp"
         android:layout_height="@dimen/row_opt_height"
+        android:layout_width="60dp"
+        android:minWidth="60dp"
         android:background="@drawable/bg_r_line"
         android:gravity="center"
         android:textColor="@color/black"
