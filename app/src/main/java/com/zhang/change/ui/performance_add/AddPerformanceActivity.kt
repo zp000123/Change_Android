@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,20 +19,13 @@ import com.zhang.change.dao.PerformanceDao
 import com.zhang.change.dao.UserBillDao
 import com.zhang.change.dao.UserDao
 import com.zhang.change.dao.insertReplace
+import com.zhang.change.databinding.ActivityAddPerformanceBinding
 import com.zhang.change.dialog.AddUserDialog
 import com.zhang.change.entitiy.User
 import com.zhang.change.entitiy.UserBill
 import com.zhang.change.rounter.KEY_DATE
-import com.zhang.change.utils.BigDecimal_100
-import com.zhang.change.utils.DateFormat
-import com.zhang.change.utils.date2String
-import com.zhang.change.utils.getNiceStr
-import kotlinx.android.synthetic.main.activity_add_performance.*
+import com.zhang.change.utils.*
 import kotlinx.coroutines.*
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.noButton
-import org.jetbrains.anko.toast
-import org.jetbrains.anko.yesButton
 import java.util.*
 
 
@@ -50,10 +44,12 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
         showDelDialog(it)
     }
     private var selectUser: User? = null
+    private lateinit var binding: ActivityAddPerformanceBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_performance)
+        binding = ActivityAddPerformanceBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         val dateStamp = intent.getLongExtra(KEY_DATE, calendar.apply {
             add(Calendar.DAY_OF_MONTH, -1) // 默认进来是昨天
         }.timeInMillis)
@@ -64,62 +60,66 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
 
 
     private fun initView() {
-        v_date.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
-        v_date.setOnClickListener {
-            val dialog = DatePickerDialog(
-                this@AddPerformanceActivity,
-                OnDateSetListener { _, year, month, dayOfMonth ->
-                    Log.d(TAG, "onDateSet: year: $year, month: $month, dayOfMonth: $dayOfMonth")
-                    calendar.set(Calendar.YEAR, year)
-                    calendar.set(Calendar.MONTH, month)
-                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                    v_date.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
-                    findUserBillAndRefreshView()
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            )
-            dialog.show()
-        }
+        with(binding) {
 
-        v_prev.setOnClickListener {
-            calendar.add(Calendar.DAY_OF_MONTH, -1)
-            v_date.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
+
+            vDate.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
+            vDate.setOnClickListener {
+                val dialog = DatePickerDialog(
+                    this@AddPerformanceActivity,
+                    OnDateSetListener { _, year, month, dayOfMonth ->
+                        Log.d(TAG, "onDateSet: year: $year, month: $month, dayOfMonth: $dayOfMonth")
+                        calendar.set(Calendar.YEAR, year)
+                        calendar.set(Calendar.MONTH, month)
+                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                        vDate.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
+                        findUserBillAndRefreshView()
+                    },
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+                )
+                dialog.show()
+            }
+
+            vPrev.setOnClickListener {
+                calendar.add(Calendar.DAY_OF_MONTH, -1)
+                vDate.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
+                findUserBillAndRefreshView()
+            }
+            vNext.setOnClickListener {
+                calendar.add(Calendar.DAY_OF_MONTH, 1)
+                vDate.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
+                findUserBillAndRefreshView()
+            }
+
+            findUserListAndRefreshView()
             findUserBillAndRefreshView()
-        }
-        v_next.setOnClickListener {
-            calendar.add(Calendar.DAY_OF_MONTH, 1)
-            v_date.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
-            findUserBillAndRefreshView()
-        }
 
-        findUserListAndRefreshView()
-        findUserBillAndRefreshView()
+            vAdd.setOnClickListener {
+                val dialog = AddUserDialog()
+                dialog.show(supportFragmentManager, userDao) { user ->
+                    selectUser = user
+                    findUserListAndRefreshView()
+                }
+            }
 
-        v_add.setOnClickListener {
-            val dialog = AddUserDialog()
-            dialog.show(supportFragmentManager, userDao) { user ->
-                selectUser = user
-                findUserListAndRefreshView()
+            with(rvNo) {
+                layoutManager = GridLayoutManager(context, 5)
+                adapter = userAdapter
+            }
+
+            with(rvPerformance) {
+                layoutManager = LinearLayoutManager(context)
+                adapter = billAdapter
             }
         }
-
-        with(rv_no) {
-            layoutManager = GridLayoutManager(context, 5)
-            adapter = userAdapter
-        }
-
-        with(rv_performance) {
-            layoutManager = LinearLayoutManager(context)
-            adapter = billAdapter
-        }
-
     }
 
     private fun showDelDialog(item: UserBill) {
-        alert("确认删除 #" + item.no + " 的数据吗？") {
-            yesButton {
+        AlertDialog.Builder(baseContext)
+            .setTitle("确认删除 #" + item.no + " 的数据吗？")
+            .setPositiveButton("确定") { d, w ->
                 launch {
                     withContext(Dispatchers.Default) {
                         performanceDao.deleteById(item.pid)
@@ -127,8 +127,9 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
                     findUserBillAndRefreshView()
                 }
             }
-            noButton { }
-        }.show()
+            .setNegativeButton("取消") { d, w ->
+
+            }.show()
     }
 
 
@@ -171,8 +172,8 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
                 it.addAll(billList)
             }
             billAdapter.notifyDataSetChanged()
-            tv_total_income.text = billList.sumBy { it.income }.getNiceStr()
-            tv_total_salary.text = billList.sumBy { it.salary }.getNiceStr()
+            binding.tvTotalIncome.text = billList.sumBy { it.income }.getNiceStr()
+            binding.tvTotalSalary.text = billList.sumBy { it.salary }.getNiceStr()
         }
     }
 
@@ -196,32 +197,35 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
     }
 
     private fun save() {
-        if (et_income.text.isEmpty()) {
-            toast("请输入业绩")
-            return
-        }
-        val income = et_income.text.toString().toBigDecimal().multiply(BigDecimal_100).toInt()
-        if (et_income.text.isEmpty()) {
-            toast("请输入工资")
-            return
-        }
-        val salary = et_salary.text.toString().toBigDecimal().multiply(BigDecimal_100).toInt()
-        if (selectUser == null) {
-            toast("请选择工号，或者添加工号")
-            return
-        }
-        if (billList.map { it.uid }.contains(selectUser!!.uid)) {
-            alert("已有 #" + selectUser!!.no + " 的数据，确认替换？") {
-                yesButton {
+        with(binding) {
 
-                    insertOrReplacePerformance(income, salary)
-                }
-                noButton { }
-            }.show()
-        } else {
-            insertOrReplacePerformance(income, salary)
-        }
+            if (etIncome.text.isEmpty()) {
+                toast("请输入业绩")
+                return
+            }
+            val income = etIncome.text.toString().toBigDecimal().multiply(BigDecimal_100).toInt()
+            if (etIncome.text.isEmpty()) {
+                toast("请输入工资")
+                return
+            }
+            val salary = etSalary.text.toString().toBigDecimal().multiply(BigDecimal_100).toInt()
+            if (selectUser == null) {
+                toast("请选择工号，或者添加工号")
+                return
+            }
+            if (billList.map { it.uid }.contains(selectUser!!.uid)) {
+                AlertDialog.Builder(baseContext)
+                    .setTitle("已有 #" + selectUser!!.no + " 的数据，确认替换？")
+                    .setPositiveButton("确定") { d, w ->
+                        insertOrReplacePerformance(income, salary)
+                    }
+                    .setNegativeButton("取消") { d, w ->
 
+                    }.show()
+            } else {
+                insertOrReplacePerformance(income, salary)
+            }
+        }
     }
 
     private fun insertOrReplacePerformance(income: Int, salary: Int) {
@@ -232,8 +236,8 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
                     .insertReplace(selectUser!!.uid, calendar.timeInMillis, income, salary)
             }
             toast("添加成功")
-            et_income.setText("")
-            et_salary.setText("")
+            binding.etIncome.setText("")
+            binding.etSalary.setText("")
             findUserBillAndRefreshView()
         }
     }

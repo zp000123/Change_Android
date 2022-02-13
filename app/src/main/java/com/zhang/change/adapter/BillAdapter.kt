@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.zhang.change.R
+import com.zhang.change.databinding.ItemBillNoBinding
 import com.zhang.change.entitiy.UserBill
 import com.zhang.change.utils.getNiceStr
 import com.zhang.change.utils.refreshTextStyle
-import kotlinx.android.synthetic.main.item_bill_no.view.*
 
 
 /**
@@ -15,16 +15,19 @@ import kotlinx.android.synthetic.main.item_bill_no.view.*
  */
 class BillAdapter(dataList: MutableList<UserBill>, val onDel: (UserBill) -> Unit) :
     BaseQuickAdapter<UserBill, BaseViewHolder>(R.layout.item_bill_no, dataList) {
+    private lateinit var binding:ItemBillNoBinding
+
     @SuppressLint("SetTextI18n")
     override fun convert(helper: BaseViewHolder, item: UserBill) {
-        with(helper.itemView) {
-            tv_no.text = "#${item.no}"
-            tv_income.text = item.income.getNiceStr()
-            tv_salary.text = item.salary.getNiceStr()
-            v_del.setOnClickListener { onDel(item) }
+        binding = ItemBillNoBinding.bind(helper.itemView)
+        with(binding) {
+            tvNo.text = "#${item.no}"
+            tvIncome.text = item.income.getNiceStr()
+            tvSalary.text = item.salary.getNiceStr()
+            vDel.setOnClickListener { onDel(item) }
 
-            tv_income.refreshTextStyle(helper.adapterPosition)
-            tv_salary.refreshTextStyle(helper.adapterPosition)
+            tvIncome.refreshTextStyle(helper.adapterPosition)
+            tvSalary.refreshTextStyle(helper.adapterPosition)
         }
 
     }

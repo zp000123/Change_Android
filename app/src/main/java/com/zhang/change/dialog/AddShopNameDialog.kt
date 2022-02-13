@@ -11,10 +11,10 @@ import androidx.core.content.edit
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.zhang.change.R
+import com.zhang.change.databinding.LayoutAddShopNameBinding
 import com.zhang.change.utils.SharePreferencesUtils
 import com.zhang.change.utils.SharePreferencesUtils.SHOP_NAME
 import com.zhang.change.utils.showKeyboard
-import kotlinx.android.synthetic.main.layout_add_shop_name.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -24,6 +24,7 @@ class AddShopNameDialog : DialogFragment(), CoroutineScope by MainScope() {
     private var onCancel: (() -> Unit)? = null
     private val handler = Handler()
     private lateinit var mContext: Context
+    private lateinit var binding:LayoutAddShopNameBinding
     override fun onAttach(context: Context) {
         mContext = context
         super.onAttach(context)
@@ -34,18 +35,19 @@ class AddShopNameDialog : DialogFragment(), CoroutineScope by MainScope() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return LayoutInflater.from(context).inflate(R.layout.layout_add_shop_name, container, false)
+        binding = LayoutAddShopNameBinding.inflate(LayoutInflater.from(context),container,false)
+        return  binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        v_ensure.setOnClickListener {
-            if (et_shop.text.isEmpty()) {
+        binding.vEnsure.setOnClickListener {
+            if (binding.etShop.text.isEmpty()) {
                 Toast.makeText(context, R.string.add_shop_hint, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            val shopName = et_shop.text.toString()
+            val shopName =binding. etShop.text.toString()
             launch {
 
                 SharePreferencesUtils.getCommonSpf(mContext)
@@ -58,13 +60,13 @@ class AddShopNameDialog : DialogFragment(), CoroutineScope by MainScope() {
             }
         }
 
-        v_cancel.setOnClickListener {
+        binding.vCancel.setOnClickListener {
             onCancel?.let { it1 -> it1() }
             dismiss()
         }
 
         handler.postDelayed({
-            et_shop.showKeyboard()
+            binding.etShop.showKeyboard()
         }, 200)
     }
 

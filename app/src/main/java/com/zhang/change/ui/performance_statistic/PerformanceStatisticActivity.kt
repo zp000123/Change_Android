@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Environment.DIRECTORY_DCIM
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,18 +18,17 @@ import com.zhang.change.adapter.UserListAdapter
 import com.zhang.change.dao.PerformanceDao
 import com.zhang.change.dao.UserBillDao
 import com.zhang.change.dao.UserDao
+import com.zhang.change.databinding.ActivityPerformanceStatisticBinding
 import com.zhang.change.dialog.AddUserDialog
 import com.zhang.change.entitiy.User
 import com.zhang.change.entitiy.UserBill
 import com.zhang.change.ui.performance_add.AddPerformanceActivity
 import com.zhang.change.utils.*
-import com.zhang.change.utils.DateFormat
 import jxl.Workbook
-import jxl.write.*
+import jxl.write.Label
 import jxl.write.Number
-import kotlinx.android.synthetic.main.activity_performance_statistic.*
+import jxl.write.WritableWorkbook
 import kotlinx.coroutines.*
-import org.jetbrains.anko.toast
 import java.io.File
 import java.io.IOException
 import java.util.*
@@ -48,10 +48,12 @@ class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by Main
         findUserBillAndRefreshView()
     }
     private var curUser: User? = null
+    private lateinit var binding: ActivityPerformanceStatisticBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mContext = baseContext
-        setContentView(R.layout.activity_performance_statistic)
+        binding = ActivityPerformanceStatisticBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initDao()
         initView()
     }
@@ -59,38 +61,42 @@ class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by Main
 
     private fun initView() {
         setMothText()
-        with(rv) {
-            layoutManager = LinearLayoutManager(context)
-            adapter = billDateAdapter
-        }
-        with(rv_user) {
-            layoutManager = GridLayoutManager(context, 5)
-            adapter = userListAdapter
-        }
-        findUserListAndRefreshView()
+        with(binding) {
 
-        v_add_user.setOnClickListener {
-            val dialog = AddUserDialog()
-            dialog.show(supportFragmentManager, userDao) { user ->
-                curUser = user
-                findUserListAndRefreshView()
+
+            with(rv) {
+                layoutManager = LinearLayoutManager(context)
+                adapter = billDateAdapter
             }
-        }
-        v_prev.setOnClickListener {
-            calendar.add(Calendar.MONTH, -1)
-            setMothText()
-            findUserBillAndRefreshView()
-        }
-        v_next.setOnClickListener {
-            calendar.add(Calendar.MONTH, 1)
-            setMothText()
-            findUserBillAndRefreshView()
+            with(rvUser) {
+                layoutManager = GridLayoutManager(context, 5)
+                adapter = userListAdapter
+            }
+            findUserListAndRefreshView()
+
+            vAddUser.setOnClickListener {
+                val dialog = AddUserDialog()
+                dialog.show(supportFragmentManager, userDao) { user ->
+                    curUser = user
+                    findUserListAndRefreshView()
+                }
+            }
+            vPrev.setOnClickListener {
+                calendar.add(Calendar.MONTH, -1)
+                setMothText()
+                findUserBillAndRefreshView()
+            }
+            vNext.setOnClickListener {
+                calendar.add(Calendar.MONTH, 1)
+                setMothText()
+                findUserBillAndRefreshView()
+            }
         }
     }
 
     @SuppressLint("SetTextI18n")
     private fun setMothText() {
-        v_date.text = "${calendar.get(Calendar.YEAR)}年 ${calendar.get(Calendar.MONTH) + 1}月"
+        binding.vDate.text = "${calendar.get(Calendar.YEAR)}年 ${calendar.get(Calendar.MONTH) + 1}月"
     }
 
     override fun onResume() {
@@ -166,8 +172,8 @@ class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by Main
                 it.addAll(emptyBill)
             }
             billDateAdapter.notifyDataSetChanged()
-            tv_total_income.text = billList.sumBy { it.income }.getNiceStr()
-            tv_total_salary.text = billList.sumBy { it.salary }.getNiceStr()
+            binding.tvTotalIncome.text = billList.sumBy { it.income }.getNiceStr()
+            binding.tvTotalSalary.text = billList.sumBy { it.salary }.getNiceStr()
 
         }
     }
@@ -212,7 +218,6 @@ class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by Main
         val userBillMap = dbBillList.groupBy { it.dateStamp.date2String(DateFormat.YYYY_MM_DD) }
         val uIdBillMap = TreeMap<String, Pair<Int, Int>>()
         userBillMap.forEach {
-            val list = it.value
             uIdBillMap[it.key] = Pair(it.value.sumBy { it.income }, it.value.sumBy { it.salary })
         }
         return uIdBillMap
@@ -372,8 +377,8 @@ class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by Main
 
                     val incomeSum = performanceSumList.map { it.value }.sumBy { it.first }
                     val salarySum = performanceSumList.map { it.value }.sumBy { it.second }
-                    ws.addCell(Number(totalCol + 1, totalRow, incomeSum.div(100.0) , wcfTotal))
-                    ws.addCell(Number(totalCol + 2, totalRow, salarySum.div(100.0) , wcfTotal))
+                    ws.addCell(Number(totalCol + 1, totalRow, incomeSum.div(100.0), wcfTotal))
+                    ws.addCell(Number(totalCol + 2, totalRow, salarySum.div(100.0), wcfTotal))
 
                     for (i in userList.indices) {
                         val user = userList[i]
@@ -403,7 +408,7 @@ class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by Main
                 }
 
             }
-            toast("导出成功")
+            Toast.makeText(baseContext, "导出成功", Toast.LENGTH_SHORT).show()
             baseContext.shareFile(file)
         }
     }

@@ -3,12 +3,11 @@ package com.zhang.change.adapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.zhang.change.R
+import com.zhang.change.databinding.ItemExpendDateBinding
 import com.zhang.change.entitiy.Expend
 import com.zhang.change.entitiy.ExpendType
 import com.zhang.change.utils.getNiceStr
 import com.zhang.change.utils.refreshTextStyle
-import kotlinx.android.synthetic.main.item_expend_date.view.*
-import org.jetbrains.anko.textColor
 
 /**
  *  选择员工的适配器
@@ -16,69 +15,71 @@ import org.jetbrains.anko.textColor
 @Suppress("DEPRECATION")
 class ExpendDateAdapter(dataList: MutableList<ExpendDate>) :
     BaseQuickAdapter<ExpendDate, BaseViewHolder>(R.layout.item_expend_date, dataList) {
-
+    private lateinit var binding :ItemExpendDateBinding
     override fun convert(helper: BaseViewHolder, item: ExpendDate) {
-        with(helper.itemView) {
-            tv_date.text = item.dateStr
-            tv_income.text = item.income.getNiceStr()
+        binding = ItemExpendDateBinding.bind(helper.itemView)
+        with(binding) {
 
-            tv_recent_money.text = item.recentMoney.getNiceStr()
+            tvDate.text = item.dateStr
+            tvIncome.text = item.income.getNiceStr()
 
-            tv_living_cost.text = ""
-            tv_water_cost.text = ""
-            tv_other.text = ""
-            tv_salary.text = ""
-            tv_draw.text = ""
-            tv_group_purchase.text = ""
-            tv_receive_money.text = ""
-            tv_kou_bei.text = ""
-            tv_pos.text = ""
+            tvReceiveMoney.text = item.recentMoney.getNiceStr()
+
+            tvLivingCost.text = ""
+            tvWaterCost.text = ""
+            tvOther.text = ""
+            tvSalary.text = ""
+            tvDraw.text = ""
+            tvGroupPurchase.text = ""
+            tvReceiveMoney.text = ""
+            tvKouBei.text = ""
+            tvPos.text = ""
             for (expend in item.expandList) {
                 when (expend.type) {
                     ExpendType.LIVING_COST -> {
-                        tv_living_cost.text = expend.money.getNiceStr()
+                        tvLivingCost.text = expend.money.getNiceStr()
                     }
                     ExpendType.WATER_COST -> {
-                        tv_water_cost.text = expend.money.getNiceStr()
+                        tvWaterCost.text = expend.money.getNiceStr()
                     }
                     ExpendType.OTHER -> {
-                        tv_other.text = expend.money.getNiceStr()
+                        tvOther.text = expend.money.getNiceStr()
                     }
                     ExpendType.SALARY -> {
-                        tv_salary.text = expend.money.getNiceStr()
+                        tvSalary.text = expend.money.getNiceStr()
                     }
                     ExpendType.DRAW -> {
-                        tv_draw.text = expend.money.getNiceStr()
+                        tvDraw.text = expend.money.getNiceStr()
                     }
                     ExpendType.GROUP_PURCHASE -> {
-                        tv_group_purchase.text = expend.money.getNiceStr()
+                        tvGroupPurchase.text = expend.money.getNiceStr()
                     }
                     ExpendType.RECEIVE_MONEY -> {
-                        tv_receive_money.text = expend.money.getNiceStr()
+                        tvReceiveMoney.text = expend.money.getNiceStr()
                     }
                     ExpendType.KOU_BEI -> {
-                        tv_kou_bei.text = expend.money.getNiceStr()
+                        tvKouBei.text = expend.money.getNiceStr()
                     }
                     ExpendType.POS -> {
-                        tv_pos.text = expend.money.getNiceStr()
+                        tvPos.text = expend.money.getNiceStr()
                     }
                 }
             }
 
-            tv_recent_money.textColor =
+            tvRecentMoney.setTextColor(
                 if (item.recentMoney >= 0) context.resources.getColor(R.color.black)
-                else context.resources.getColor(R.color.red)
+                else context.resources.getColor(R.color.red))
 
-            tv_income.refreshTextStyle(helper.adapterPosition)
-            tv_living_cost.refreshTextStyle(helper.adapterPosition)
-            tv_water_cost.refreshTextStyle(helper.adapterPosition)
-            tv_other.refreshTextStyle(helper.adapterPosition)
-            tv_salary.refreshTextStyle(helper.adapterPosition)
-            tv_draw.refreshTextStyle(helper.adapterPosition)
-            tv_group_purchase.refreshTextStyle(helper.adapterPosition)
-            tv_receive_money.refreshTextStyle(helper.adapterPosition)
-            tv_kou_bei.refreshTextStyle(helper.adapterPosition)
-            tv_pos.refreshTextStyle(helper.adapterPosition)
+            tvIncome.refreshTextStyle(helper.adapterPosition)
+            tvLivingCost.refreshTextStyle(helper.adapterPosition)
+            tvWaterCost.refreshTextStyle(helper.adapterPosition)
+            tvOther.refreshTextStyle(helper.adapterPosition)
+            tvSalary.refreshTextStyle(helper.adapterPosition)
+            tvDraw.refreshTextStyle(helper.adapterPosition)
+            tvGroupPurchase.refreshTextStyle(helper.adapterPosition)
+            tvReceiveMoney.refreshTextStyle(helper.adapterPosition)
+            tvKouBei.refreshTextStyle(helper.adapterPosition)
+            tvPos.refreshTextStyle(helper.adapterPosition)
         }
 
 

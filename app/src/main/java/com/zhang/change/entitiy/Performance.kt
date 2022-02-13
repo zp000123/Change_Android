@@ -17,10 +17,10 @@ import androidx.room.ForeignKey.CASCADE
  */
 data class Performance(
     @ColumnInfo(name = "userId")
-    val userId: Int = 0,
-    val dateStamp: Long = 0L, // 毫秒
-    val income: Int = 0, // 分
-    val salary: Int = 0 // 分
+    var userId: Int = 0,
+    var dateStamp: Long = 0L, // 毫秒
+    var income: Int = 0, // 分
+    var salary: Int = 0 // 分
 ) {
     @PrimaryKey(autoGenerate = true)
     var pid: Int = 0

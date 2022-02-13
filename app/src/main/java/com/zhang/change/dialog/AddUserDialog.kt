@@ -2,40 +2,42 @@ package com.zhang.change.dialog
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import com.zhang.change.R
 import com.zhang.change.dao.UserDao
+import com.zhang.change.databinding.LayoutAddUserBinding
 import com.zhang.change.entitiy.User
 import com.zhang.change.utils.showKeyboard
-import kotlinx.android.synthetic.main.layout_add_user.*
 import kotlinx.coroutines.*
 
 class AddUserDialog : DialogFragment(), CoroutineScope by MainScope() {
     private var onEnsure: ((User) -> Unit)? = null
     private lateinit var userDao: UserDao
-    private val handler = Handler()
+    private val handler = Handler(Looper.getMainLooper())
+    private lateinit var binding :LayoutAddUserBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return LayoutInflater.from(context).inflate(R.layout.layout_add_user, container, false)
+        binding = LayoutAddUserBinding.inflate(LayoutInflater.from(context),container,false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        v_ensure.setOnClickListener {
-            if (et_no.text.isEmpty()) {
+       binding. vEnsure.setOnClickListener {
+            if (binding.etNo.text.isEmpty()) {
                 Toast.makeText(context, "请输入工号", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            val newNo = et_no.text.toString().toInt()
+            val newNo =binding. etNo.text.toString().toInt()
             launch {
 
                 val dbUser = async { userDao.queryUserByNo(newNo) }.await()
@@ -52,12 +54,12 @@ class AddUserDialog : DialogFragment(), CoroutineScope by MainScope() {
                 }
             }
         }
-        v_cancel.setOnClickListener {
+        binding.vCancel.setOnClickListener {
             dismiss()
         }
 
         handler.postDelayed({
-            et_no.showKeyboard()
+            binding.etNo.showKeyboard()
         },200)
     }
 

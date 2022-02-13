@@ -1,23 +1,27 @@
 package com.zhang.change.utils
 
+import android.app.Activity
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
-import androidx.core.content.ContextCompat.getSystemService
+import android.widget.Toast
 import com.zhang.change.R
-import org.jetbrains.anko.textColor
 
 
 fun TextView.setColorByValue(value: Int) {
-    this.textColor = if (value >= 0) context.resources.getColor(R.color.black)
-    else context.resources.getColor(R.color.red)
+    this.setTextColor(
+        if (value >= 0) context.resources.getColor(R.color.black)
+        else context.resources.getColor(R.color.red)
+    )
 }
 
 
 fun TextView.refreshTextStyle(position: Int) {
-    this.textColor = if (position % 2 == 0) context.resources.getColor(R.color.c_6)
-    else context.resources.getColor(R.color.black)
+    this.setTextColor(
+        if (position % 2 == 0) context.resources.getColor(R.color.c_6)
+        else context.resources.getColor(R.color.black)
+    )
 }
 
 
@@ -31,4 +35,8 @@ fun EditText.showKeyboard() {
     val inputManager: InputMethodManager? =
         context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
     inputManager?.showSoftInput(this, 0)
+}
+
+fun Activity.toast(str:String){
+    Toast.makeText(baseContext,str,Toast.LENGTH_SHORT).show()
 }

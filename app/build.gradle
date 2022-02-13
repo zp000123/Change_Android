@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
 android {
     signingConfigs {
@@ -11,8 +11,7 @@ android {
             keyPassword '000123'
         }
     }
-    compileSdkVersion 29
-    buildToolsVersion "29.0.1"
+    compileSdkVersion 31
 
     defaultConfig {
         applicationId "com.zhang.change"
@@ -22,6 +21,10 @@ android {
         versionName "2.1.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    viewBinding {
+        enabled = true
     }
 
     buildTypes {
@@ -49,27 +52,20 @@ android {
     }
 
 }
-kapt {
-    correctErrorTypes = true
-    generateStubs = true
-}
-androidExtensions {
-    experimental = true
-}
+
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.material:material:1.1.0'
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    def room_version = "2.2.4"
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    implementation 'com.google.android.material:material:1.4.0'
+
+    def room_version = "2.4.1"
+    implementation("androidx.room:room-runtime:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
     // For Kotlin use kapt instead of annotationProcessor
 
     // optional - Kotlin Extensions and Coroutines support for Room
@@ -83,12 +79,16 @@ dependencies {
 
     // Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
-    implementation 'org.jetbrains.anko:anko:0.10.8'
+//    implementation 'org.jetbrains.anko:anko:0.10.8'
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"
-    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
-    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1"
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7"
 //    implementation group: 'commons-lang', name: 'commons-lang', version: '2.6'
     implementation group: 'net.sourceforge.jexcelapi', name: 'jxl', version: '2.6.12'
+
+    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }

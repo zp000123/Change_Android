@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,14 +18,13 @@ import com.zhang.change.dao.ExpendDao
 import com.zhang.change.dao.PerformanceDao
 import com.zhang.change.dao.UserDao
 import com.zhang.change.dao.insertReplace
+import com.zhang.change.databinding.ActivityAddExpendBinding
 import com.zhang.change.entitiy.Expend
 import com.zhang.change.entitiy.ExpendType
 import com.zhang.change.entitiy.ExpendTypeW
 import com.zhang.change.rounter.start2AddPerformanceActivity
 import com.zhang.change.utils.*
-import kotlinx.android.synthetic.main.activity_add_expend.*
 import kotlinx.coroutines.*
-import org.jetbrains.anko.*
 import java.util.*
 
 class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
@@ -32,6 +32,7 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private lateinit var performanceDao: PerformanceDao
     private lateinit var expendDao: ExpendDao
     private val calendar = Calendar.getInstance()
+    private lateinit var binding: ActivityAddExpendBinding
 
     private val expendTypeList = arrayListOf<ExpendTypeW>().apply {
         addAll(ExpendTypeW.getExpendTypeWList())
@@ -48,7 +49,8 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private var selectType: ExpendType? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_expend)
+        binding = ActivityAddExpendBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initDao()
         initView()
     }
@@ -56,48 +58,51 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private fun initView() {
         selectType = expendTypeList.getOrNull(0)?.expendType
         calendar.add(Calendar.DATE, -1)
-        v_date.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
-        v_date.setOnClickListener {
-            val dialog = DatePickerDialog(
-                this@AddExpendActivity,
-                DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                    Log.d(TAG, "onDateSet: year: $year, month: $month, dayOfMonth: $dayOfMonth")
-                    calendar.set(Calendar.YEAR, year)
-                    calendar.set(Calendar.MONTH, month)
-                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                    v_date.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
-                    findExpendAndRefreshView()
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            )
-            dialog.show()
-        }
+        with(binding) {
+            vDate.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
+            vDate.setOnClickListener {
+                val dialog = DatePickerDialog(
+                    this@AddExpendActivity,
+                    DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                        Log.d(TAG, "onDateSet: year: $year, month: $month, dayOfMonth: $dayOfMonth")
+                        calendar.set(Calendar.YEAR, year)
+                        calendar.set(Calendar.MONTH, month)
+                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                        vDate.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
+                        findExpendAndRefreshView()
+                    },
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+                )
+                dialog.show()
+            }
 
-        v_prev.setOnClickListener {
-            calendar.add(Calendar.DAY_OF_MONTH, -1)
-            v_date.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
-            findExpendAndRefreshView()
-        }
-        v_next.setOnClickListener {
-            calendar.add(Calendar.DAY_OF_MONTH, 1)
-            v_date.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
-            findExpendAndRefreshView()
-        }
+            vPrev.setOnClickListener {
+                calendar.add(Calendar.DAY_OF_MONTH, -1)
+                vDate.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
+                findExpendAndRefreshView()
+            }
+            vNext.setOnClickListener {
+                calendar.add(Calendar.DAY_OF_MONTH, 1)
+                vDate.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
+                findExpendAndRefreshView()
+            }
 
-        v_add_performance.setOnClickListener {
-            start2AddPerformanceActivity(calendar.timeInMillis)
-        }
+            vAddPerformance.setOnClickListener {
+                start2AddPerformanceActivity(calendar.timeInMillis)
+            }
 
-        with(rv_type) {
-            layoutManager = GridLayoutManager(context, 5)
-            adapter = expendTypeAdapter
-        }
+            with(rvType) {
+                layoutManager = GridLayoutManager(context, 5)
+                adapter = expendTypeAdapter
+            }
 
-        with(rv_expend) {
-            layoutManager = LinearLayoutManager(context)
-            adapter = expendAdapter
+            with(rvExpend) {
+                layoutManager = LinearLayoutManager(context)
+                adapter = expendAdapter
+            }
+
         }
         findExpendAndRefreshView()
     }
@@ -118,14 +123,17 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             }
             expendAdapter.notifyDataSetChanged()
 
-            v_add_performance.visibility = if (performanceSum != 0) View.GONE else View.VISIBLE
+            with(binding) {
+                vAddPerformance.visibility = if (performanceSum != 0) View.GONE else View.VISIBLE
 
-            v_income.text = performanceSum.getNiceStr()
-            val recentMoney = (performanceSum - dbExpendList.sumBy { it.money })
-            tv_recent_money.text = recentMoney.div(100).toString()
-            tv_recent_money.textColor =
-                if (recentMoney >= 0) resources.getColor(R.color.black)
-                else resources.getColor(R.color.red)
+                vIncome.text = performanceSum.getNiceStr()
+                val recentMoney = (performanceSum - dbExpendList.sumBy { it.money })
+                tvRecentMoney.text = recentMoney.div(100).toString()
+                tvRecentMoney.setTextColor(
+                    if (recentMoney >= 0) resources.getColor(R.color.black)
+                    else resources.getColor(R.color.red))
+            }
+
         }
 
 
@@ -141,8 +149,9 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
 
     private fun showDelDialog(item: Expend) {
-        alert("确认删除 #" + item.type.des + " 的数据吗？") {
-            yesButton {
+        AlertDialog.Builder(baseContext)
+            .setTitle("确认删除 #" + item.type.des + " 的数据吗？")
+            .setPositiveButton("确定") { d, w ->
                 launch {
                     withContext(Dispatchers.Default) {
                         expendDao.deleteById(item.eId)
@@ -150,29 +159,37 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                     findExpendAndRefreshView()
                 }
             }
-            noButton { }
-        }.show()
+            .setNegativeButton("取消") { d, w ->
+
+            }.show()
+
+
     }
 
     private fun save() {
-        if (et_money.text.isEmpty()) {
+        with(binding){
+
+        if (etMoney.text.isEmpty()) {
             toast("请输入金额")
             return
         }
-        val money = et_money.text.toString().toBigDecimal().multiply(BigDecimal_100).toInt()
+        val money = etMoney.text.toString().toBigDecimal().multiply(BigDecimal_100).toInt()
         if (selectType == null) {
             toast("请选择类型")
             return
         }
         if (expendList.map { it.type }.contains(selectType!!)) {
-            alert("已有  ${selectType!!.des} 的数据，确认替换？") {
-                yesButton {
+            AlertDialog.Builder(baseContext)
+                .setTitle("已有  ${selectType!!.des} 的数据，确认替换？")
+                .setPositiveButton("确定") { d, w ->
                     insertOrReplaceExpend(selectType!!, money)
                 }
-                noButton { }
-            }.show()
+                .setNegativeButton("取消") { d, w ->
+
+                }.show()
         } else {
             insertOrReplaceExpend(selectType!!, money)
+        }
         }
     }
 
@@ -183,7 +200,7 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                     .insertReplace(Expend(selectType, money, calendar.timeInMillis))
             }
             toast("添加成功")
-            et_money.setText("")
+            binding.etMoney.setText("")
             findExpendAndRefreshView()
         }
     }

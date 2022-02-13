@@ -10,9 +10,9 @@ import androidx.room.PrimaryKey
  */
 @Entity
 data class Expend(
-    val type: ExpendType,
-    val money: Int,//分
-    val dateStamp: Long// 毫秒
+    var type: ExpendType,
+    var money: Int,//分
+    var dateStamp: Long// 毫秒
 
 ) {
     @PrimaryKey(autoGenerate = true)

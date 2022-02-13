@@ -2,27 +2,24 @@ package com.zhang.change.ui.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.edit
 import com.zhang.change.MyApplication
-import com.zhang.change.R
 import com.zhang.change.dao.UserDao
+import com.zhang.change.databinding.ActivityHomeBinding
 import com.zhang.change.dialog.AddShopNameDialog
 import com.zhang.change.rounter.start2Activity
 import com.zhang.change.ui.expend_statistic.ExpendStatisticActivity
 import com.zhang.change.ui.performance_statistic.PerformanceStatisticActivity
-import com.zhang.change.utils.SharePreferencesUtils
-import com.zhang.change.utils.SharePreferencesUtils.SHOP_NAME
-import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.*
-import org.jetbrains.anko.alert
 
 class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
+    private lateinit var binding: ActivityHomeBinding
     private lateinit var userDao: UserDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initDao()
         initView()
         checkShopName()
@@ -60,12 +57,15 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
 
     private fun initView() {
-        v_performance.setOnClickListener {
-            start2Activity(PerformanceStatisticActivity::class.java)
+        with(binding) {
+            vPerformance.setOnClickListener {
+                start2Activity(PerformanceStatisticActivity::class.java)
+            }
+            vIncomeExpend.setOnClickListener {
+                start2Activity(ExpendStatisticActivity::class.java)
+            }
         }
-        v_income_expend.setOnClickListener {
-            start2Activity(ExpendStatisticActivity::class.java)
-        }
+
     }
 
 

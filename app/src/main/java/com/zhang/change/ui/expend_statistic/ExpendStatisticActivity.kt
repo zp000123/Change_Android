@@ -16,20 +16,20 @@ import com.zhang.change.adapter.ExpendDateAdapter
 import com.zhang.change.dao.ExpendDao
 import com.zhang.change.dao.PerformanceDao
 import com.zhang.change.dao.UserDao
+import com.zhang.change.databinding.ActivityExpendStatisticBinding
 import com.zhang.change.entitiy.Expend
 import com.zhang.change.entitiy.ExpendType
 import com.zhang.change.ui.expend_add.AddExpendActivity
 import com.zhang.change.utils.*
 import jxl.Workbook
 import jxl.write.WritableWorkbook
-import kotlinx.android.synthetic.main.activity_expend_statistic.*
 import kotlinx.coroutines.*
-import org.jetbrains.anko.toast
 import java.io.File
 import java.io.IOException
 import java.util.*
 
 class ExpendStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope() {
+    private lateinit var binding: ActivityExpendStatisticBinding
     private val calendar = Calendar.getInstance()
     private val expendDateList = arrayListOf<ExpendDate>()
     private val expendAdapter = ExpendDateAdapter(expendDateList)
@@ -39,34 +39,37 @@ class ExpendStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_expend_statistic)
+        binding = ActivityExpendStatisticBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initDao()
         initView()
 
     }
 
     private fun initView() {
-        with(rv_expend) {
-            layoutManager = LinearLayoutManager(baseContext)
-            adapter = expendAdapter
-        }
-        v_prev.setOnClickListener {
-            calendar.add(Calendar.MONTH, -1)
+        with(binding) {
+            with(rvExpend) {
+                layoutManager = LinearLayoutManager(baseContext)
+                adapter = expendAdapter
+            }
+            vPrev.setOnClickListener {
+                calendar.add(Calendar.MONTH, -1)
+                setMothText()
+                findExpendDateListAndRefreshView()
+            }
+            vNext.setOnClickListener {
+                calendar.add(Calendar.MONTH, 1)
+                setMothText()
+                findExpendDateListAndRefreshView()
+            }
             setMothText()
             findExpendDateListAndRefreshView()
         }
-        v_next.setOnClickListener {
-            calendar.add(Calendar.MONTH, 1)
-            setMothText()
-            findExpendDateListAndRefreshView()
-        }
-        setMothText()
-        findExpendDateListAndRefreshView()
     }
 
     @SuppressLint("SetTextI18n")
     private fun setMothText() {
-        v_date.text = "${calendar.get(Calendar.YEAR)}年 ${calendar.get(Calendar.MONTH) + 1}月"
+        binding.vDate.text = "${calendar.get(Calendar.YEAR)}年 ${calendar.get(Calendar.MONTH) + 1}月"
     }
 
 
@@ -115,25 +118,27 @@ class ExpendStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope
             expendDateList.addAll(newExpendDateList)
             expendAdapter.notifyDataSetChanged()
 
+            with(binding){
+
             val totalIncome = expendDateList.sumBy { it.income }
-            tv_total_income.text = totalIncome.getNiceStr()
+            tvTotalIncome.text = totalIncome.getNiceStr()
 
             val expendList = expendDateList.flatMap { it.expandList }
-            tv_total_living_cost.setSumText(expendList, ExpendType.LIVING_COST)
-            tv_total_water_cost.setSumText(expendList, ExpendType.WATER_COST)
-            tv_total_other.setSumText(expendList, ExpendType.OTHER)
-            tv_total_salary.setSumText(expendList, ExpendType.SALARY)
-            tv_total_draw.setSumText(expendList, ExpendType.DRAW)
-            tv_total_group_purchase.setSumText(expendList, ExpendType.GROUP_PURCHASE)
-            tv_total_receive_money.setSumText(expendList, ExpendType.RECEIVE_MONEY)
-            tv_total_kou_bei.setSumText(expendList, ExpendType.KOU_BEI)
-            tv_total_pos.setSumText(expendList, ExpendType.POS)
+            tvTotalLivingCost.setSumText(expendList, ExpendType.LIVING_COST)
+            tvTotalWaterCost.setSumText(expendList, ExpendType.WATER_COST)
+            tvTotalOther.setSumText(expendList, ExpendType.OTHER)
+            tvTotalSalary.setSumText(expendList, ExpendType.SALARY)
+            tvTotalDraw.setSumText(expendList, ExpendType.DRAW)
+            tvTotalGroupPurchase.setSumText(expendList, ExpendType.GROUP_PURCHASE)
+            tvTotalReceiveMoney.setSumText(expendList, ExpendType.RECEIVE_MONEY)
+            tvTotalKouBei.setSumText(expendList, ExpendType.KOU_BEI)
+            tvTotalPos.setSumText(expendList, ExpendType.POS)
 
 
             val totalRecent = totalIncome - expendList.sumBy { it.money }
-            tv_total_recent_money.text = totalRecent.getNiceStr()
-            tv_total_recent_money.setColorByValue(totalRecent)
-
+            tvTotalRecentMoney.text = totalRecent.getNiceStr()
+            tvTotalRecentMoney.setColorByValue(totalRecent)
+            }
         }
     }
 

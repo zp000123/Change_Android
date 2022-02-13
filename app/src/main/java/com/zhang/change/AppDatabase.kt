@@ -20,7 +20,8 @@ import com.zhang.change.entitiy.UserBill
 @Database(
     entities = [User::class, Performance::class, Expend::class],
     views = [UserBill::class],
-    version = 2
+    version = 2,
+    exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
