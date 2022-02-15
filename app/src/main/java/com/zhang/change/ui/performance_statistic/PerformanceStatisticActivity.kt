@@ -8,6 +8,7 @@ import android.os.Environment.DIRECTORY_DCIM
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,12 +36,11 @@ import java.util.*
 
 
 class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope() {
+    private val viewModel by viewModels<PerformanceStatisticViewModel>()
     private val calendar = Calendar.getInstance()
     private val userList = arrayListOf<User>()
     private lateinit var mContext: Context
-    private lateinit var userDao: UserDao
-    private lateinit var userBillDao: UserBillDao
-    private lateinit var performanceDao: PerformanceDao
+
     private val billList = arrayListOf<UserBill>()
     private val billDateAdapter = BillDateAdapter(billList)
     private val userListAdapter = UserListAdapter(userList) {
@@ -54,7 +54,7 @@ class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by Main
         mContext = baseContext
         binding = ActivityPerformanceStatisticBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initDao()
+
         initView()
     }
 
@@ -76,7 +76,7 @@ class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by Main
 
             vAddUser.setOnClickListener {
                 val dialog = AddUserDialog()
-                dialog.show(supportFragmentManager, userDao) { user ->
+                dialog.show(supportFragmentManager) { user ->
                     curUser = user
                     findUserListAndRefreshView()
                 }
@@ -104,16 +104,10 @@ class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by Main
         findUserListAndRefreshView()
     }
 
-    private fun initDao() {
-        val db = (mContext.applicationContext as MyApplication).db
-        userBillDao = db.userBillDao()
-        performanceDao = db.performanceDao()
-        userDao = db.userDao()
-    }
 
     private fun findUserListAndRefreshView() {
         launch {
-            val userList = withContext(Dispatchers.Default) { userDao.queryAllUser() }
+            val userList = withContext(Dispatchers.Default) { viewModel.queryAllUser() }
             this@PerformanceStatisticActivity.userList.let {
                 it.clear()
                 it.addAll(userList)
@@ -157,7 +151,7 @@ class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by Main
         launch {
             val dbBillList = withContext(Dispatchers.Default) {
                 val dateStamp = calendar.timeInMillis
-                userBillDao.queryBillByNoAndDate(
+                viewModel.queryBillByNoAndDate(
                     curUser!!.no,
                     dateStamp.getMinDateStampMonth(),
                     dateStamp.getMaxDateStampMonth()
@@ -242,7 +236,7 @@ class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by Main
 
     private fun toExcel() {
         launch {
-            val shopName = (application as MyApplication).shopName
+            val shopName = viewModel.shopName
             val monthDes = calendar.timeInMillis.date2String(DateFormat.YYYY_MM)
             val file = File(
                 getExternalFilesDir(DIRECTORY_DCIM),
@@ -252,7 +246,7 @@ class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by Main
 
             withContext(Dispatchers.Default) {
                 val dateStamp = calendar.timeInMillis
-                val billList = userBillDao.queryBillByDate(
+                val billList = viewModel.queryBillByDate(
                     dateStamp.getMinDateStampMonth(),
                     dateStamp.getMaxDateStampMonth()
                 )

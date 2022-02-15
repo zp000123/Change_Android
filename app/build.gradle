@@ -11,12 +11,12 @@ android {
             keyPassword '000123'
         }
     }
-    compileSdkVersion 31
+    compileSdk 31
 
     defaultConfig {
         applicationId "com.zhang.change"
-        minSdkVersion 21
-        targetSdkVersion 29
+        minSdk 21
+        targetSdk 31
         versionCode 12
         versionName "2.1.3"
 
@@ -43,9 +43,6 @@ android {
             outputFileName = "Change_${defaultConfig.versionName}_" + "${variant.buildType.name}.apk"
         }
     }
-// To inline the bytecode built with JVM target 1.8 into
-// bytecode that is being built with JVM target 1.6. (e.g. navArgs)
-
 
     kotlinOptions {
         jvmTarget = "1.8"
@@ -66,23 +63,25 @@ dependencies {
     def room_version = "2.4.1"
     implementation("androidx.room:room-runtime:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
-    // For Kotlin use kapt instead of annotationProcessor
+
+    def  lifecycle_version = "2.5.0-alpha02"
+    def  arch_version = "2.1.0"
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    // LiveData
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
+
+    implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
 
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.activity:activity-ktx:1.4.0"
+    implementation "androidx.fragment:fragment-ktx:1.4.1"
 
-    // optional - RxJava support for Room
-    implementation "androidx.room:room-rxjava2:$room_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
 
-    // optional - Guava support for Room, including Optional and ListenableFuture
-//    implementation "androidx.room:room-guava:$room_version"
-
-    // Test helpers
-    testImplementation "androidx.room:room-testing:$room_version"
-//    implementation 'org.jetbrains.anko:anko:0.10.8'
-
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1"
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7"
 //    implementation group: 'commons-lang', name: 'commons-lang', version: '2.6'

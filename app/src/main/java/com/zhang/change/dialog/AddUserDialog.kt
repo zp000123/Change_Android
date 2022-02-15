@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import com.zhang.change.AppHolder
 import com.zhang.change.dao.UserDao
 import com.zhang.change.databinding.LayoutAddUserBinding
 import com.zhang.change.entitiy.User
@@ -17,7 +18,7 @@ import kotlinx.coroutines.*
 
 class AddUserDialog : DialogFragment(), CoroutineScope by MainScope() {
     private var onEnsure: ((User) -> Unit)? = null
-    private lateinit var userDao: UserDao
+    private  val userDao by lazy { AppHolder.db.userDao() }
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var binding :LayoutAddUserBinding
     override fun onCreateView(
@@ -64,8 +65,7 @@ class AddUserDialog : DialogFragment(), CoroutineScope by MainScope() {
     }
 
 
-    fun show(manager: FragmentManager, userDao: UserDao, onEnsure: (User) -> Unit) {
-        this.userDao = userDao
+    fun show(manager: FragmentManager, onEnsure: (User) -> Unit) {
         this.onEnsure = onEnsure
         super.show(manager, "AddUserDialog")
     }
