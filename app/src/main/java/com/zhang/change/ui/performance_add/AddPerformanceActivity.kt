@@ -117,7 +117,7 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
     }
 
     private fun showDelDialog(item: UserBill) {
-        AlertDialog.Builder(baseContext)
+        AlertDialog.Builder(this)
             .setTitle("确认删除 #" + item.no + " 的数据吗？")
             .setPositiveButton("确定") { d, w ->
                 launch {
@@ -214,7 +214,7 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
                 return
             }
             if (billList.map { it.uid }.contains(selectUser!!.uid)) {
-                AlertDialog.Builder(baseContext)
+                AlertDialog.Builder(this@AddPerformanceActivity)
                     .setTitle("已有 #" + selectUser!!.no + " 的数据，确认替换？")
                     .setPositiveButton("确定") { d, w ->
                         insertOrReplacePerformance(income, salary)

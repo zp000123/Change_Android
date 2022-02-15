@@ -149,7 +149,7 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
 
     private fun showDelDialog(item: Expend) {
-        AlertDialog.Builder(baseContext)
+        AlertDialog.Builder(this)
             .setTitle("确认删除 #" + item.type.des + " 的数据吗？")
             .setPositiveButton("确定") { d, w ->
                 launch {
@@ -179,7 +179,7 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             return
         }
         if (expendList.map { it.type }.contains(selectType!!)) {
-            AlertDialog.Builder(baseContext)
+            AlertDialog.Builder(this@AddExpendActivity)
                 .setTitle("已有  ${selectType!!.des} 的数据，确认替换？")
                 .setPositiveButton("确定") { d, w ->
                     insertOrReplaceExpend(selectType!!, money)
