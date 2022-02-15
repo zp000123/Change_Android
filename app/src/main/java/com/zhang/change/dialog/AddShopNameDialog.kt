@@ -49,7 +49,6 @@ class AddShopNameDialog : DialogFragment(), CoroutineScope by MainScope() {
             }
             val shopName =binding. etShop.text.toString()
             launch {
-
                 SharePreferencesUtils.getCommonSpf(mContext)
                     .edit {
                         this.putString(SHOP_NAME, shopName)

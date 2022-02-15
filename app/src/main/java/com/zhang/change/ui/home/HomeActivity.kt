@@ -1,9 +1,8 @@
 package com.zhang.change.ui.home
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.zhang.change.MyApplication
-import com.zhang.change.dao.UserDao
 import com.zhang.change.databinding.ActivityHomeBinding
 import com.zhang.change.dialog.AddShopNameDialog
 import com.zhang.change.rounter.start2Activity
@@ -14,29 +13,28 @@ import kotlinx.coroutines.*
 class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     private lateinit var binding: ActivityHomeBinding
-    private lateinit var userDao: UserDao
+    private val viewModel: HomeViewModel by viewModels<HomeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initDao()
+
         initView()
         checkShopName()
     }
 
     private fun checkShopName() {
-        val myApplication = application as MyApplication
         launch {
-            if (myApplication.shopName.isEmpty()) {
+            if (viewModel.shopName.isNullOrBlank()) {
                 withContext(Dispatchers.Default) {
-                    if (userDao.queryAllUser().isNotEmpty()) {
-                        myApplication.shopName = "茭白园路店"
+                    if (viewModel.hasUser()) {
+                        viewModel.setShopName("茭白园路店")
                     } else {
                         withContext(Dispatchers.Main) {
                             AddShopNameDialog()
                                 .show(supportFragmentManager, onEnsure = { _shopName ->
-                                    myApplication.shopName = _shopName
+                                    viewModel.setShopName(_shopName)
                                     title = _shopName
                                 }, onCancel = {
                                     finish()
@@ -44,16 +42,9 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                         }
                     }
                 }
-                title = myApplication.shopName
-            } else {
-                title = myApplication.shopName
             }
+            title = viewModel.shopName
         }
-    }
-
-    private fun initDao() {
-        val db = (application as MyApplication).db
-        userDao = db.userDao()
     }
 
     private fun initView() {
@@ -67,6 +58,4 @@ class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
 
     }
-
-
 }

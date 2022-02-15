@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -30,10 +31,8 @@ import java.util.*
 
 
 class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope() {
+    private val viewModel by viewModels<AddPerformanceViewModel>()
 
-    private lateinit var userDao: UserDao
-    private lateinit var userBillDao: UserBillDao
-    private lateinit var performanceDao: PerformanceDao
     private val calendar = Calendar.getInstance()
     private val userList = arrayListOf<User>()
     private val billList = arrayListOf<UserBill>()
@@ -54,7 +53,7 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
             add(Calendar.DAY_OF_MONTH, -1) // 默认进来是昨天
         }.timeInMillis)
         calendar.timeInMillis = dateStamp
-        initDao()
+
         initView()
     }
 
@@ -98,7 +97,7 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
 
             vAdd.setOnClickListener {
                 val dialog = AddUserDialog()
-                dialog.show(supportFragmentManager, userDao) { user ->
+                dialog.show(supportFragmentManager) { user ->
                     selectUser = user
                     findUserListAndRefreshView()
                 }
@@ -117,12 +116,12 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
     }
 
     private fun showDelDialog(item: UserBill) {
-        AlertDialog.Builder(baseContext)
+        AlertDialog.Builder(this)
             .setTitle("确认删除 #" + item.no + " 的数据吗？")
             .setPositiveButton("确定") { d, w ->
                 launch {
                     withContext(Dispatchers.Default) {
-                        performanceDao.deleteById(item.pid)
+                     viewModel.deleteById(item.pid)
                     }
                     findUserBillAndRefreshView()
                 }
@@ -135,7 +134,7 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
 
     private fun findUserListAndRefreshView() {
         launch {
-            val userList = withContext(Dispatchers.Default) { userDao.queryAllUser() }
+            val userList = withContext(Dispatchers.Default) { viewModel.queryAllUser()}
             this@AddPerformanceActivity.userList.let {
                 it.clear()
                 it.addAll(userList)
@@ -161,7 +160,7 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
             _calendar.add(Calendar.DAY_OF_MONTH, 1)
             val maxMills = _calendar.timeInMillis - 1
             val billList = withContext(Dispatchers.Default) {
-                userBillDao.queryBillByDate(
+                viewModel.queryBillByDate(
                     minMills,
                     maxMills
                 )
@@ -177,14 +176,8 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
         }
     }
 
-    private fun initDao() {
-        val db = (application as MyApplication).db
-        userDao = db.userDao()
-        userBillDao = db.userBillDao()
-        performanceDao = db.performanceDao()
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_add_performance, menu)
         return true
     }
@@ -214,7 +207,7 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
                 return
             }
             if (billList.map { it.uid }.contains(selectUser!!.uid)) {
-                AlertDialog.Builder(baseContext)
+                AlertDialog.Builder(this@AddPerformanceActivity)
                     .setTitle("已有 #" + selectUser!!.no + " 的数据，确认替换？")
                     .setPositiveButton("确定") { d, w ->
                         insertOrReplacePerformance(income, salary)
@@ -232,7 +225,7 @@ class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope(
 
         launch {
             withContext(Dispatchers.Default) {
-                performanceDao
+                viewModel
                     .insertReplace(selectUser!!.uid, calendar.timeInMillis, income, salary)
             }
             toast("添加成功")

@@ -6,18 +6,14 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.zhang.change.MyApplication
 import com.zhang.change.R
 import com.zhang.change.adapter.ExpandAdapter
 import com.zhang.change.adapter.ExpendTypeAdapter
-import com.zhang.change.dao.ExpendDao
-import com.zhang.change.dao.PerformanceDao
-import com.zhang.change.dao.UserDao
-import com.zhang.change.dao.insertReplace
 import com.zhang.change.databinding.ActivityAddExpendBinding
 import com.zhang.change.entitiy.Expend
 import com.zhang.change.entitiy.ExpendType
@@ -28,10 +24,9 @@ import kotlinx.coroutines.*
 import java.util.*
 
 class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
-    private lateinit var userDao: UserDao
-    private lateinit var performanceDao: PerformanceDao
-    private lateinit var expendDao: ExpendDao
+    private val viewModel by viewModels<AddExpendViewModel>()
     private val calendar = Calendar.getInstance()
+
     private lateinit var binding: ActivityAddExpendBinding
 
     private val expendTypeList = arrayListOf<ExpendTypeW>().apply {
@@ -51,7 +46,6 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddExpendBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initDao()
         initView()
     }
 
@@ -115,8 +109,8 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
         launch {
             val performanceSum =
-                async { performanceDao.sumIncomeByDate(minMills, maxMills) }.await() ?: 0
-            val dbExpendList = async { expendDao.queryExpendList(minMills, maxMills) }.await()
+                async { viewModel.sumIncomeByDate(minMills, maxMills) }.await() ?: 0
+            val dbExpendList = async { viewModel.queryExpendList(minMills, maxMills) }.await()
             this@AddExpendActivity.expendList.let {
                 it.clear()
                 it.addAll(dbExpendList)
@@ -131,30 +125,19 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 tvRecentMoney.text = recentMoney.div(100).toString()
                 tvRecentMoney.setTextColor(
                     if (recentMoney >= 0) resources.getColor(R.color.black)
-                    else resources.getColor(R.color.red))
+                    else resources.getColor(R.color.red)
+                )
             }
-
         }
-
-
     }
-
-
-    private fun initDao() {
-        val db = (application as MyApplication).db
-        userDao = db.userDao()
-        expendDao = db.expendDao()
-        performanceDao = db.performanceDao()
-    }
-
 
     private fun showDelDialog(item: Expend) {
-        AlertDialog.Builder(baseContext)
+        AlertDialog.Builder(this)
             .setTitle("确认删除 #" + item.type.des + " 的数据吗？")
             .setPositiveButton("确定") { d, w ->
                 launch {
                     withContext(Dispatchers.Default) {
-                        expendDao.deleteById(item.eId)
+                        viewModel.deleteById(item.eId)
                     }
                     findExpendAndRefreshView()
                 }
@@ -167,37 +150,36 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
 
     private fun save() {
-        with(binding){
+        with(binding) {
 
-        if (etMoney.text.isEmpty()) {
-            toast("请输入金额")
-            return
-        }
-        val money = etMoney.text.toString().toBigDecimal().multiply(BigDecimal_100).toInt()
-        if (selectType == null) {
-            toast("请选择类型")
-            return
-        }
-        if (expendList.map { it.type }.contains(selectType!!)) {
-            AlertDialog.Builder(baseContext)
-                .setTitle("已有  ${selectType!!.des} 的数据，确认替换？")
-                .setPositiveButton("确定") { d, w ->
-                    insertOrReplaceExpend(selectType!!, money)
-                }
-                .setNegativeButton("取消") { d, w ->
+            if (etMoney.text.isEmpty()) {
+                toast("请输入金额")
+                return
+            }
+            val money = etMoney.text.toString().toBigDecimal().multiply(BigDecimal_100).toInt()
+            if (selectType == null) {
+                toast("请选择类型")
+                return
+            }
+            if (expendList.map { it.type }.contains(selectType!!)) {
+                AlertDialog.Builder(this@AddExpendActivity)
+                    .setTitle("已有  ${selectType!!.des} 的数据，确认替换？")
+                    .setPositiveButton("确定") { d, w ->
+                        insertOrReplaceExpend(selectType!!, money)
+                    }
+                    .setNegativeButton("取消") { d, w ->
 
-                }.show()
-        } else {
-            insertOrReplaceExpend(selectType!!, money)
-        }
+                    }.show()
+            } else {
+                insertOrReplaceExpend(selectType!!, money)
+            }
         }
     }
 
     private fun insertOrReplaceExpend(selectType: ExpendType, money: Int) {
         launch {
             withContext(Dispatchers.Default) {
-                expendDao
-                    .insertReplace(Expend(selectType, money, calendar.timeInMillis))
+                viewModel.insertReplace(selectType, money)
             }
             toast("添加成功")
             binding.etMoney.setText("")
@@ -216,7 +198,7 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         cancel()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_add_expend, menu)
         return true
     }

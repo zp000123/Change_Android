@@ -7,6 +7,7 @@ import android.os.Environment
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zhang.change.MyApplication
@@ -29,19 +30,18 @@ import java.io.IOException
 import java.util.*
 
 class ExpendStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope() {
+    private val viewModel by viewModels<ExpendStatisticViewModel>()
     private lateinit var binding: ActivityExpendStatisticBinding
     private val calendar = Calendar.getInstance()
     private val expendDateList = arrayListOf<ExpendDate>()
     private val expendAdapter = ExpendDateAdapter(expendDateList)
-    private lateinit var userDao: UserDao
-    private lateinit var performanceDao: PerformanceDao
-    private lateinit var expendDao: ExpendDao
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityExpendStatisticBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initDao()
+
         initView()
 
     }
@@ -94,8 +94,8 @@ class ExpendStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope
                 val maxMillsNow = nowStamp.getMaxDateStampDay()
 
                 val dbTotalIncome =
-                    performanceDao.sumIncomeByDate(minMillsNow, maxMillsNow) ?: 0
-                val dbExpendDateList = expendDao.queryExpendList(minMillsNow, maxMillsNow)
+                   viewModel.sumIncomeByDate(minMillsNow, maxMillsNow) ?: 0
+                val dbExpendDateList = viewModel.queryExpendList(minMillsNow, maxMillsNow)
 
                 val expendDate = ExpendDate(nowStamp.date2String(DateFormat.M_D))
                 expendDate.apply {
@@ -154,13 +154,6 @@ class ExpendStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope
     }
 
 
-    private fun initDao() {
-        val db = (application as MyApplication).db
-        userDao = db.userDao()
-        expendDao = db.expendDao()
-        performanceDao = db.performanceDao()
-    }
-
     override fun onResume() {
         super.onResume()
         findExpendDateListAndRefreshView()
@@ -189,7 +182,7 @@ class ExpendStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope
     }
 
     private fun doExtract() {
-        val shopName = (application as MyApplication).shopName
+        val shopName = viewModel.shopName
         launch {
             val monthDes = calendar.timeInMillis.date2String(DateFormat.YYYY_MM)
             val file = File(
