@@ -25,7 +25,6 @@ import java.util.*
 
 class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private val viewModel by viewModels<AddExpendViewModel>()
-    private val calendar = Calendar.getInstance()
 
     private lateinit var binding: ActivityAddExpendBinding
 
@@ -51,40 +50,40 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     private fun initView() {
         selectType = expendTypeList.getOrNull(0)?.expendType
-        calendar.add(Calendar.DATE, -1)
+//        viewModel.calendar.add(Calendar.DATE)
         with(binding) {
-            vDate.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
+            vDate.text = viewModel.calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
             vDate.setOnClickListener {
                 val dialog = DatePickerDialog(
                     this@AddExpendActivity,
                     DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                         Log.d(TAG, "onDateSet: year: $year, month: $month, dayOfMonth: $dayOfMonth")
-                        calendar.set(Calendar.YEAR, year)
-                        calendar.set(Calendar.MONTH, month)
-                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                        vDate.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
+                        viewModel.calendar.set(Calendar.YEAR, year)
+                        viewModel.calendar.set(Calendar.MONTH, month)
+                        viewModel.calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                        vDate.text = viewModel.calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
                         findExpendAndRefreshView()
                     },
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH)
+                    viewModel.calendar.get(Calendar.YEAR),
+                    viewModel.calendar.get(Calendar.MONTH),
+                    viewModel.calendar.get(Calendar.DAY_OF_MONTH)
                 )
                 dialog.show()
             }
 
             vPrev.setOnClickListener {
-                calendar.add(Calendar.DAY_OF_MONTH, -1)
-                vDate.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
+                viewModel.calendar.add(Calendar.DAY_OF_MONTH, -1)
+                vDate.text = viewModel.calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
                 findExpendAndRefreshView()
             }
             vNext.setOnClickListener {
-                calendar.add(Calendar.DAY_OF_MONTH, 1)
-                vDate.text = calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
+                viewModel.calendar.add(Calendar.DAY_OF_MONTH, 1)
+                vDate.text = viewModel.calendar.timeInMillis.date2String(DateFormat.YYYY_MM_DD)
                 findExpendAndRefreshView()
             }
 
             vAddPerformance.setOnClickListener {
-                start2AddPerformanceActivity(calendar.timeInMillis)
+                start2AddPerformanceActivity(viewModel.calendar.timeInMillis)
             }
 
             with(rvType) {
@@ -102,7 +101,7 @@ class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
 
     private fun findExpendAndRefreshView() {
-        val dateStamp = calendar.timeInMillis
+        val dateStamp = viewModel.calendar.timeInMillis
         dateStamp.getMinDateStampDay()
         val minMills = dateStamp.getMinDateStampDay()
         val maxMills = dateStamp.getMaxDateStampDay()

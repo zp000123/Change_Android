@@ -8,10 +8,11 @@ import com.zhang.change.entitiy.ExpendType
 import java.util.*
 
 class AddExpendViewModel : ViewModel() {
-    private val calendar = Calendar.getInstance()
+    val calendar = Calendar.getInstance()
     private val userDao by lazy { AppHolder.db.userDao() }
     private val expendDao by lazy { AppHolder.db.expendDao() }
     private val performanceDao by lazy { AppHolder.db.performanceDao() }
+
 
 
     suspend fun insertReplace(selectType: ExpendType, money: Int) {
