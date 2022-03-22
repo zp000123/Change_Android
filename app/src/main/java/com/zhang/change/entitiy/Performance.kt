@@ -8,8 +8,8 @@ import androidx.room.ForeignKey.CASCADE
     foreignKeys = [ForeignKey(
         entity = User::class,
         parentColumns = arrayOf("uid"),
-        childColumns = arrayOf("userId")
-        , onDelete = CASCADE
+        childColumns = arrayOf("userId"),
+        onDelete = CASCADE // 外键关联，父键更改的时候，将所有子健进行更新。主要用于 onDelete(),onUpdate()。
     )]
 )
 /**
@@ -17,10 +17,10 @@ import androidx.room.ForeignKey.CASCADE
  */
 data class Performance(
     @ColumnInfo(name = "userId")
-    var userId: Int = 0,
-    var dateStamp: Long = 0L, // 毫秒
-    var income: Int = 0, // 分
-    var salary: Int = 0 // 分
+    val userId: Int = 0,
+    val dateStamp: Long = 0L, // 毫秒
+    val income: Int = 0, // 收入
+    val salary: Int = 0 // 薪水
 ) {
     @PrimaryKey(autoGenerate = true)
     var pid: Int = 0

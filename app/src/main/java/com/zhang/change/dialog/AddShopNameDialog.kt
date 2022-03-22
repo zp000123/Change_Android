@@ -19,6 +19,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
+/**
+ * 添加商店名称的Dialog
+ */
 class AddShopNameDialog : DialogFragment(), CoroutineScope by MainScope() {
     private var onEnsure: ((String) -> Unit)? = null
     private var onCancel: (() -> Unit)? = null

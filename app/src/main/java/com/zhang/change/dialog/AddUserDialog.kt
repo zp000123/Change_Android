@@ -16,6 +16,9 @@ import com.zhang.change.entitiy.User
 import com.zhang.change.utils.showKeyboard
 import kotlinx.coroutines.*
 
+/**
+ * 添加用户的 Dialog
+ */
 class AddUserDialog : DialogFragment(), CoroutineScope by MainScope() {
     private var onEnsure: ((User) -> Unit)? = null
     private  val userDao by lazy { AppHolder.db.userDao() }

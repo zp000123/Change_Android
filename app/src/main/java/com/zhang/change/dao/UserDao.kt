@@ -3,6 +3,9 @@ package com.zhang.change.dao
 import androidx.room.*
 import com.zhang.change.entitiy.User
 
+/**
+ * 员工数据表操作类
+ */
 @Dao
 interface UserDao {
     @Query("SELECT * from user order by `no`")

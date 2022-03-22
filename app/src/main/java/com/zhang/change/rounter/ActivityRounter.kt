@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.Intent
 import com.zhang.change.ui.performance_add.AddPerformanceActivity
 
+/**
+ * 界面跳转相关的扩展类
+ */
 fun Context.start2Activity(cls: Class<*>) {
     this.startActivity(Intent(this, cls))
 }

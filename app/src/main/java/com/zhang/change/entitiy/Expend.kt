@@ -19,6 +19,9 @@ data class Expend(
     var eId: Int = 0
 }
 
+/**
+ * 支出类型
+ */
 enum class ExpendType(val type: Int, val des: String) {
     LIVING_COST(1, "生活开支"),
     WATER_COST(2, "水电燃气"),

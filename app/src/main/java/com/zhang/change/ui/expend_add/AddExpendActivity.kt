@@ -23,6 +23,9 @@ import com.zhang.change.utils.*
 import kotlinx.coroutines.*
 import java.util.*
 
+/**
+ * 添加开销记录
+ */
 class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private val viewModel by viewModels<AddExpendViewModel>()
 

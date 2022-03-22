@@ -17,10 +17,13 @@ import com.zhang.change.entitiy.Performance
 import com.zhang.change.entitiy.User
 import com.zhang.change.entitiy.UserBill
 
+/**
+ * Room 数据库配置类
+ */
 @Database(
-    entities = [User::class, Performance::class, Expend::class],
-    views = [UserBill::class],
-    version = 2,
+    entities = [User::class, Performance::class, Expend::class], // 数据表
+    views = [UserBill::class], // 视图
+    version = 2,// 数据库版本号
     exportSchema = false
 )
 @TypeConverters(Converters::class)

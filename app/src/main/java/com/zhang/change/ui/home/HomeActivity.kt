@@ -10,6 +10,9 @@ import com.zhang.change.ui.expend_statistic.ExpendStatisticActivity
 import com.zhang.change.ui.performance_statistic.PerformanceStatisticActivity
 import kotlinx.coroutines.*
 
+/**
+ * 主界面
+ */
 class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     private lateinit var binding: ActivityHomeBinding

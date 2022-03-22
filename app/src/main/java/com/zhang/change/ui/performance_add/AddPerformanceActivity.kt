@@ -29,7 +29,9 @@ import com.zhang.change.utils.*
 import kotlinx.coroutines.*
 import java.util.*
 
-
+/**
+ * 添加业绩和工资
+ */
 class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private val viewModel by viewModels<AddPerformanceViewModel>()
 

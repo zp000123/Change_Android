@@ -4,6 +4,9 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.zhang.change.entitiy.UserBill
 
+/**
+ * 用户业绩工资映射记录表操作类
+ */
 @Dao
 interface UserBillDao {
     @Query("SELECT * from userbill")
