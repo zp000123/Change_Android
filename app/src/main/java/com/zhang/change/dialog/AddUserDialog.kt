@@ -15,6 +15,9 @@ import com.zhang.change.utils.showKeyboard
 import kotlinx.android.synthetic.main.layout_add_user.*
 import kotlinx.coroutines.*
 
+/**
+ * 添加用户的 Dialog
+ */
 class AddUserDialog : DialogFragment(), CoroutineScope by MainScope() {
     private var onEnsure: ((User) -> Unit)? = null
     private lateinit var userDao: UserDao

@@ -16,6 +16,9 @@ import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.*
 import org.jetbrains.anko.alert
 
+/**
+ * 主界面
+ */
 class HomeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     private lateinit var userDao: UserDao

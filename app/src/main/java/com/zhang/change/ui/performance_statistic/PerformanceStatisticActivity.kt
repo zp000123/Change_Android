@@ -33,7 +33,9 @@ import java.io.File
 import java.io.IOException
 import java.util.*
 
-
+/**
+ * 业绩和工资统计记录
+ */
 class PerformanceStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private val calendar = Calendar.getInstance()
     private val userList = arrayListOf<User>()

@@ -27,6 +27,9 @@ import kotlinx.coroutines.*
 import org.jetbrains.anko.*
 import java.util.*
 
+/**
+ * 添加开销记录
+ */
 class AddExpendActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private lateinit var userDao: UserDao
     private lateinit var performanceDao: PerformanceDao

@@ -34,7 +34,9 @@ import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
 import java.util.*
 
-
+/**
+ * 添加业绩和工资
+ */
 class AddPerformanceActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     private lateinit var userDao: UserDao

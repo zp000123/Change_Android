@@ -29,6 +29,9 @@ import java.io.File
 import java.io.IOException
 import java.util.*
 
+/**
+ * 开销记录统计
+ */
 class ExpendStatisticActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private val calendar = Calendar.getInstance()
     private val expendDateList = arrayListOf<ExpendDate>()
