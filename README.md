@@ -1,7 +1,7 @@
 # Change_Android
 记账APP Android 版本开发
 ### 主界面
-[主界面][../assets/assets/images/home.jpg]
+[主界面][https://github.com/zp000123/Change_Android/blob/master/assets/images/expand_add.jpg]
 
 ### 营业额统计界面
 [营业额统计界面][assets/assets/images/performance_statistic.jpg]
